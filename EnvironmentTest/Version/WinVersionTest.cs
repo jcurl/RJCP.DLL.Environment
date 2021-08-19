@@ -34,6 +34,18 @@
             Assert.That(WinVersion.WinXPSP1, Is.LessThan(WinVersion.WinXPSP2));
             Assert.That(WinVersion.WinXPSP2, Is.LessThan(WinVersion.WinXPSP3));
 
+            Assert.That(WinVersion.Windows10_1507, Is.LessThan(WinVersion.Windows10_1511));
+            Assert.That(WinVersion.Windows10_1511, Is.LessThan(WinVersion.Windows10_1607));
+            Assert.That(WinVersion.Windows10_1607, Is.LessThan(WinVersion.Windows10_1703));
+            Assert.That(WinVersion.Windows10_1703, Is.LessThan(WinVersion.Windows10_1709));
+            Assert.That(WinVersion.Windows10_1709, Is.LessThan(WinVersion.Windows10_1803));
+            Assert.That(WinVersion.Windows10_1803, Is.LessThan(WinVersion.Windows10_1809));
+            Assert.That(WinVersion.Windows10_1809, Is.LessThan(WinVersion.Windows10_1903));
+            Assert.That(WinVersion.Windows10_1903, Is.LessThan(WinVersion.Windows10_1909));
+            Assert.That(WinVersion.Windows10_1909, Is.LessThan(WinVersion.Windows10_2004));
+            Assert.That(WinVersion.Windows10_2004, Is.LessThan(WinVersion.Windows10_20H2));
+            Assert.That(WinVersion.Windows10_20H2, Is.LessThan(WinVersion.Windows10_21H1));
+
             // Server build comparisons
             Assert.That(WinVersion.Win2000, Is.LessThan(WinVersion.Win2003));
             Assert.That(WinVersion.Win2003, Is.LessThan(WinVersion.Win2003R2));
@@ -41,7 +53,8 @@
             Assert.That(WinVersion.Win2008, Is.LessThan(WinVersion.Win2008R2));
             Assert.That(WinVersion.Win2008R2, Is.LessThan(WinVersion.Win2012));
             Assert.That(WinVersion.Win2012, Is.LessThan(WinVersion.Win2012R2));
-            Assert.That(WinVersion.Win2012R2, Is.LessThan(WinVersion.Win2015));
+            Assert.That(WinVersion.Win2012R2, Is.LessThan(WinVersion.Win2016));
+            Assert.That(WinVersion.Win2016, Is.LessThan(WinVersion.Win2019));
 
             // Desktop and Server build comparisons. Only the version number
             // is compared. if you need to have a server version, then explicitly
@@ -58,6 +71,8 @@
             Assert.That(WinVersion.Win2008R2, Is.EqualTo(WinVersion.Win7));
             Assert.That(WinVersion.Win2012, Is.EqualTo(WinVersion.Win8));
             Assert.That(WinVersion.Win2012R2, Is.EqualTo(WinVersion.Win8_1));
+            Assert.That(WinVersion.Win2016, Is.EqualTo(WinVersion.Windows10_1607));
+            Assert.That(WinVersion.Win2019, Is.EqualTo(WinVersion.Windows10_1809));
         }
 
         [Test]
@@ -80,13 +95,26 @@
             Assert.That(WinVersion.Win8.IsServer, Is.False);
             Assert.That(WinVersion.Win8_1.IsServer, Is.False);
             Assert.That(WinVersion.Windows10.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1507.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1511.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1607.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1703.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1709.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1803.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1809.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1903.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_1909.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_2004.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_20H2.IsServer, Is.False);
+            Assert.That(WinVersion.Windows10_21H1.IsServer, Is.False);
 
             Assert.That(WinVersion.Win2003.IsServer, Is.True);
             Assert.That(WinVersion.Win2008.IsServer, Is.True);
             Assert.That(WinVersion.Win2008R2.IsServer, Is.True);
             Assert.That(WinVersion.Win2012.IsServer, Is.True);
             Assert.That(WinVersion.Win2012R2.IsServer, Is.True);
-            Assert.That(WinVersion.Win2015.IsServer, Is.True);
+            Assert.That(WinVersion.Win2016.IsServer, Is.True);
+            Assert.That(WinVersion.Win2019.IsServer, Is.True);
         }
 
         [Test]
@@ -150,7 +178,7 @@
             Assert.That(WinVersion.Win95OSR2, Is.LessThan(p100));
             Assert.That(WinVersion.Win95, Is.LessThan(p100));
             Assert.That(WinVersion.Windows10, Is.EqualTo(p100));
-            Assert.That(WinVersion.Win2015, Is.EqualTo(p100));
+            Assert.That(WinVersion.Win2016, Is.EqualTo(p100));
 
             WinVersion p101 = new WinVersion(WinPlatform.WinNT, 10, 1);
             Assert.That(WinVersion.Win8, Is.LessThan(p101));
@@ -171,7 +199,7 @@
             Assert.That(WinVersion.Win98, Is.LessThan(p101));
             Assert.That(WinVersion.Win95OSR2, Is.LessThan(p101));
             Assert.That(WinVersion.Win95, Is.LessThan(p101));
-            Assert.That(WinVersion.Win2015, Is.LessThan(p101));
+            Assert.That(WinVersion.Win2016, Is.LessThan(p101));
         }
 
         [Test]
@@ -210,7 +238,20 @@
             Assert.That(WinVersion.Win8_1.WinVersionString, Is.EqualTo("Windows 8.1"));
             Assert.That(WinVersion.Win2012R2.WinVersionString, Is.EqualTo("Windows 2012R2"));
             Assert.That(WinVersion.Windows10.WinVersionString, Is.EqualTo("Windows 10"));
-            Assert.That(WinVersion.Win2015.WinVersionString, Is.EqualTo("Windows 2015"));
+            Assert.That(WinVersion.Windows10_1507.WinVersionString, Is.EqualTo("Windows 10 v1507 - Threshold 1"));
+            Assert.That(WinVersion.Windows10_1511.WinVersionString, Is.EqualTo("Windows 10 v1511 - Threshold 2"));
+            Assert.That(WinVersion.Windows10_1607.WinVersionString, Is.EqualTo("Windows 10 v1607 - Redstone 1"));
+            Assert.That(WinVersion.Windows10_1703.WinVersionString, Is.EqualTo("Windows 10 v1703 - Redstone 2"));
+            Assert.That(WinVersion.Windows10_1709.WinVersionString, Is.EqualTo("Windows 10 v1709 - Redstone 3"));
+            Assert.That(WinVersion.Windows10_1803.WinVersionString, Is.EqualTo("Windows 10 v1803 - Redstone 4"));
+            Assert.That(WinVersion.Windows10_1809.WinVersionString, Is.EqualTo("Windows 10 v1809 - Redstone 5"));
+            Assert.That(WinVersion.Windows10_1903.WinVersionString, Is.EqualTo("Windows 10 v1903"));
+            Assert.That(WinVersion.Windows10_1909.WinVersionString, Is.EqualTo("Windows 10 v1909"));
+            Assert.That(WinVersion.Windows10_2004.WinVersionString, Is.EqualTo("Windows 10 v2004"));
+            Assert.That(WinVersion.Windows10_20H2.WinVersionString, Is.EqualTo("Windows 10 v20H2"));
+            Assert.That(WinVersion.Windows10_21H1.WinVersionString, Is.EqualTo("Windows 10 v21H1"));
+            Assert.That(WinVersion.Win2016.WinVersionString, Is.EqualTo("Windows 10 Server 2016"));
+            Assert.That(WinVersion.Win2019.WinVersionString, Is.EqualTo("Windows 10 Server 2019"));
         }
 
         [Test]
@@ -622,6 +663,47 @@
             };
             Console.WriteLine($"{winver}");
             Assert.That(WinVersion.Win2012R2, Is.EqualTo(winver));
+        }
+
+        [Test]
+        public void WinVersionCheckWindows10_20H2()
+        {
+            WinVersion winver = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = 19042,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x100,
+                ProductType = WinProductType.Workstation,
+                ProductInfo = WinProductInfo.Enterprise,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                Architecture = WinArchitecture.x64
+            };
+            Console.WriteLine($"{winver}");
+            Assert.That(WinVersion.Windows10_20H2, Is.EqualTo(winver));
+        }
+
+        [Test]
+        public void WinVersionCheckWindows10Server2019DC()
+        {
+            WinVersion winver = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = 17763,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x110,
+                ProductType = WinProductType.DomainController,
+                ProductInfo = WinProductInfo.Standard_Server,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                Architecture = WinArchitecture.x64
+            };
+            Console.WriteLine($"{winver}");
+            Assert.That(WinVersion.Win2019, Is.EqualTo(winver));
+            Assert.That(winver.IsServer, Is.True);
         }
     }
 }

@@ -61,6 +61,11 @@
         x64 = 9,
 
         /// <summary>
+        /// ARM 64-bit architecture.
+        /// </summary>
+        ARM64 = 12,
+
+        /// <summary>
         /// 32-bit process on a 64-bit operating system.
         /// </summary>
         x86_x64

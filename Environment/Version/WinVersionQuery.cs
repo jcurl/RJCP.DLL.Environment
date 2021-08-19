@@ -23,6 +23,9 @@
         /// </summary>
         private WinVersionQuery()
         {
+            if (!Platform.IsWinNT())
+                throw new PlatformNotSupportedException("WinVersionQuery is only supported on Windows");
+
             m_IsNativeQuery = true;
 
 #if NETFRAMEWORK
@@ -106,7 +109,7 @@
                 if (!result) {
                     int error = Marshal.GetLastWin32Error();
                     throw new Win32Exception(error,
-                        "GetVersionEx() failure. Error = 0x" + error.ToString("8X"));
+                        $"GetVersionEx() failure. Error = 0x{error:8x}");
                 }
             } catch {
                 // The GetVersionEx() call doesn't exist, or it returned an error
@@ -140,8 +143,8 @@
             result = Kernel32.GetVersionEx(infoex);
             if (!result) {
                 int error = Marshal.GetLastWin32Error();
-                throw new System.ComponentModel.Win32Exception(error,
-                    "GetVersionEx() failure. Error = 0x" + error.ToString("8X"));
+                throw new Win32Exception(error,
+                    $"GetVersionEx() failure. Error = 0x{error:8X}");
             }
 
             int ntstatus;
@@ -227,7 +230,7 @@
         /// <returns><c>true</c> if the information could be obtained; <c>false</c> otherwise.</returns>
         private void GetNativeVersion()
         {
-            System.OperatingSystem os = System.Environment.OSVersion;
+            OperatingSystem os = Environment.OSVersion;
 
             switch (os.Platform) {
             case PlatformID.Win32S:

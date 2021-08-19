@@ -421,6 +421,346 @@
         Professional_Wmc = 0x00000067,
 
         /// <summary>
+        /// Embedded industry eval.
+        /// </summary>
+        Embedded_Industry_Eval = 0x00000069,
+
+        /// <summary>
+        /// Embedded E industry eval.
+        /// </summary>
+        Embedded_E_Industry_Eval = 0x000006A,
+
+        /// <summary>
+        /// Embedded eval.
+        /// </summary>
+        Embedded_Eval = 0x0000006B,
+
+        /// <summary>
+        /// Embedded E eval.
+        /// </summary>
+        Embedded_E_Eval = 0x0000006C,
+
+        /// <summary>
+        /// Nano server.
+        /// </summary>
+        Nano_Server = 0x0000006D,
+
+        /// <summary>
+        /// Cloud storage server.
+        /// </summary>
+        Cloud_Storage_Server = 0x0000006E,
+
+        /// <summary>
+        /// Core connected.
+        /// </summary>
+        Core_Connected = 0x0000006F,
+
+        /// <summary>
+        /// Professional student.
+        /// </summary>
+        Professional_Student = 0x00000070,
+
+        /// <summary>
+        /// Core connected N.
+        /// </summary>
+        Core_Connected_N = 0x00000071,
+
+        /// <summary>
+        /// Professional student N.
+        /// </summary>
+        Professional_Student_N = 0x00000072,
+
+        /// <summary>
+        /// Core connected single language.
+        /// </summary>
+        Core_Connected_Single_Language = 0x00000073,
+
+        /// <summary>
+        /// Core connected country specific.
+        /// </summary>
+        Core_Connected_Country_Specific = 0x00000074,
+
+        /// <summary>
+        /// Connected car.
+        /// </summary>
+        Connected_Car = 0x00000075,
+
+        /// <summary>
+        /// Industry handheld.
+        /// </summary>
+        Industry_Handheld = 0x00000076,
+
+        /// <summary>
+        /// PPI pro.
+        /// </summary>
+        PPI_Pro = 0x00000077,
+
+        /// <summary>
+        /// Arm64 server.
+        /// </summary>
+        Arm64_Server = 0x00000078,
+
+        /// <summary>
+        /// Education.
+        /// </summary>
+        Education = 0x00000079,
+
+        /// <summary>
+        /// Education n.
+        /// </summary>
+        Education_N = 0x0000007A,
+
+        /// <summary>
+        /// IOTUAP.
+        /// </summary>
+        IOTUAP = 0x0000007B,
+
+        /// <summary>
+        /// Cloud host infrastructure server.
+        /// </summary>
+        Cloud_Host_Infrastructure_Server = 0x0000007C,
+
+        /// <summary>
+        /// Enterprise S.
+        /// </summary>
+        Enterprise_S = 0x0000007D,
+
+        /// <summary>
+        /// Enterprise S N.
+        /// </summary>
+        Enterprise_S_N = 0x0000007E,
+
+        /// <summary>
+        /// Professional S.
+        /// </summary>
+        Professional_S = 0x0000007F,
+
+        /// <summary>
+        /// Professional S N.
+        /// </summary>
+        Professional_S_N = 0x00000080,
+
+        /// <summary>
+        /// Enterprise S eval.
+        /// </summary>
+        Enterprise_S_Eval = 0x00000081,
+
+        /// <summary>
+        /// Enterprise S N eval.
+        /// </summary>
+        Enterprise_S_N_Eval = 0x00000082,
+
+        /// <summary>
+        /// Holographic.
+        /// </summary>
+        Holographic = 0x00000087,
+
+        /// <summary>
+        /// Holographic business.
+        /// </summary>
+        Holographic_Business = 0x00000088,
+
+        /// <summary>
+        /// Pro single language.
+        /// </summary>
+        Pro_Single_Language = 0x0000008A,
+
+        /// <summary>
+        /// Pro china
+        /// </summary>
+        Pro_China = 0x0000008B,
+
+        /// <summary>
+        /// Enterprise subscription.
+        /// </summary>
+        Enterprise_Subscription = 0x0000008C,
+
+        /// <summary>
+        /// Enterprise subscription N.
+        /// </summary>
+        Enterprise_Subscription_N = 0x0000008D,
+
+        /// <summary>
+        /// Datacenter nano server.
+        /// </summary>
+        Datacenter_Nano_Server = 0x0000008F,
+
+        /// <summary>
+        /// Standard nano server.
+        /// </summary>
+        Standard_Nano_Server = 0x00000090,
+
+        /// <summary>
+        /// Datacenter a server core.
+        /// </summary>
+        Datacenter_A_Server_Core = 0x00000091,
+
+        /// <summary>
+        /// Standard A server core.
+        /// </summary>
+        Standard_A_Server_Core = 0x00000092,
+
+        /// <summary>
+        /// Datacenter WS server core.
+        /// </summary>
+        Datacenter_WS_Server_Core = 0x00000093,
+
+        /// <summary>
+        /// Standard WS server core.
+        /// </summary>
+        Standard_WS_Server_Core = 0x00000094,
+
+        /// <summary>
+        /// The utility VM.
+        /// </summary>
+        Utility_VM = 0x00000095,
+
+        /// <summary>
+        /// Datacenter eval server core.
+        /// </summary>
+        Datacenter_Eval_Server_Core = 0x0000009F,
+
+        /// <summary>
+        /// Standard eval server core.
+        /// </summary>
+        Standard_Eval_Server_Core = 0x000000A0,
+
+        /// <summary>
+        /// Pro workstation.
+        /// </summary>
+        Pro_Workstation = 0x000000A1,
+
+        /// <summary>
+        /// Pro workstation N.
+        /// </summary>
+        Pro_Workstation_N = 0x000000A2,
+
+        /// <summary>
+        /// Pro for education.
+        /// </summary>
+        Pro_For_Education = 0x000000A4,
+
+        /// <summary>
+        /// Pro for education N.
+        /// </summary>
+        Pro_For_Education_N = 0x000000A5,
+
+        /// <summary>
+        /// Azure server core.
+        /// </summary>
+        Azure_Server_Core = 0x000000A8,
+
+        /// <summary>
+        /// Azure nano server.
+        /// </summary>
+        Azure_Nano_Server = 0x000000A9,
+
+        /// <summary>
+        /// Enterprise G.
+        /// </summary>
+        Enterprise_G = 0x000000AB,
+
+        /// <summary>
+        /// Enterprise G N.
+        /// </summary>
+        Enterprise_G_N = 0x000000AC,
+
+        /// <summary>
+        /// Server RDSH.
+        /// </summary>
+        Server_RDSH = 0x000000AF,
+
+        /// <summary>
+        /// Cloud.
+        /// </summary>
+        Cloud = 0x000000B2,
+
+        /// <summary>
+        /// Cloud N.
+        /// </summary>
+        Cloud_N = 0x000000B3,
+
+        /// <summary>
+        /// Hub OS.
+        /// </summary>
+        HubOS = 0x000000B4,
+
+        /// <summary>
+        /// One core update OS.
+        /// </summary>
+        One_Core_Update_OS = 0x000000B6,
+
+        /// <summary>
+        /// Cloud E.
+        /// </summary>
+        Cloud_E = 0x000000B7,
+
+        /// <summary>
+        /// Andromeda
+        /// </summary>
+        Andromeda = 0x000000B8,
+
+        /// <summary>
+        /// IOT OS.
+        /// </summary>
+        IOT_OS = 0x000000B9,
+
+        /// <summary>
+        /// Cloud E N.
+        /// </summary>
+        Cloud_E_N = 0x000000BA,
+
+        /// <summary>
+        /// IOT Edge OS.
+        /// </summary>
+        IOT_EDGEOS = 0x000000BB,
+
+        /// <summary>
+        /// IOT Enterprise.
+        /// </summary>
+        IOT_Enterprise = 0x000000BC,
+
+        /// <summary>
+        /// Lite
+        /// </summary>
+        Lite = 0x000000BD,
+
+        /// <summary>
+        /// IOT Enterprise S.
+        /// </summary>
+        IOT_Enterprise_S = 0x000000BF,
+
+        /// <summary>
+        /// X-b=Box system OS.
+        /// </summary>
+        XBox_System_OS = 0x000000C0,
+
+        /// <summary>
+        /// X-Box native OS.
+        /// </summary>
+        XBox_Native_OS = 0x000000C1,
+
+        /// <summary>
+        /// X-Box game OS.
+        /// </summary>
+        XBox_Game_OS = 0x000000C2,
+
+        /// <summary>
+        /// X-Box era OS.
+        /// </summary>
+        XBox_Era_OS = 0x000000C3,
+
+        /// <summary>
+        /// X-Box durango host OS.
+        /// </summary>
+        XBox_Durango_Host_OS = 0x000000C4,
+
+        /// <summary>
+        /// X-Box scarlett host OS.
+        /// </summary>
+        XBox_Scarlett_Host_OS = 0x000000C5,
+
+        /// <summary>
         /// Windows XP MediaCenter.
         /// </summary>
         MediaCenter = 0xF8000001,

@@ -178,6 +178,36 @@ namespace RJCP.Core.Environment.Version
         /// <param name="minorVersion">The major version of the OS.</param>
         /// <param name="productType">The product type, Server, Workstation, etc.</param>
         /// <param name="build">The build number.</param>
+        private WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, WinProductType productType, int build)
+            : this(platformId, majorVersion, minorVersion, productType)
+        {
+            m_BuildNumber = build;
+        }
+
+        /// <summary>
+        /// For internal use, initializes a new instance of the <see cref="WinVersion"/> class with Service Pack
+        /// information.
+        /// </summary>
+        /// <param name="platformId">The Platform ID to define.</param>
+        /// <param name="majorVersion">The minor version of the OS.</param>
+        /// <param name="minorVersion">The major version of the OS.</param>
+        /// <param name="productType">The product type, Server, Workstation, etc.</param>
+        /// <param name="build">The build number.</param>
+        /// <param name="readOnly"><see langword="true"/> if this object is read only after instantiation.</param>
+        private WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, WinProductType productType, int build, bool readOnly)
+            : this(platformId, majorVersion, minorVersion, productType, build)
+        {
+            IsReadOnly = readOnly;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WinVersion"/> class with Service Pack information.
+        /// </summary>
+        /// <param name="platformId">The Platform ID to define.</param>
+        /// <param name="majorVersion">The minor version of the OS.</param>
+        /// <param name="minorVersion">The major version of the OS.</param>
+        /// <param name="productType">The product type, Server, Workstation, etc.</param>
+        /// <param name="build">The build number.</param>
         /// <param name="spmajor">The service pack major version number.</param>
         /// <param name="spminor">The service pack minor version number.</param>
         private WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, WinProductType productType, int build, int spmajor, int spminor)
@@ -265,7 +295,20 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win8_1RT = new WinVersion(WinPlatform.WinNT, 6, 3, WinArchitecture.ARM, true);
         private static readonly WinVersion _Win2012R2 = new WinVersion(WinPlatform.WinNT, 6, 3, WinProductType.Server, true);
         private static readonly WinVersion _Win10 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, true);
-        private static readonly WinVersion _Win2015 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, true);
+        private static readonly WinVersion _Win10_1507 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 10240, true);
+        private static readonly WinVersion _Win10_1511 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 10586, true);
+        private static readonly WinVersion _Win10_1607 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 14393, true);
+        private static readonly WinVersion _Win10_1703 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 15063, true);
+        private static readonly WinVersion _Win10_1709 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 16299, true);
+        private static readonly WinVersion _Win10_1803 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 17134, true);
+        private static readonly WinVersion _Win10_1809 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 17763, true);
+        private static readonly WinVersion _Win10_1903 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 18362, true);
+        private static readonly WinVersion _Win10_1909 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 18363, true);
+        private static readonly WinVersion _Win10_2004 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19041, true);
+        private static readonly WinVersion _Win10_20H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19042, true);
+        private static readonly WinVersion _Win10_21H1 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19043, true);
+        private static readonly WinVersion _Win2016 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
+        private static readonly WinVersion _Win2019 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
 
         private class WinVersionLookupEntry
         {
@@ -322,14 +365,25 @@ namespace RJCP.Core.Environment.Version
             new WinVersionLookupEntry(_Win8_1RT, "Windows 8.1 RT"),
             new WinVersionLookupEntry(_Win8_1, "Windows 8.1"),
             new WinVersionLookupEntry(_Win2012R2, "Windows 2012R2"),
-            new WinVersionLookupEntry(_Win10, "Windows 10"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 6, 3, true), "Windows 8.1/2012R2"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 6, -1, true), "Windows NT 6.x"),
+            new WinVersionLookupEntry(_Win10_1507, "Windows 10 v1507 - Threshold 1"),
+            new WinVersionLookupEntry(_Win10_1511, "Windows 10 v1511 - Threshold 2"),
+            new WinVersionLookupEntry(_Win10_1607, "Windows 10 v1607 - Redstone 1"),
+            new WinVersionLookupEntry(_Win2016, "Windows 10 Server 2016"),
+            new WinVersionLookupEntry(_Win10_1703, "Windows 10 v1703 - Redstone 2"),
+            new WinVersionLookupEntry(_Win10_1709, "Windows 10 v1709 - Redstone 3"),
+            new WinVersionLookupEntry(_Win10_1803, "Windows 10 v1803 - Redstone 4"),
+            new WinVersionLookupEntry(_Win10_1809, "Windows 10 v1809 - Redstone 5"),
+            new WinVersionLookupEntry(_Win2019, "Windows 10 Server 2019"),
+            new WinVersionLookupEntry(_Win10_1903, "Windows 10 v1903"),
+            new WinVersionLookupEntry(_Win10_1909, "Windows 10 v1909"),
+            new WinVersionLookupEntry(_Win10_2004, "Windows 10 v2004"),
+            new WinVersionLookupEntry(_Win10_20H2, "Windows 10 v20H2"),
+            new WinVersionLookupEntry(_Win10_21H1, "Windows 10 v21H1"),
             new WinVersionLookupEntry(_Win10, "Windows 10"),
-            new WinVersionLookupEntry(_Win2015, "Windows 2015"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 10, 0, true), "Windows 10/2015"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, true), "Windows NT")
+            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
 
         /// <summary>
@@ -468,9 +522,74 @@ namespace RJCP.Core.Environment.Version
         public static WinVersion Windows10 { get { return _Win10; } }
 
         /// <summary>
-        /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2015.
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
         /// </summary>
-        public static WinVersion Win2015 { get { return _Win2015; } }
+        public static WinVersion Windows10_1507 { get { return _Win10_1507; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1511 { get { return _Win10_1511; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1607 { get { return _Win10_1607; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1703 { get { return _Win10_1703; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1709 { get { return _Win10_1709; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1803 { get { return _Win10_1803; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1809 { get { return _Win10_1809; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1903 { get { return _Win10_1903; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_1909 { get { return _Win10_1909; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_2004 { get { return _Win10_2004; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_20H2 { get { return _Win10_20H2; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_21H1 { get { return _Win10_21H1; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2016.
+        /// </summary>
+        public static WinVersion Win2016 { get { return _Win2016; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2019.
+        /// </summary>
+        public static WinVersion Win2019 { get { return _Win2019; } }
         #endregion
 
         #region Properties
@@ -538,7 +657,7 @@ namespace RJCP.Core.Environment.Version
             }
         }
 
-        private string m_CSDVersion = null;
+        private string m_CSDVersion;
 
         /// <summary>
         /// The Operating System extension, such as Service Pack or update details as a string.
@@ -649,7 +768,7 @@ namespace RJCP.Core.Environment.Version
             }
         }
 
-        private bool m_ServerR2 = false;
+        private bool m_ServerR2;
 
         /// <summary>
         /// The Operating System release type, if this is an R2 release (Windows 2003 only).
@@ -923,6 +1042,7 @@ namespace RJCP.Core.Environment.Version
                 if (entry.OSVersion.PlatformId != WinPlatform.Unknown && entry.OSVersion.PlatformId != m_PlatformId) continue;
                 if (entry.OSVersion.MajorVersion != -1 && entry.OSVersion.MajorVersion != m_MajorVersion) continue;
                 if (entry.OSVersion.MinorVersion != -1 && entry.OSVersion.MinorVersion != m_MinorVersion) continue;
+                if (entry.OSVersion.BuildNumber != -1 && entry.OSVersion.BuildNumber != m_BuildNumber) continue;
                 if (entry.OSVersion.CSDVersion != null) {
                     if (m_CSDVersion == null) continue;
                     if (!entry.OSVersion.CSDVersion.Equals(m_CSDVersion.Trim())) continue;
@@ -1125,7 +1245,8 @@ namespace RJCP.Core.Environment.Version
                 if (sb.Length > 0) sb.Append(' ');
                 sb.Append('(').Append(pinfo).Append(')');
             }
-            ToStringBuild(sb, m_CSDVersion.Trim());
+            if (m_CSDVersion != null)
+                ToStringBuild(sb, m_CSDVersion.Trim());
             sb.Append(", v").Append(VersionString);
             return sb.ToString();
         }
