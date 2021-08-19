@@ -52,6 +52,8 @@
 
   <ItemGroup>
     <Compile Include="PlatformTest.cs" />
+    <Compile Include="Version\WinVersionQueryTest.cs" />
+    <Compile Include="Version\WinVersionTest.cs" />
     <Compile Include="XdgTest.cs" />
   </ItemGroup>
 
