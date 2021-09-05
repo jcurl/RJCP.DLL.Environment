@@ -7,6 +7,7 @@
     public class WinVersionQueryTest
     {
         [Test]
+        [Platform(Include = "Win32NT")]
         public void OSVersionCheckCurrentOS()
         {
             WinVersion current = WinVersionQuery.LocalMachine;
@@ -27,6 +28,15 @@
             Console.WriteLine($"Server R2: {current.ServerR2}");
             Console.WriteLine($"Service Pack: {current.ServicePackMajor}.{current.ServicePackMinor}");
             Assert.Inconclusive("Please check output that it matches your computer");
+        }
+
+        [Test]
+        [Platform(Include = "Unix")]
+        public void OSVersionCheckCurrentOSNotSupported()
+        {
+            Assert.That(() => {
+                _ = WinVersionQuery.LocalMachine;
+            }, Throws.TypeOf<PlatformNotSupportedException>());
         }
     }
 }
