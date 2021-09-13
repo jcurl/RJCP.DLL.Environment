@@ -20,6 +20,7 @@ namespace RJCP.WinVer
             Console.WriteLine($"ProductTypeString: {current.ProductTypeString}");
             Console.WriteLine($"Suite Flags: {current.SuiteFlags:X}");
             Console.WriteLine($"SuiteString: {current.SuiteString}");
+            Console.WriteLine($"NativeArchitecture: {current.NativeArchitecture}");
             Console.WriteLine($"Architecture: {current.Architecture}");
             Console.WriteLine($"CSD Version: {current.CSDVersion}");
             Console.WriteLine($"Server R2: {current.ServerR2}");

@@ -8,66 +8,61 @@
         /// <summary>
         /// Unknown.
         /// </summary>
-        Unknown = -1,
+        Unknown,
 
         /// <summary>
         /// Intel x86 32-bit.
         /// </summary>
-        x86 = 0,
+        x86,
 
         /// <summary>
         /// MIPS architecture.
         /// </summary>
-        Mips = 1,
+        Mips,
 
         /// <summary>
-        /// Alpha architecture (obsolete).
+        /// Alpha architecture.
         /// </summary>
-        Alpha = 2,
+        Alpha,
 
         /// <summary>
         /// Power PC architecture.
         /// </summary>
-        PPC = 3,
+        PPC,
 
         /// <summary>
-        /// SH4 architecture.
+        /// SHx architecture.
         /// </summary>
-        SHX = 4,
+        SHX,
 
         /// <summary>
         /// ARM architecture.
         /// </summary>
-        ARM = 5,
+        ARM,
 
         /// <summary>
         /// Intel IA64 architecture (this is not x64).
         /// </summary>
-        IA64 = 6,
+        IA64,
 
         /// <summary>
         /// Alpha 64-bit architecture.
         /// </summary>
-        Alpha64 = 7,
+        Alpha64,
 
         /// <summary>
         /// Microsoft Intermediate Language.
         /// </summary>
-        MSIL = 8,
+        MSIL,
 
         /// <summary>
         /// AMD64 bit instructions.
         /// </summary>
-        x64 = 9,
+        x64,
 
         /// <summary>
         /// ARM 64-bit architecture.
         /// </summary>
-        ARM64 = 12,
-
-        /// <summary>
-        /// 32-bit process on a 64-bit operating system.
-        /// </summary>
-        x86_x64
+        ARM64
     }
 }

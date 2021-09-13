@@ -65,8 +65,10 @@
 
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Native\Win32\Kernel32+IMAGE_FILE_MACHINE.cs" />
     <Compile Include="Native\Win32\Kernel32+OSVERSIONINFO.cs" />
     <Compile Include="Native\Win32\Kernel32+OSVERSIONINFOEX.cs" />
+    <Compile Include="Native\Win32\Kernel32+PROCESSOR_ARCHITECTURE.cs" />
     <Compile Include="Native\Win32\Kernel32+PROCESSOR_INFO_UNION.cs" />
     <Compile Include="Native\Win32\Kernel32+SYSTEM_INFO.cs" />
     <Compile Include="Native\Win32\Kernel32+SYSTEM_METRICS.cs" />

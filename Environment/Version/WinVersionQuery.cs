@@ -12,8 +12,6 @@
     /// </summary>
     internal class WinVersionQuery : WinVersion
     {
-        private bool m_NativeSystemInfo = false;
-
         /// <summary>
         /// Default constructor, getting information about the local machine. Use the static method <c>LocalMachine</c>
         /// instead for efficiency.
@@ -45,7 +43,6 @@
                 if (!GetVersionEx())
                     GetVersion();
 
-                GetSystemInfo();
                 DetectArchitecture();
                 GetProductInfo();
                 DetectWin2003R2();
@@ -64,7 +61,7 @@
         /// We use the Microsoft recommended way of getting the Operating System Version using GetVersionEx(), first
         /// with OSVERSIONINFO and then with OSVERSIONINFOEX if supported.
         /// </remarks>
-        /// <returns><b>true</b> if we successfully retrieved OS version information.</returns>
+        /// <returns><see langword="true"/> if we successfully retrieved OS version information.</returns>
         private bool GetVersionEx()
         {
             bool result;
@@ -169,7 +166,6 @@
         /// we don't get information about the platform ID. Win32s is determined by the upper bit in the system and then
         /// by the operating system version number.
         /// </remarks>
-        /// <returns>If the function was successful.</returns>
         private void GetVersion()
         {
             uint version = Kernel32.GetVersion();
@@ -195,7 +191,7 @@
         /// <summary>
         /// A method to get OS information natively from the .NET subsystem.
         /// </summary>
-        /// <returns><c>true</c> if the information could be obtained; <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the information could be obtained; <see langword="false"/> otherwise.</returns>
         private void GetNativeVersion()
         {
             OperatingSystem os = Environment.OSVersion;
@@ -242,34 +238,66 @@
             MinorVersion = os.Version.Minor;
             BuildNumber = os.Version.Build;
             CSDVersion = os.ServicePack;
-            Architecture = WinArchitecture.Unknown;
+            NativeArchitecture = WinArchitecture.Unknown;
         }
 
-        /// <summary>
-        /// Get the system info and set the processor architecture.
-        /// </summary>
-        private void GetSystemInfo()
+        private void DetectArchitecture()
+        {
+            if (DetectArchitectureWithWow2()) return;
+            DetectArchitectureWithSystemInfo();
+        }
+
+        private bool DetectArchitectureWithWow2()
+        {
+            try {
+                bool result = Kernel32.IsWow64Process2(Kernel32.GetCurrentProcess(), out ushort processMachine, out ushort nativeMachine);
+                if (!result) return false;
+
+                NativeArchitecture = FromImageFileMachine(nativeMachine);
+                if (processMachine == Kernel32.IMAGE_FILE_MACHINE.UNKNOWN) {
+                    // This is not a WoW process, so it's the same as the native architecture.
+                    Architecture = NativeArchitecture;
+                } else {
+                    Architecture = FromImageFileMachine(processMachine);
+                }
+                return true;
+            } catch (EntryPointNotFoundException) {
+                return false;
+            }
+        }
+
+        private void DetectArchitectureWithSystemInfo()
         {
             Kernel32.SYSTEM_INFO lpSystemInfo = new Kernel32.SYSTEM_INFO();
 
             // GetNativeSystemInfo is independent if we're 64-bit or not But it needs _WIN32_WINNT 0x0501
+            ushort processorNativeArchitecture;
             try {
                 Kernel32.GetNativeSystemInfo(ref lpSystemInfo);
-                Architecture = (WinArchitecture)lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
-                m_NativeSystemInfo = true;
-            } catch {
-                Architecture = WinArchitecture.Unknown;
-                m_NativeSystemInfo = false;
+                processorNativeArchitecture = lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
+            } catch (EntryPointNotFoundException) {
+                processorNativeArchitecture = Kernel32.PROCESSOR_ARCHITECTURE.UNKNOWN;
             }
 
-            if (Architecture == WinArchitecture.Unknown || !m_NativeSystemInfo) {
-                try {
-                    Kernel32.GetSystemInfo(ref lpSystemInfo);
-                    Architecture = (WinArchitecture)lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
-                } catch {
-                    Architecture = WinArchitecture.Unknown;
-                }
+            if (processorNativeArchitecture == Kernel32.PROCESSOR_ARCHITECTURE.UNKNOWN) {
+                Kernel32.GetSystemInfo(ref lpSystemInfo);
+                processorNativeArchitecture = lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
             }
+
+            NativeArchitecture = FromProcessorArchitecture(processorNativeArchitecture);
+
+            switch (NativeArchitecture) {
+            case WinArchitecture.IA64:
+            case WinArchitecture.x64:
+                bool result = Kernel32.IsWow64Process(Kernel32.GetCurrentProcess(), out bool wow64);
+                if (result && wow64) {
+                    Architecture = WinArchitecture.x86;
+                }
+                break;
+            }
+
+            if (Architecture == WinArchitecture.Unknown)
+                Architecture = NativeArchitecture;
         }
 
         /// <summary>
@@ -340,25 +368,59 @@
             }
         }
 
-        private void DetectArchitecture()
+        private static WinArchitecture FromImageFileMachine(ushort imageFileMachine)
         {
-            // We try to determine if we're a WOW64 process if we don't know the architecture or if we're x86 and
-            // NativeSystemInfo didn't work.
-            bool wow64 = false;
-            bool result;
-            try {
-                result = Kernel32.IsWow64Process(Kernel32.GetCurrentProcess(), ref wow64);
-            } catch {
-                result = false;
+            switch (imageFileMachine) {
+            case Kernel32.IMAGE_FILE_MACHINE.UNKNOWN: return WinArchitecture.Unknown;
+            case Kernel32.IMAGE_FILE_MACHINE.TARGET_HOST: return WinArchitecture.Unknown;
+            case Kernel32.IMAGE_FILE_MACHINE.I386: return WinArchitecture.x86;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPS_R3000: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPS_R3000_BE: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPS_R4000: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPS_R10000: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPS_WCEMIPSV2: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.ALPHA: return WinArchitecture.Alpha;
+            case Kernel32.IMAGE_FILE_MACHINE.ALPHA64: return WinArchitecture.Alpha64;
+            case Kernel32.IMAGE_FILE_MACHINE.SH3: return WinArchitecture.SHX;
+            case Kernel32.IMAGE_FILE_MACHINE.SH3DSP: return WinArchitecture.SHX;
+            case Kernel32.IMAGE_FILE_MACHINE.SH3E: return WinArchitecture.SHX;
+            case Kernel32.IMAGE_FILE_MACHINE.SH4: return WinArchitecture.SHX;
+            case Kernel32.IMAGE_FILE_MACHINE.SH5: return WinArchitecture.SHX;
+            case Kernel32.IMAGE_FILE_MACHINE.ARM: return WinArchitecture.ARM;
+            case Kernel32.IMAGE_FILE_MACHINE.ARM_THUMB: return WinArchitecture.ARM;
+            case Kernel32.IMAGE_FILE_MACHINE.ARMNT: return WinArchitecture.ARM;
+            case Kernel32.IMAGE_FILE_MACHINE.ARM64: return WinArchitecture.ARM64;
+            case Kernel32.IMAGE_FILE_MACHINE.AM33: return WinArchitecture.Unknown;
+            case Kernel32.IMAGE_FILE_MACHINE.POWERPC: return WinArchitecture.PPC;
+            case Kernel32.IMAGE_FILE_MACHINE.POWERPCFP: return WinArchitecture.PPC;
+            case Kernel32.IMAGE_FILE_MACHINE.IA64: return WinArchitecture.IA64;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPS16: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPSFPU: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.MIPSFPU16: return WinArchitecture.Mips;
+            case Kernel32.IMAGE_FILE_MACHINE.TRICORE: return WinArchitecture.Unknown;
+            case Kernel32.IMAGE_FILE_MACHINE.AMD64: return WinArchitecture.x64;
+            case Kernel32.IMAGE_FILE_MACHINE.M32R: return WinArchitecture.Unknown;
+            case Kernel32.IMAGE_FILE_MACHINE.CEF: return WinArchitecture.Unknown;
+            case Kernel32.IMAGE_FILE_MACHINE.CEE: return WinArchitecture.Unknown;
+            case Kernel32.IMAGE_FILE_MACHINE.EBC: return WinArchitecture.Unknown;
+            default: return WinArchitecture.Unknown;
             }
+        }
 
-            if (result) {
-                if (wow64) {
-                    // wow64 == true: 32-bit process on 64-bit windows.
-                    Architecture = WinArchitecture.x86_x64;
-                } else {
-                    // wow64 == false: 32-bit on 32-bit; or 64-bit on 64-bit
-                }
+        private static WinArchitecture FromProcessorArchitecture(ushort processorArchitecture)
+        {
+            switch (processorArchitecture) {
+            case Kernel32.PROCESSOR_ARCHITECTURE.INTEL: return WinArchitecture.x64;
+            case Kernel32.PROCESSOR_ARCHITECTURE.MIPS: return WinArchitecture.Mips;
+            case Kernel32.PROCESSOR_ARCHITECTURE.ALPHA: return WinArchitecture.Alpha;
+            case Kernel32.PROCESSOR_ARCHITECTURE.PPC: return WinArchitecture.PPC;
+            case Kernel32.PROCESSOR_ARCHITECTURE.SHX: return WinArchitecture.SHX;
+            case Kernel32.PROCESSOR_ARCHITECTURE.ARM: return WinArchitecture.ARM;
+            case Kernel32.PROCESSOR_ARCHITECTURE.IA64: return WinArchitecture.IA64;
+            case Kernel32.PROCESSOR_ARCHITECTURE.MSIL: return WinArchitecture.MSIL;
+            case Kernel32.PROCESSOR_ARCHITECTURE.AMD64: return WinArchitecture.x64;
+            case Kernel32.PROCESSOR_ARCHITECTURE.ARM64: return WinArchitecture.ARM64;
+            default: return WinArchitecture.Unknown;
             }
         }
     }

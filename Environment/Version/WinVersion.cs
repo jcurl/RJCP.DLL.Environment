@@ -246,7 +246,7 @@ namespace RJCP.Core.Environment.Version
         private WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, WinArchitecture arch)
             : this(platformId, majorVersion, minorVersion)
         {
-            m_Architecture = arch;
+            m_NativeArchitecture = arch;
         }
 
         /// <summary>
@@ -695,10 +695,26 @@ namespace RJCP.Core.Environment.Version
             }
         }
 
-        private WinArchitecture m_Architecture = WinArchitecture.Unknown;
+        private WinArchitecture m_NativeArchitecture = WinArchitecture.Unknown;
 
         /// <summary>
         /// The Operating System Architecture.
+        /// </summary>
+        public WinArchitecture NativeArchitecture
+        {
+            get { return m_NativeArchitecture; }
+            set
+            {
+                CheckLock(nameof(NativeArchitecture));
+                m_NativeArchitecture = value;
+                m_WinVersionInfo = null;
+            }
+        }
+
+        private WinArchitecture m_Architecture = WinArchitecture.Unknown;
+
+        /// <summary>
+        /// The Architecture for the Process.
         /// </summary>
         public WinArchitecture Architecture
         {
@@ -1078,7 +1094,7 @@ namespace RJCP.Core.Environment.Version
                     }
                 }
                 if (entry.OSVersion.ServerR2 && !m_ServerR2) continue;
-                if (entry.OSVersion.Architecture != WinArchitecture.Unknown && entry.OSVersion.Architecture != m_Architecture) continue;
+                if (entry.OSVersion.NativeArchitecture != WinArchitecture.Unknown && entry.OSVersion.NativeArchitecture != m_NativeArchitecture) continue;
                 return entry.WinVersionString;
             }
             return string.Empty;
@@ -1191,7 +1207,7 @@ namespace RJCP.Core.Environment.Version
 
             m_ServerR2 = o.m_ServerR2;
             m_ProductInfo = o.m_ProductInfo;
-            m_Architecture = o.m_Architecture;
+            m_NativeArchitecture = o.m_NativeArchitecture;
 
             IsReadOnly = false;
             m_IsExtendedPropsSet = o.m_IsExtendedPropsSet;
@@ -1226,31 +1242,23 @@ namespace RJCP.Core.Environment.Version
             }
 
             // Check if we add x86 or x64
-            if (m_Architecture != WinArchitecture.Unknown) {
-                // We'll treat x64_86 as x64 here.
-                WinArchitecture arch;
-                if (m_Architecture == WinArchitecture.x86_x64) {
-                    arch = WinArchitecture.x64;
-                } else {
-                    arch = m_Architecture;
-                }
-
+            if (m_NativeArchitecture != WinArchitecture.Unknown) {
                 if (m_PlatformId == WinPlatform.WinNT) {
                     if (m_ProductType == WinProductType.Workstation) {
-                        if (arch != WinArchitecture.x86) {
+                        if (m_NativeArchitecture != WinArchitecture.x86) {
                             // x86 is still the norm for Win7
-                            ToStringBuild(sb, arch.ToString());
+                            ToStringBuild(sb, m_NativeArchitecture.ToString());
                         }
                     } else {
                         if (Version >= new Version(6, 0)) {
-                            if (arch != WinArchitecture.x64) {
+                            if (m_NativeArchitecture != WinArchitecture.x64) {
                                 // x64 is the norm for Win Server 2008 and later
-                                ToStringBuild(sb, arch.ToString());
+                                ToStringBuild(sb, m_NativeArchitecture.ToString());
                             }
                         } else {
-                            if (arch != WinArchitecture.x86) {
+                            if (m_NativeArchitecture != WinArchitecture.x86) {
                                 // x86 is the norm for Win Server 2003 and earlier
-                                ToStringBuild(sb, arch.ToString());
+                                ToStringBuild(sb, m_NativeArchitecture.ToString());
                             }
                         }
                     }
