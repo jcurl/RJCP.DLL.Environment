@@ -5,7 +5,7 @@ namespace RJCP.WinVer
 
     static class Program
     {
-        static int Main(string[] args)
+        static int Main()
         {
             WinVersion current = WinVersion.LocalMachine;
             Console.WriteLine($"{current}");
