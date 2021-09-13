@@ -7,7 +7,7 @@ namespace RJCP.WinVer
     {
         static int Main(string[] args)
         {
-            WinVersion current = WinVersionQuery.LocalMachine;
+            WinVersion current = WinVersion.LocalMachine;
             Console.WriteLine($"{current}");
             Console.WriteLine($"WinVersionString: {current.WinVersionString}");
             Console.WriteLine($"VersionString: {current.VersionString}");

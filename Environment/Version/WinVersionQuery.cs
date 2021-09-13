@@ -10,23 +10,20 @@
     /// <summary>
     /// Class to get information about the local machine.
     /// </summary>
-    [CLSCompliant(false)]
-    public class WinVersionQuery : WinVersion
+    internal class WinVersionQuery : WinVersion
     {
-        private static WinVersionQuery s_Current = null;
         private bool m_NativeSystemInfo = false;
-        private readonly bool m_IsNativeQuery = false;
 
         /// <summary>
         /// Default constructor, getting information about the local machine. Use the static method <c>LocalMachine</c>
         /// instead for efficiency.
         /// </summary>
-        private WinVersionQuery()
+        public WinVersionQuery()
         {
             if (!Platform.IsWinNT())
                 throw new PlatformNotSupportedException("WinVersionQuery is only supported on Windows");
 
-            m_IsNativeQuery = true;
+            bool isNativeQuery = true;
 
 #if NETFRAMEWORK
             // Create a security permission object to describe the UnmanagedCode permission:
@@ -40,11 +37,11 @@
             try {
                 perm.Assert();
             } catch {
-                m_IsNativeQuery = false;
+                isNativeQuery = false;
             }
 #endif
 
-            if (m_IsNativeQuery) {
+            if (isNativeQuery) {
                 if (!GetVersionEx())
                     GetVersion();
 
@@ -58,35 +55,6 @@
                 GetNativeVersion();
             }
             Lock();
-        }
-
-        /// <summary>
-        /// Get the version of the OS that we're running on.
-        /// </summary>
-        public static WinVersionQuery LocalMachine
-        {
-            get
-            {
-                if (s_Current is null) {
-                    WinVersionQuery local = new WinVersionQuery();
-                    s_Current = local;
-                }
-
-                return s_Current;
-            }
-        }
-
-        /// <summary>
-        /// Determine if we were able to obtain information using the Underlying Operating System. If it is native, you
-        /// can trust all information.
-        /// </summary>
-        /// <remarks>
-        /// There might be situations we can't obtain information natively. The biggest reason would be that we couldn't
-        /// get permission to run unmanaged code, so we try to obtain as much information as possible via managed code.
-        /// </remarks>
-        public bool IsNativeQuery
-        {
-            get { return m_IsNativeQuery; }
         }
 
         /// <summary>

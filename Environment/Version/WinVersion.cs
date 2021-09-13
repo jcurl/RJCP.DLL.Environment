@@ -264,6 +264,28 @@ namespace RJCP.Core.Environment.Version
             IsReadOnly = readOnly;
         }
 
+        private static readonly object s_Lock = new object();
+        private static WinVersionQuery s_Current = null;
+
+        /// <summary>
+        /// Get the version of the OS that we're running on.
+        /// </summary>
+        public static WinVersion LocalMachine
+        {
+            get
+            {
+                if (s_Current is null) {
+                    lock (s_Lock) {
+                        if (s_Current is null) {
+                            s_Current = new WinVersionQuery();
+                        }
+                    }
+                }
+
+                return s_Current;
+            }
+        }
+
         #region Static properties describing known Operating Systems
         private static readonly WinVersion _Win32s = new WinVersion(WinPlatform.Win32s, 3, -1, true);
         private static readonly WinVersion _WinCE = new WinVersion(WinPlatform.WinCE, 3, -1, true);

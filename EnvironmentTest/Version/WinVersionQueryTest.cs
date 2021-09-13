@@ -10,7 +10,7 @@
         [Platform(Include = "Win32NT")]
         public void OSVersionCheckCurrentOS()
         {
-            WinVersion current = WinVersionQuery.LocalMachine;
+            WinVersion current = WinVersion.LocalMachine;
             Console.WriteLine($"{current}");
             Console.WriteLine($"WinVersionString: {current.WinVersionString}");
             Console.WriteLine($"VersionString: {current.VersionString}");
@@ -35,7 +35,7 @@
         public void OSVersionCheckCurrentOSNotSupported()
         {
             Assert.That(() => {
-                _ = WinVersionQuery.LocalMachine;
+                _ = WinVersion.LocalMachine;
             }, Throws.TypeOf<PlatformNotSupportedException>());
         }
     }
