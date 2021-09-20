@@ -8,7 +8,7 @@ namespace RJCP.Core.Environment.Version
     /// </summary>
     /// <remarks>
     /// This class represents information about a particular Windows Operating System. To get information about your
-    /// system, use the <see cref="WinVersionQuery"/> class.
+    /// system, use the <see cref="LocalMachine"/> class.
     /// </remarks>
     [CLSCompliant(false)]
     public class WinVersion : IComparable, ICloneable
