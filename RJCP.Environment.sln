@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D0DC3C57
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinVersion", "WinVersion\WinVersion.csproj", "{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetVersion", "NetVersion\NetVersion.csproj", "{A97A8416-BB08-4611-9EC7-EF5DA7EBA11B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A97A8416-BB08-4611-9EC7-EF5DA7EBA11B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A97A8416-BB08-4611-9EC7-EF5DA7EBA11B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A97A8416-BB08-4611-9EC7-EF5DA7EBA11B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A97A8416-BB08-4611-9EC7-EF5DA7EBA11B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D7155948-57A0-4BEF-8BB0-C11A24BC27D4} = {D0DC3C57-960B-4B20-A6CC-9C21E87B3E1B}
+		{A97A8416-BB08-4611-9EC7-EF5DA7EBA11B} = {D0DC3C57-960B-4B20-A6CC-9C21E87B3E1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00623736-8F1C-4C80-949B-64320DA7C268}

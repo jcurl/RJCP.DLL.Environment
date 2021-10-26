@@ -74,6 +74,15 @@
     <Compile Include="Native\Win32\Kernel32+SYSTEM_METRICS.cs" />
     <Compile Include="Native\Win32\Kernel32.cs" />
     <Compile Include="Native\Win32\NtDll.cs" />
+    <Compile Include="Version\INetVersion.cs" />
+    <Compile Include="Version\NetFx\Net45\NetFxConfig.cs" />
+    <Compile Include="Version\NetFx\Net45\NetFxVersion.cs" />
+    <Compile Include="Version\NetFx\NetFx10.cs" />
+    <Compile Include="Version\NetFx\NetFx45.cs" />
+    <Compile Include="Version\NetFx\NetFxLegacy.cs" />
+    <Compile Include="Version\NetFx\Runtime\NetRuntime.cs" />
+    <Compile Include="Version\NetFx\Runtime\Mono.cs" />
+    <Compile Include="Version\NetVersions.cs" />
     <Compile Include="Version\WinArchitecture.cs" />
     <Compile Include="Version\WinPlatform.cs" />
     <Compile Include="Version\WinProductInfo.cs" />
