@@ -679,6 +679,26 @@ namespace RJCP.Core.Environment.Version
             }
         }
 
+        private int m_UpdateBuildNumber = -1;
+
+        /// <summary>
+        /// Gets or sets the update build number, as an alternative to the service pack information.
+        /// </summary>
+        /// <value>The update build number.</value>
+        /// <remarks>
+        /// Windows 10 and later doesn't use Service Pack information, instead a "UBR" value.
+        /// </remarks>
+        public int UpdateBuildNumber
+        {
+            get { return m_UpdateBuildNumber; }
+            set
+            {
+                CheckLock(nameof(UpdateBuildNumber));
+                m_UpdateBuildNumber = value;
+                m_WinVersionInfo = null;
+            }
+        }
+
         private string m_CSDVersion;
 
         /// <summary>
@@ -854,8 +874,10 @@ namespace RJCP.Core.Environment.Version
             {
                 if (m_MajorVersion < 0 || m_MinorVersion < 0) return new Version();
                 if (m_BuildNumber < 0) return new Version(m_MajorVersion, m_MinorVersion);
-                if (m_ServicePackMajor < 0 || m_ServicePackMinor < 0) return new Version(m_MajorVersion, m_MinorVersion, m_BuildNumber);
-                return new Version(m_MajorVersion, m_MinorVersion, m_BuildNumber, (m_ServicePackMajor << 8) | m_ServicePackMinor);
+                if (m_UpdateBuildNumber >= 0) return new Version(m_MajorVersion, m_MinorVersion, m_BuildNumber, m_UpdateBuildNumber);
+                if (m_ServicePackMajor >= 0 && m_ServicePackMinor >= 0)
+                    return new Version(m_MajorVersion, m_MinorVersion, m_BuildNumber, (m_ServicePackMajor << 8) | m_ServicePackMinor);
+                return new Version(m_MajorVersion, m_MinorVersion, m_BuildNumber);
             }
         }
 
@@ -867,6 +889,8 @@ namespace RJCP.Core.Environment.Version
             get
             {
                 Version v = Version;
+                if (m_UpdateBuildNumber >= 0) return v.ToString();
+
                 Version vo = new Version(v.Major, v.Minor, v.Build, 0);
                 return vo.ToString();
             }

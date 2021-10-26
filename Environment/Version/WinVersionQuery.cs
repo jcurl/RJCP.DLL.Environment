@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.InteropServices;
+    using System.Security;
     using System.Security.Permissions;
     using Microsoft.Win32;
     using Native.Win32;
@@ -51,6 +52,7 @@
             } else {
                 GetNativeVersion();
             }
+            DetectWin10();
             Lock();
         }
 
@@ -421,6 +423,27 @@
             case Kernel32.PROCESSOR_ARCHITECTURE.AMD64: return WinArchitecture.x64;
             case Kernel32.PROCESSOR_ARCHITECTURE.ARM64: return WinArchitecture.ARM64;
             default: return WinArchitecture.Unknown;
+            }
+        }
+
+        private void DetectWin10()
+        {
+            if (MajorVersion != 10) return;
+
+            try {
+                RegistryKey rk =
+                    Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+                if (rk != null) {
+                    object ubrobj = rk.GetValue("UBR");
+                    if (ubrobj != null && ubrobj is int) {
+                        UpdateBuildNumber = (int)ubrobj;
+                    }
+                }
+            } catch (SecurityException) {              // Ignore that we can't access the key
+            } catch (UnauthorizedAccessException) {    // Ignore that we can't access the key
+            } catch (System.IO.IOException) {          // Should never occur
+            } catch (FormatException) {                // Ignore invalid registry value
+            } catch (OverflowException) {              // Ignore invalid registry value
             }
         }
     }
