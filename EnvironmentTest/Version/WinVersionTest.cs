@@ -79,6 +79,7 @@
             Assert.That(WinVersion.Windows10_1909, Is.LessThan(WinVersion.Windows10_2004));
             Assert.That(WinVersion.Windows10_2004, Is.LessThan(WinVersion.Windows10_20H2));
             Assert.That(WinVersion.Windows10_20H2, Is.LessThan(WinVersion.Windows10_21H1));
+            Assert.That(WinVersion.Windows10_21H1, Is.LessThan(WinVersion.Windows11_21H2));
 
             // Server build comparisons
             Assert.That(WinVersion.Win2000, Is.LessThan(WinVersion.Win2003));
@@ -89,6 +90,7 @@
             Assert.That(WinVersion.Win2012, Is.LessThan(WinVersion.Win2012R2));
             Assert.That(WinVersion.Win2012R2, Is.LessThan(WinVersion.Win2016));
             Assert.That(WinVersion.Win2016, Is.LessThan(WinVersion.Win2019));
+            Assert.That(WinVersion.Win2019, Is.LessThan(WinVersion.Win2022));
 
             // Desktop and Server build comparisons. Only the version number
             // is compared. if you need to have a server version, then explicitly
@@ -107,6 +109,7 @@
             Assert.That(WinVersion.Win2012R2, Is.EqualTo(WinVersion.Win8_1));
             Assert.That(WinVersion.Win2016, Is.EqualTo(WinVersion.Windows10_1607));
             Assert.That(WinVersion.Win2019, Is.EqualTo(WinVersion.Windows10_1809));
+            Assert.That(WinVersion.Win2022, Is.EqualTo(WinVersion.Windows11_21H2));
         }
 
         [Test]
@@ -141,6 +144,7 @@
             Assert.That(WinVersion.Windows10_2004.IsServer, Is.False);
             Assert.That(WinVersion.Windows10_20H2.IsServer, Is.False);
             Assert.That(WinVersion.Windows10_21H1.IsServer, Is.False);
+            Assert.That(WinVersion.Windows11_21H2.IsServer, Is.False);
 
             Assert.That(WinVersion.Win2003.IsServer, Is.True);
             Assert.That(WinVersion.Win2008.IsServer, Is.True);
@@ -149,6 +153,7 @@
             Assert.That(WinVersion.Win2012R2.IsServer, Is.True);
             Assert.That(WinVersion.Win2016.IsServer, Is.True);
             Assert.That(WinVersion.Win2019.IsServer, Is.True);
+            Assert.That(WinVersion.Win2022.IsServer, Is.True);
         }
 
         [Test]
@@ -234,6 +239,8 @@
             Assert.That(WinVersion.Win95OSR2, Is.LessThan(p101));
             Assert.That(WinVersion.Win95, Is.LessThan(p101));
             Assert.That(WinVersion.Win2016, Is.LessThan(p101));
+            Assert.That(WinVersion.Win2019, Is.LessThan(p101));
+            Assert.That(WinVersion.Win2022, Is.LessThan(p101));
         }
 
         [Test]
@@ -271,7 +278,7 @@
             Assert.That(WinVersion.Win2012.WinVersionString, Is.EqualTo("Windows 2012"));
             Assert.That(WinVersion.Win8_1.WinVersionString, Is.EqualTo("Windows 8.1"));
             Assert.That(WinVersion.Win2012R2.WinVersionString, Is.EqualTo("Windows 2012R2"));
-            Assert.That(WinVersion.Windows10.WinVersionString, Is.EqualTo("Windows 10"));
+            Assert.That(WinVersion.Windows10.WinVersionString, Is.EqualTo("Windows 10 or later"));
             Assert.That(WinVersion.Windows10_1507.WinVersionString, Is.EqualTo("Windows 10 v1507 - Threshold 1"));
             Assert.That(WinVersion.Windows10_1511.WinVersionString, Is.EqualTo("Windows 10 v1511 - Threshold 2"));
             Assert.That(WinVersion.Windows10_1607.WinVersionString, Is.EqualTo("Windows 10 v1607 - Redstone 1"));
@@ -284,8 +291,10 @@
             Assert.That(WinVersion.Windows10_2004.WinVersionString, Is.EqualTo("Windows 10 v2004"));
             Assert.That(WinVersion.Windows10_20H2.WinVersionString, Is.EqualTo("Windows 10 v20H2"));
             Assert.That(WinVersion.Windows10_21H1.WinVersionString, Is.EqualTo("Windows 10 v21H1"));
+            Assert.That(WinVersion.Windows11_21H2.WinVersionString, Is.EqualTo("Windows 11 v21H2"));
             Assert.That(WinVersion.Win2016.WinVersionString, Is.EqualTo("Windows 10 Server 2016"));
             Assert.That(WinVersion.Win2019.WinVersionString, Is.EqualTo("Windows 10 Server 2019"));
+            Assert.That(WinVersion.Win2022.WinVersionString, Is.EqualTo("Windows 11 Server 2022"));
         }
 
         [Test]
@@ -306,7 +315,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win98SE, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win98SE));
         }
 
         [Test]
@@ -327,7 +336,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.WinME, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.WinME));
         }
 
         [Test]
@@ -348,7 +357,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.WinNT4, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.WinNT4));
         }
 
         [Test]
@@ -369,7 +378,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2000, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2000));
             Assert.That(winver.ProductTypeString, Is.EqualTo("Professional"));
             Assert.That(winver.SuiteString, Is.EqualTo(""));
 
@@ -395,7 +404,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2000, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2000));
         }
 
         [Test]
@@ -416,7 +425,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.WinXP, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.WinXP));
         }
 
         [Test]
@@ -437,9 +446,10 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.WinXP, Is.EqualTo(winver));
-            Assert.That(WinVersion.WinXPSP2, Is.LessThanOrEqualTo(winver));
-            Assert.That(WinVersion.WinXPSP3, Is.GreaterThan(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.WinXP));
+            Assert.That(winver, Is.GreaterThan(WinVersion.Win2000));
+            Assert.That(winver, Is.GreaterThanOrEqualTo(WinVersion.WinXPSP2));
+            Assert.That(winver, Is.LessThan(WinVersion.WinXPSP3));
         }
 
         [Test]
@@ -460,9 +470,9 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.WinXP, Is.EqualTo(winver));
-            Assert.That(WinVersion.WinXPSP2, Is.LessThanOrEqualTo(winver));
-            Assert.That(WinVersion.WinXPSP3, Is.LessThanOrEqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.WinXP));
+            Assert.That(winver, Is.GreaterThan(WinVersion.WinXPSP2));
+            Assert.That(winver, Is.LessThanOrEqualTo(WinVersion.WinXPSP3));
         }
 
         [Test]
@@ -483,7 +493,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.WinXPx64, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.WinXPx64));
         }
 
         [Test]
@@ -504,7 +514,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2003, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2003));
         }
 
         [Test]
@@ -525,7 +535,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Vista, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Vista));
         }
 
         [Test]
@@ -546,7 +556,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2008, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2008));
         }
 
         [Test]
@@ -567,7 +577,7 @@
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win7, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win7));
 
             winver.SuiteFlags |= WinSuite.Enterprise;
             Assert.That(winver.SuiteString, Is.EqualTo("Enterprise"));
@@ -591,7 +601,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win7, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win7));
         }
 
         [Test]
@@ -612,7 +622,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2008R2, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2008R2));
         }
 
         [Test]
@@ -633,7 +643,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2008R2, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2008R2));
         }
 
         [Test]
@@ -654,7 +664,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win8, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win8));
         }
 
         [Test]
@@ -675,7 +685,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win8_1, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win8_1));
         }
 
         [Test]
@@ -696,7 +706,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2012R2, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2012R2));
         }
 
         [Test]
@@ -716,7 +726,28 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Windows10_20H2, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Windows10_20H2));
+        }
+
+        [Test]
+        public void WinVersionCheckWindows11_21H2()
+        {
+            WinVersion winver = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = 22000,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x100,
+                ProductType = WinProductType.Workstation,
+                ProductInfo = WinProductInfo.Enterprise,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                NativeArchitecture = WinArchitecture.x64
+            };
+
+            Console.WriteLine($"{winver}");
+            Assert.That(winver, Is.EqualTo(WinVersion.Windows11_21H2));
         }
 
         [Test]
@@ -736,7 +767,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
-            Assert.That(WinVersion.Win2019, Is.EqualTo(winver));
+            Assert.That(winver, Is.EqualTo(WinVersion.Win2019));
             Assert.That(winver.IsServer, Is.True);
         }
     }

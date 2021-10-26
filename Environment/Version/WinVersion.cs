@@ -329,8 +329,10 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win10_2004 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19041, true);
         private static readonly WinVersion _Win10_20H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19042, true);
         private static readonly WinVersion _Win10_21H1 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19043, true);
+        private static readonly WinVersion _Win11_21H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22000, true);
         private static readonly WinVersion _Win2016 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
         private static readonly WinVersion _Win2019 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
+        private static readonly WinVersion _Win2022 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
 
         private class WinVersionLookupEntry
         {
@@ -403,7 +405,9 @@ namespace RJCP.Core.Environment.Version
             new WinVersionLookupEntry(_Win10_2004, "Windows 10 v2004"),
             new WinVersionLookupEntry(_Win10_20H2, "Windows 10 v20H2"),
             new WinVersionLookupEntry(_Win10_21H1, "Windows 10 v21H1"),
-            new WinVersionLookupEntry(_Win10, "Windows 10"),
+            new WinVersionLookupEntry(_Win11_21H2, "Windows 11 v21H2"),
+            new WinVersionLookupEntry(_Win2022, "Windows 11 Server 2022"),
+            new WinVersionLookupEntry(_Win10, "Windows 10 or later"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
@@ -612,6 +616,16 @@ namespace RJCP.Core.Environment.Version
         /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2019.
         /// </summary>
         public static WinVersion Win2019 { get { return _Win2019; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 11.
+        /// </summary>
+        public static WinVersion Windows11_21H2 { get { return _Win11_21H2; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2022.
+        /// </summary>
+        public static WinVersion Win2022 { get { return _Win2022; } }
         #endregion
 
         #region Properties
