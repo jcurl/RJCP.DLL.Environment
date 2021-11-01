@@ -19,7 +19,7 @@
     <PackageId>RJCP.Core.Environment</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/jcurl</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/jcurl/RJCP.DLL.Environment</PackageProjectUrl>
 
     <Description>Provide extensions for environment functions.</Description>
     <Version>0.2.0</Version>
