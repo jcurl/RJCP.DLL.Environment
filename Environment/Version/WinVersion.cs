@@ -334,7 +334,7 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win2019 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
         private static readonly WinVersion _Win2022 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
 
-        private class WinVersionLookupEntry
+        private sealed class WinVersionLookupEntry
         {
             public readonly WinVersion OSVersion;
             public readonly string WinVersionString;
