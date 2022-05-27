@@ -435,8 +435,8 @@
                     Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
                 if (rk != null) {
                     object ubrobj = rk.GetValue("UBR");
-                    if (ubrobj != null && ubrobj is int) {
-                        UpdateBuildNumber = (int)ubrobj;
+                    if (ubrobj is int ubr) {
+                        UpdateBuildNumber = ubr;
                     }
                 }
             } catch (SecurityException) {              // Ignore that we can't access the key
