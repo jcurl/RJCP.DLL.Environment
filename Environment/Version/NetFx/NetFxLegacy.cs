@@ -39,11 +39,11 @@
                 string[] path = key.Split('\\');
 
                 string netVersion = (string)registryKey.GetValue("Version");
-                if (netVersion == null)
 #if NETFRAMEWORK
+                if (netVersion == null)
                     netVersion = path[0].Substring(1);
 #else
-                    netVersion = path[0][1..];
+                netVersion ??= path[0][1..];
 #endif
                 NetVersion = new Version(netVersion);
 
