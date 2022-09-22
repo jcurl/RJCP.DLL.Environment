@@ -39,14 +39,15 @@
                               orderby netVersion.Key select netVersion;
             NetFxVersion derivedVersion = null;
             foreach (var netVersion in versionList) {
+                if (netVersion.Key <= release)
+                    derivedVersion = netVersion.Value;
+
                 if (netVersion.Key >= release) {
                     if (derivedVersion == null) {
                         return new NetFxVersion("< 4.5", $"Unknown .NET version before .NET 4.5 ({release})");
                     }
-                    derivedVersion = netVersion.Value;
                     break;
                 }
-                derivedVersion = netVersion.Value;
             }
 
             // This can't happen, because the enumeration will always have at least one element, but quiesces a possible
