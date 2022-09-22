@@ -27,7 +27,8 @@
             { 528049, new NetFxVersion("4.8", ".NET Framework 4.8") },
             { 528209, new NetFxVersion("4.8", ".NET Framework 4.8 on Windows 10, October 2019 Update (1909)") },
             { 528372, new NetFxVersion("4.8", ".NET Framework 4.8 on Windows 10, October 2020 Update (20H2, 21H1)") },
-            { 528449, new NetFxVersion("4.8", ".NET Framework 4.8 on Windows 11 / Server 2022") }
+            { 528449, new NetFxVersion("4.8", ".NET Framework 4.8 on Windows 11 / Server 2022") },
+            { 533325, new NetFxVersion("4.8.1", ".NET Framework 4.8.1") }
         };
 
         public static NetFxVersion GetNetFxVersion(int release)
