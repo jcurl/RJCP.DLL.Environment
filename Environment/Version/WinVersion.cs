@@ -2,6 +2,7 @@ namespace RJCP.Core.Environment.Version
 {
     using System;
     using System.Text;
+    using Resources;
 
     /// <summary>
     /// Base class for containing Operating System Version Information for Windows based Systems.
@@ -1186,7 +1187,7 @@ namespace RJCP.Core.Environment.Version
         private void CheckLock(string property)
         {
             if (!IsReadOnly) return;
-            string message = string.Format("Cannot set '{0}' on Sealed instance", property);
+            string message = string.Format(Messages.InvalidOperationEx_CheckLock, property);
             throw new InvalidOperationException(message);
         }
 
@@ -1546,7 +1547,7 @@ namespace RJCP.Core.Environment.Version
             if (obj == null) throw new ArgumentNullException(nameof(obj));
 
             WinVersion p = obj as WinVersion;
-            if (p == null) throw new ArgumentException("Not an OSVersion", nameof(obj));
+            if (p == null) throw new ArgumentException(Messages.ArgumentEx_NotOsVersion, nameof(obj));
 
             return Compare(this, p);
         }

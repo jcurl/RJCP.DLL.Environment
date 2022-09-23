@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using Resources;
 
     public static partial class Xdg
     {
@@ -15,7 +16,7 @@
                     string winHomeDrive = Environment.GetEnvironmentVariable("HOMEDRIVE");
                     string winHomePath = Environment.GetEnvironmentVariable("HOMEPATH");
                     if (string.IsNullOrEmpty(winHomeDrive) || string.IsNullOrEmpty(winHomePath)) {
-                        throw new InvalidOperationException("Unable to determine home directory path");
+                        throw new InvalidOperationException(Messages.InvalidOperationEx_XdgUnknownHome);
                     }
                     return Path.Combine(winHomeDrive, winHomePath);
                 } else {

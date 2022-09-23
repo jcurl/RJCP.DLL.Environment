@@ -1,6 +1,7 @@
 ﻿namespace RJCP.Core.Environment.Version.NetFx
 {
     using Microsoft.Win32;
+    using Resources;
 
     /// <summary>
     /// Installation details for .NET 1.0.
@@ -28,7 +29,7 @@
                 Package = registryKey.GetValue("Package", "").ToString();
                 NetVersion = registryKey.GetValue("Version", "").ToString();
 
-                Description = string.Format($".NET Framework {NetVersion} {Package}");
+                Description = string.Format(Messages.NetFxDetails, NetVersion, Package);
                 IsValid = true;
             }
         }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using Resources;
 
     /// <summary>
     /// A class to implement portions of the XDG Base Directory Specification.
@@ -129,7 +130,7 @@
                 return ResolvePathEnvironmentVariable(
                     "XDG_CACHE_HOME", ".cache");
             default:
-                throw new ArgumentException("Unknown special folder", nameof(folder));
+                throw new ArgumentException(Messages.ArgumentEx_XdgUnknownSpecialFolder, nameof(folder));
             }
         }
 

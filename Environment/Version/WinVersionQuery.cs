@@ -7,6 +7,7 @@
     using System.Security.Permissions;
     using Microsoft.Win32;
     using Native.Win32;
+    using Resources;
 
     /// <summary>
     /// Class to get information about the local machine.
@@ -20,7 +21,7 @@
         public WinVersionQuery()
         {
             if (!Platform.IsWinNT())
-                throw new PlatformNotSupportedException("WinVersionQuery is only supported on Windows");
+                throw new PlatformNotSupportedException(Messages.PlatformNotSupportedEx);
 
             bool isNativeQuery = true;
 
@@ -75,8 +76,8 @@
                 result = Kernel32.GetVersionEx(info);
                 if (!result) {
                     int error = Marshal.GetLastWin32Error();
-                    throw new Win32Exception(error,
-                        $"GetVersionEx() failure. Error = 0x{error:8x}");
+                    string message = string.Format(Messages.Win32Ex_GetVersionEx, error);
+                    throw new Win32Exception(error, message);
                 }
             } catch {
                 // The GetVersionEx() call doesn't exist, or it returned an error
@@ -110,8 +111,8 @@
             result = Kernel32.GetVersionEx(infoex);
             if (!result) {
                 int error = Marshal.GetLastWin32Error();
-                throw new Win32Exception(error,
-                    $"GetVersionEx() failure. Error = 0x{error:8X}");
+                string message = string.Format(Messages.Win32Ex_GetVersionEx, error);
+                throw new Win32Exception(error, message);
             }
 
             int ntstatus;
@@ -309,7 +310,7 @@
         {
             if (MajorVersion < 0 || MinorVersion < 0) {
                 // Don't have service pack information
-                throw new InvalidOperationException("Internal Error: Must get OS version information first");
+                throw new InvalidOperationException(Messages.InvalidOperationEx_InternalGetOsVersion);
             }
 
             if (!IsExtendedPropsSet) return;

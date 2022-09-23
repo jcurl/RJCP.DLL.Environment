@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+    using Resources;
 
     /// <summary>
     /// Description about the current running runtime.
@@ -26,7 +27,7 @@
             }
 
             if (Description == null)
-                Description = ".NET Environment Runtime";
+                Description = Messages.NetFxRuntime;
 #endif
             IsValid = true;
         }

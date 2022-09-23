@@ -4,6 +4,7 @@
     using System.Security;
     using System.Text;
     using Microsoft.Win32;
+    using Resources;
 
     /// <summary>
     /// Older version of .NET 2.0 to 3.5
@@ -61,9 +62,11 @@
                 Version = version.ToString();
 
                 StringBuilder description = new StringBuilder();
-                description.Append(".NET Framework ").Append(netVersion);
-                if (path.Length >= 2) description.Append(" Profile ").Append(path[1]);
-                if (!string.IsNullOrEmpty(servicePack)) description.Append(" SP").Append(servicePack);
+                description.Append(Messages.NetFxLegacy).Append(' ').Append(netVersion);
+                if (path.Length >= 2)
+                    description.Append(' ').Append(Messages.NetFxLegacyProfile).Append(' ').Append(path[1]);
+                if (!string.IsNullOrEmpty(servicePack))
+                    description.Append(' ').Append(Messages.NetFxLegacySp).Append(servicePack);
                 Description = description.ToString();
 
                 IsValid = true;

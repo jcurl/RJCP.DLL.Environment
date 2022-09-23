@@ -4,6 +4,7 @@
     using System.Security;
     using Microsoft.Win32;
     using Net45;
+    using Resources;
 
     /// <summary>
     /// Installation details for .NET 4.5 and later (up to .NET 4.8).
@@ -45,7 +46,7 @@
 
                     if (Version == null) {
                         Version = NetVersion.ToString();
-                        Description = string.Format($".NET Framework Net Version {NetVersion}, Release {Net45Release}");
+                        Description = string.Format(Messages.NetFx45Details, NetVersion, Net45Release);
                     }
 
                     IsValid = true;

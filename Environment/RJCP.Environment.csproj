@@ -14,7 +14,7 @@
     <RootNamespace>RJCP.Core.Environment</RootNamespace>
 
     <Authors>Jason Curl</Authors>
-    <Copyright>(C) 2019-2021, Jason Curl</Copyright>
+    <Copyright>(C) 2019-2022, Jason Curl</Copyright>
     <Company></Company>
     <PackageId>RJCP.Core.Environment</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -74,6 +74,11 @@
     <Compile Include="Native\Win32\Kernel32+SYSTEM_METRICS.cs" />
     <Compile Include="Native\Win32\Kernel32.cs" />
     <Compile Include="Native\Win32\NtDll.cs" />
+    <Compile Include="Resources\Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Version\INetVersion.cs" />
     <Compile Include="Version\NetFx\Net45\NetFxConfig.cs" />
     <Compile Include="Version\NetFx\Net45\NetFxVersion.cs" />
@@ -98,6 +103,13 @@
     <Compile Include="Xdg.XdgUnix.cs" />
     <Compile Include="Xdg.XdgUnknown.cs" />
     <Compile Include="Xdg.XdgWindows.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
