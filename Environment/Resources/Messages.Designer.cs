@@ -178,7 +178,7 @@ namespace RJCP.Core.Environment.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .NET Framework 4.6.1 on Windows 10, November Update systems (1511).
+        ///   Looks up a localized string similar to .NET Framework 4.6.1 on Windows 10, November Update (1511).
         /// </summary>
         internal static string Net461_Win10 {
             get {
@@ -196,7 +196,7 @@ namespace RJCP.Core.Environment.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .NET Framework 4.6.2 on Windows 10, Anniversary Update (1607) and Windows Server 2016.
+        ///   Looks up a localized string similar to .NET Framework 4.6.2 on Windows 10, Anniversary Update (1607) or Windows Server 2016.
         /// </summary>
         internal static string Net462_Win10 {
             get {
