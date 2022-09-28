@@ -29,6 +29,7 @@
             { 528209, new NetFxVersion("4.8", Messages.Net48_Win10_1909) },
             { 528372, new NetFxVersion("4.8", Messages.Net48_Win10_20H2) },
             { 528449, new NetFxVersion("4.8", Messages.Net48_Win11) },
+            { 533320, new NetFxVersion("4.8.1", Messages.Net481_Win11_22H2) },
             { 533325, new NetFxVersion("4.8.1", Messages.Net481) }
         };
 
