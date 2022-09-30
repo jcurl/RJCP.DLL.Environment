@@ -79,7 +79,9 @@
             Assert.That(WinVersion.Windows10_1909, Is.LessThan(WinVersion.Windows10_2004));
             Assert.That(WinVersion.Windows10_2004, Is.LessThan(WinVersion.Windows10_20H2));
             Assert.That(WinVersion.Windows10_20H2, Is.LessThan(WinVersion.Windows10_21H1));
-            Assert.That(WinVersion.Windows10_21H1, Is.LessThan(WinVersion.Windows11_21H2));
+            Assert.That(WinVersion.Windows10_21H1, Is.LessThan(WinVersion.Windows10_21H2));
+            Assert.That(WinVersion.Windows10_21H2, Is.LessThan(WinVersion.Windows10_22H2));
+            Assert.That(WinVersion.Windows10_22H2, Is.LessThan(WinVersion.Windows11_21H2));
             Assert.That(WinVersion.Windows11_21H2, Is.LessThan(WinVersion.Windows11_22H2));
 
             // Server build comparisons
@@ -297,6 +299,8 @@
             Assert.That(WinVersion.Windows10_2004.WinVersionString, Is.EqualTo("Windows 10 v2004"));
             Assert.That(WinVersion.Windows10_20H2.WinVersionString, Is.EqualTo("Windows 10 v20H2"));
             Assert.That(WinVersion.Windows10_21H1.WinVersionString, Is.EqualTo("Windows 10 v21H1"));
+            Assert.That(WinVersion.Windows10_21H2.WinVersionString, Is.EqualTo("Windows 10 v21H2"));
+            Assert.That(WinVersion.Windows10_22H2.WinVersionString, Is.EqualTo("Windows 10 v22H2"));
             Assert.That(WinVersion.Windows11_21H2.WinVersionString, Is.EqualTo("Windows 11 v21H2"));
             Assert.That(WinVersion.Windows11_22H2.WinVersionString, Is.EqualTo("Windows 11 v22H2"));
             Assert.That(WinVersion.Win2016.WinVersionString, Is.EqualTo("Windows 10 Server 2016"));
@@ -850,7 +854,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
 
-            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 10 v21H1 or later"));
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 10 v22H2 or later"));
         }
 
         [Test]

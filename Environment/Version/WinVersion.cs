@@ -330,6 +330,8 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win10_2004 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19041, true);
         private static readonly WinVersion _Win10_20H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19042, true);
         private static readonly WinVersion _Win10_21H1 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19043, true);
+        private static readonly WinVersion _Win10_21H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19044, true);
+        private static readonly WinVersion _Win10_22H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19045, true);
         private static readonly WinVersion _Win11_21H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22000, true);
         private static readonly WinVersion _Win11_22H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22621, true);
         private static readonly WinVersion _Win2016 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
@@ -408,6 +410,8 @@ namespace RJCP.Core.Environment.Version
             new WinVersionLookupEntry(_Win10_2004, "Windows 10 v2004"),
             new WinVersionLookupEntry(_Win10_20H2, "Windows 10 v20H2"),
             new WinVersionLookupEntry(_Win10_21H1, "Windows 10 v21H1"),
+            new WinVersionLookupEntry(_Win10_21H2, "Windows 10 v21H2"),
+            new WinVersionLookupEntry(_Win10_22H2, "Windows 10 v22H2"),
             new WinVersionLookupEntry(_Win11_21H2, "Windows 11 v21H2"),
             new WinVersionLookupEntry(_Win2022, "Windows 11 Server 2022"),
             new WinVersionLookupEntry(_Win11_22H2, "Windows 11 v22H2"),
@@ -609,6 +613,16 @@ namespace RJCP.Core.Environment.Version
         /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
         /// </summary>
         public static WinVersion Windows10_21H1 { get { return _Win10_21H1; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_21H2 { get { return _Win10_21H2; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 10.
+        /// </summary>
+        public static WinVersion Windows10_22H2 { get { return _Win10_22H2; } }
 
         /// <summary>
         /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2016.
