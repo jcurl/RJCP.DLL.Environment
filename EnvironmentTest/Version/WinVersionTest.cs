@@ -284,7 +284,7 @@
             Assert.That(WinVersion.Win2012.WinVersionString, Is.EqualTo("Windows 2012"));
             Assert.That(WinVersion.Win8_1.WinVersionString, Is.EqualTo("Windows 8.1"));
             Assert.That(WinVersion.Win2012R2.WinVersionString, Is.EqualTo("Windows 2012R2"));
-            Assert.That(WinVersion.Windows10.WinVersionString, Is.EqualTo("Windows 10 or later"));
+            Assert.That(WinVersion.Windows10.WinVersionString, Is.EqualTo("Windows NT 10.x"));
             Assert.That(WinVersion.Windows10_1507.WinVersionString, Is.EqualTo("Windows 10 v1507 - Threshold 1"));
             Assert.That(WinVersion.Windows10_1511.WinVersionString, Is.EqualTo("Windows 10 v1511 - Threshold 2"));
             Assert.That(WinVersion.Windows10_1607.WinVersionString, Is.EqualTo("Windows 10 v1607 - Redstone 1"));
@@ -791,6 +791,130 @@
             Console.WriteLine($"{winver}");
             Assert.That(winver, Is.EqualTo(WinVersion.Win2019));
             Assert.That(winver.IsServer, Is.True);
+        }
+
+        [Test]
+        public void UnknownWindows10VeryEarly()
+        {
+            WinVersion winVersion = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = 1,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x100,
+                ProductType = WinProductType.Workstation,
+                ProductInfo = WinProductInfo.Professional,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                NativeArchitecture = WinArchitecture.x64
+            };
+
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows NT 10.x"));
+        }
+
+        [Test]
+        public void UnknownWindows10Early()
+        {
+            WinVersion winVersion = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = 10000,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x100,
+                ProductType = WinProductType.Workstation,
+                ProductInfo = WinProductInfo.Professional,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                NativeArchitecture = WinArchitecture.x64
+            };
+
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows NT 10.x"));
+        }
+
+        [Test]
+        public void UnknownWindows10()
+        {
+            WinVersion winVersion = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = 19999,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x100,
+                ProductType = WinProductType.Workstation,
+                ProductInfo = WinProductInfo.Professional,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                NativeArchitecture = WinArchitecture.x64
+            };
+
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 10 v21H1 or later"));
+        }
+
+        [Test]
+        public void UnknownWindows11()
+        {
+            WinVersion winVersion = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = 27000,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x100,
+                ProductType = WinProductType.Workstation,
+                ProductInfo = WinProductInfo.Professional,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                NativeArchitecture = WinArchitecture.x64
+            };
+
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 11 v22H2 or later"));
+        }
+
+        [TestCase(22650)]
+        [TestCase(22651)]
+        [TestCase(22652)]
+        public void UnknownWindows2022(int build)
+        {
+            WinVersion winVersion = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = build,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x110,
+                ProductType = WinProductType.Server,
+                ProductInfo = WinProductInfo.DataCenter_Server,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                NativeArchitecture = WinArchitecture.x64
+            };
+
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 11 Server 2022 or later"));
+        }
+
+        [TestCase(17764)]
+        [TestCase(21999)]
+        [TestCase(19042)]
+        public void UnknownWindows2019(int build)
+        {
+            WinVersion winVersion = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 10,
+                MinorVersion = 0,
+                BuildNumber = build,
+                CSDVersion = string.Empty,
+                SuiteFlags = (WinSuite)0x110,
+                ProductType = WinProductType.Server,
+                ProductInfo = WinProductInfo.DataCenter_Server,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                NativeArchitecture = WinArchitecture.x64
+            };
+
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 10 Server 2019 or later"));
         }
     }
 }

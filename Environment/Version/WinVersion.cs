@@ -354,7 +354,8 @@ namespace RJCP.Core.Environment.Version
         /// <remarks>
         /// Entries in the database are searched from top to bottom. Items marked as Unknown, -1, Empty, Unknown or
         /// false are not compared. The first entry is taken and returned. An OSProductType of DomainController will
-        /// also match OSProductType.Server for convenience.
+        /// also match OSProductType.Server for convenience. See <see cref="CalculateWinVersion"/> for how to sort this
+        /// table.
         /// </remarks>
         private static readonly WinVersionLookupEntry[] WinVersionDatabase = new WinVersionLookupEntry[] {
             new WinVersionLookupEntry(new WinVersion(WinPlatform.Win32s, true), "Windows 32s"),
@@ -408,9 +409,8 @@ namespace RJCP.Core.Environment.Version
             new WinVersionLookupEntry(_Win10_20H2, "Windows 10 v20H2"),
             new WinVersionLookupEntry(_Win10_21H1, "Windows 10 v21H1"),
             new WinVersionLookupEntry(_Win11_21H2, "Windows 11 v21H2"),
-            new WinVersionLookupEntry(_Win11_22H2, "Windows 11 v22H2"),
             new WinVersionLookupEntry(_Win2022, "Windows 11 Server 2022"),
-            new WinVersionLookupEntry(_Win10, "Windows 10 or later"),
+            new WinVersionLookupEntry(_Win11_22H2, "Windows 11 v22H2"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
@@ -1213,12 +1213,62 @@ namespace RJCP.Core.Environment.Version
             }
         }
 
+        private bool IsSameOSKernelType(WinVersion compare)
+        {
+            if (compare.PlatformId == WinPlatform.Unknown) return false;
+            if (compare.ProductType == WinProductType.Unknown) return false;
+            if (compare.MajorVersion == -1 || m_MajorVersion == -1) return false;
+            if (compare.MinorVersion == -1 || m_MinorVersion == -1) return false;
+            if (compare.BuildNumber == -1 && m_BuildNumber != -1) return false;
+
+            if (compare.PlatformId != m_PlatformId) return false;
+            if (compare.MajorVersion != m_MajorVersion) return false;
+            if (compare.MinorVersion != m_MinorVersion) return false;
+
+            switch (compare.ProductType) {
+            case WinProductType.Server:
+            case WinProductType.DomainController:
+                if (m_ProductType != WinProductType.Server && m_ProductType != WinProductType.DomainController) return false;
+                break;
+            case WinProductType.Workstation:
+                if (m_ProductType != WinProductType.Workstation) return false;
+                break;
+            default:
+                return false;
+            }
+
+            if (compare.BuildNumber > m_BuildNumber) return false;
+
+            return true;
+        }
+
         private string CalculateWinVersion()
         {
+            WinVersion lastMatch = null;
+
+            // When searching, we start from the earliest to the latest, looking for the closest match.
+            // * An exact match of PlatformId, ProductType, Major.Minor.Build, CSDVersion, ServerR2, NativeArchitecture
+            //   returns the entry in the table.
+            // * If the entry in the table matches PlatformId, ProductType, Major.Minor, it is considered to be the same
+            //   OS Kernel Type, so that we remember the highest version, but not higher than the one we're trying to
+            //   match.
+            //   * Then, if we find an entry that has either the Major or Minor set to -1, and we had a match, we return
+            //     the last match, but indicate that this one is newer.
+            //   * So order the table to be specific to the build number, and end that list with a build of -1, for the
+            //     more generic version (e.g. Windows 10 and Windows 11 only differentiate themselves with the build).
+            //   * That last entry, will be given, as it partially matches, but is therefore earlier than any other more
+            //     specific match prior.
+
             foreach (WinVersionLookupEntry entry in WinVersionDatabase) {
                 if (entry.OSVersion.PlatformId != WinPlatform.Unknown && entry.OSVersion.PlatformId != m_PlatformId) continue;
                 if (entry.OSVersion.MajorVersion != -1 && entry.OSVersion.MajorVersion != m_MajorVersion) continue;
                 if (entry.OSVersion.MinorVersion != -1 && entry.OSVersion.MinorVersion != m_MinorVersion) continue;
+
+                // Cache looking for the last closest match, where the PlatformID, Major.Minor version, Product Type
+                if (IsSameOSKernelType(entry.OSVersion)) {
+                    lastMatch = entry.OSVersion;
+                }
+
                 if (entry.OSVersion.BuildNumber != -1 && entry.OSVersion.BuildNumber != m_BuildNumber) continue;
                 if (entry.OSVersion.CSDVersion != null) {
                     if (m_CSDVersion == null) continue;
@@ -1234,8 +1284,20 @@ namespace RJCP.Core.Environment.Version
                 }
                 if (entry.OSVersion.ServerR2 && !m_ServerR2) continue;
                 if (entry.OSVersion.NativeArchitecture != WinArchitecture.Unknown && entry.OSVersion.NativeArchitecture != m_NativeArchitecture) continue;
-                return entry.WinVersionString;
+
+                if (entry.OSVersion.MajorVersion == -1 ||
+                    entry.OSVersion.MajorVersion != -1 && entry.OSVersion.MinorVersion == -1) {
+                    if (lastMatch == null)
+                        return entry.WinVersionString;
+                    break;
+                } else {
+                    return entry.WinVersionString;
+                }
             }
+
+            if (lastMatch != null)
+                return string.Format("{0} or later", lastMatch.WinVersionString);
+
             return string.Empty;
         }
 
