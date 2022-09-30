@@ -296,6 +296,16 @@
         Solution_EmbeddedServer = 0x00000038,
 
         /// <summary>
+        /// Windows Multipoint Server Core.
+        /// </summary>
+        Solution_EmbeddedServerCore = 0x00000039,
+
+        /// <summary>
+        /// Windows Embedded Professional.
+        /// </summary>
+        Professional_Embedded = 0x0000003A,
+
+        /// <summary>
         /// Windows Essential Server Solution Management.
         /// </summary>
         EssentialBusiness_Server_Mgmt = 0x0000003B,
@@ -324,6 +334,11 @@
         /// Server Hyper Core V.
         /// </summary>
         Cluster_Server_V = 0x00000040,
+
+        /// <summary>
+        /// Windows Embedded.
+        /// </summary>
+        Embedded = 0x00000041,
 
         /// <summary>
         /// Starter E (not supported).
@@ -383,7 +398,47 @@
         /// <summary>
         /// Enterprise N (evaluation installation).
         /// </summary>
-        Product_Enterprise_N_Evaluation = 0x00000054,
+        Enterprise_N_Evaluation = 0x00000054,
+
+        /// <summary>
+        /// Windows Embedded Automotive.
+        /// </summary>
+        Embedded_Automotive = 0x00000055,
+
+        /// <summary>
+        /// Windows Embedded Industrial A
+        /// </summary>
+        Embedded_Industry_A = 0x00000056,
+
+        /// <summary>
+        /// Thin PC.
+        /// </summary>
+        ThinPC = 0x00000057,
+
+        /// <summary>
+        /// Windows Embedded A
+        /// </summary>
+        Embedded_A = 0x0000058,
+
+        /// <summary>
+        /// Windows Embedded Industrial.
+        /// </summary>
+        Embedded_Industry = 0x00000059,
+
+        /// <summary>
+        /// Windows Embedded E.
+        /// </summary>
+        Embedded_E = 0x0000005A,
+
+        /// <summary>
+        /// Windows Embedded Industry E.
+        /// </summary>
+        Embedded_Industry_E = 0x0000005B,
+
+        /// <summary>
+        /// Windows Embedded Industry A E.
+        /// </summary>
+        Embedded_Industry_A_E = 0x0000005C,
 
         /// <summary>
         /// Storage Server Workgroup (evaluation installation).
@@ -396,7 +451,12 @@
         Storage_Standard_Evaluation_Server = 0x00000060,
 
         /// <summary>
-        /// Windows 8 N.
+        /// Windows Core for Arm.
+        /// </summary>
+        Core_Arm = 0x00000061,
+
+        /// <summary>
+        /// Windows Core N.
         /// </summary>
         Core_N = 0x00000062,
 
@@ -731,7 +791,7 @@
         IOT_Enterprise_S = 0x000000BF,
 
         /// <summary>
-        /// X-b=Box system OS.
+        /// X-Box system OS.
         /// </summary>
         XBox_System_OS = 0x000000C0,
 
@@ -759,6 +819,46 @@
         /// X-Box scarlett host OS.
         /// </summary>
         XBox_Scarlett_Host_OS = 0x000000C5,
+
+        /// <summary>
+        /// X-Box Keystone host OS.
+        /// </summary>
+        XBox_Keystone = 0x000000C6,
+
+        /// <summary>
+        /// Azure Server Cloud Host.
+        /// </summary>
+        Azure_Server_CloudHost = 0x000000C7,
+
+        /// <summary>
+        /// Azure Server Cloud.
+        /// </summary>
+        Azure_Server_CloudMos = 0x000000C8,
+
+        /// <summary>
+        /// Windows Cloud Edition N.
+        /// </summary>
+        CloudEdition_N = 0x000000CA,
+
+        /// <summary>
+        /// Windows Cloud Edition.
+        /// </summary>
+        CloudEdition = 0x000000CB,
+
+        /// <summary>
+        /// Azure Stack HCI Server Core.
+        /// </summary>
+        AzureStackHci_Server_Core = 0x00000196,
+
+        /// <summary>
+        /// Datacenter Server Azure Edition.
+        /// </summary>
+        Datacenter_Server_Azure_Edition = 0x00000197,
+
+        /// <summary>
+        /// Datacenter Server Azure Edition Core.
+        /// </summary>
+        Datacenter_Server_Core_Azure_Edition = 0x00000198,
 
         /// <summary>
         /// Windows XP MediaCenter.

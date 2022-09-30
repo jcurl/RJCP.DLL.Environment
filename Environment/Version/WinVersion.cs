@@ -331,6 +331,7 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win10_20H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19042, true);
         private static readonly WinVersion _Win10_21H1 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19043, true);
         private static readonly WinVersion _Win11_21H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22000, true);
+        private static readonly WinVersion _Win11_22H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22621, true);
         private static readonly WinVersion _Win2016 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
         private static readonly WinVersion _Win2019 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
         private static readonly WinVersion _Win2022 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
@@ -407,6 +408,7 @@ namespace RJCP.Core.Environment.Version
             new WinVersionLookupEntry(_Win10_20H2, "Windows 10 v20H2"),
             new WinVersionLookupEntry(_Win10_21H1, "Windows 10 v21H1"),
             new WinVersionLookupEntry(_Win11_21H2, "Windows 11 v21H2"),
+            new WinVersionLookupEntry(_Win11_22H2, "Windows 11 v22H2"),
             new WinVersionLookupEntry(_Win2022, "Windows 11 Server 2022"),
             new WinVersionLookupEntry(_Win10, "Windows 10 or later"),
             new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
@@ -619,9 +621,14 @@ namespace RJCP.Core.Environment.Version
         public static WinVersion Win2019 { get { return _Win2019; } }
 
         /// <summary>
-        /// A predefined <see cref="WinVersion"/> object identifying Windows 11.
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 11 22H1.
         /// </summary>
         public static WinVersion Windows11_21H2 { get { return _Win11_21H2; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 11 22H2.
+        /// </summary>
+        public static WinVersion Windows11_22H2 { get { return _Win11_22H2; } }
 
         /// <summary>
         /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2022.
@@ -1014,7 +1021,6 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.Undefined: return string.Empty;
 
                 case WinProductInfo.MediaCenter: return "MediaCenter";
-                case WinProductInfo.TabletPc: return "Tablet PC";
 
                 case WinProductInfo.Starter: return "Starter";
                 case WinProductInfo.Starter_E: return "Starter E";
@@ -1028,6 +1034,16 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.Professional: return "Professional";
                 case WinProductInfo.Professional_E: return "Professional E";
                 case WinProductInfo.Professional_N: return "Professional N";
+                case WinProductInfo.Professional_Student: return "Professional Student";
+                case WinProductInfo.Professional_Student_N: return "Professional Student N";
+                case WinProductInfo.Professional_S: return "Professional S";
+                case WinProductInfo.Professional_S_N: return "Professional S N";
+                case WinProductInfo.Pro_Single_Language: return "Professional Single Language";
+                case WinProductInfo.Pro_China: return "Professional China";
+                case WinProductInfo.Pro_Workstation: return "Professional Workstation";
+                case WinProductInfo.Pro_Workstation_N: return "Professional Workstation N";
+                case WinProductInfo.Pro_For_Education: return "Professional Education";
+                case WinProductInfo.Pro_For_Education_N: return "Professional Education N";
                 case WinProductInfo.Business: return "Business";
                 case WinProductInfo.Business_N: return "Business N";
                 case WinProductInfo.Ultimate: return "Ultimate";
@@ -1036,19 +1052,28 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.Enterprise: return "Enterprise";
                 case WinProductInfo.Enterprise_E: return "Enterprise E";
                 case WinProductInfo.Enterprise_N: return "Enterprise N";
+                case WinProductInfo.Enterprise_S: return "Enterprise S";
+                case WinProductInfo.Enterprise_S_N: return "Enterprise S N";
                 case WinProductInfo.Enterprise_Evaluation: return "Enterprise (Eval)";
-                case WinProductInfo.Product_Enterprise_N_Evaluation: return "Enterprise N (Eval)";
+                case WinProductInfo.Enterprise_N_Evaluation: return "Enterprise N (Eval)";
+                case WinProductInfo.Enterprise_S_Eval: return "Enterprise S (Eval)";
+                case WinProductInfo.Enterprise_S_N_Eval: return "Enterprise S N (Eval)";
+                case WinProductInfo.Enterprise_Subscription: return "Enterprise Subscription";
+                case WinProductInfo.Enterprise_Subscription_N: return "Enterprise Subscription N";
+                case WinProductInfo.Enterprise_G: return "Enterprise G";
+                case WinProductInfo.Enterprise_G_N: return "Enterprise G N";
+                case WinProductInfo.Education: return "Education";
+                case WinProductInfo.Education_N: return "Education N";
                 case WinProductInfo.Core: return "Windows 8";
                 case WinProductInfo.Core_N: return "Windows 8 N";
+                case WinProductInfo.Core_Arm: return "Windows Core ARM";
                 case WinProductInfo.Core_CountrySpecific: return "Windows 8 China";
                 case WinProductInfo.Core_SingleLanguage: return "Windows 8 Single Language";
+                case WinProductInfo.Core_Connected: return "Windows Core Connected";
+                case WinProductInfo.Core_Connected_N: return "Windows Core Connected N";
+                case WinProductInfo.Core_Connected_Country_Specific: return "Windows Core Connected China";
+                case WinProductInfo.Core_Connected_Single_Language: return "Windows Core Connected Single Language";
                 case WinProductInfo.Professional_Wmc: return "Professional with Media Center";
-
-                case WinProductInfo.Enterprise_Server: return "Enterprise Server";
-                case WinProductInfo.Enterprise_Server_Core: return "Enterprise Server (Core)";
-                case WinProductInfo.Enterprise_Server_Core_V: return "Enterprise Server (Core, no Hyper-V)";
-                case WinProductInfo.Enterprise_Server_V: return "Enterprise Server (no Hyper-V)";
-                case WinProductInfo.Enterprise_Server_IA64: return "Enterprise Server Itanium";
 
                 case WinProductInfo.Standard_Server: return "Standard Server";
                 case WinProductInfo.Standard_Server_Core: return "Standard Server (Core)";
@@ -1057,19 +1082,36 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.Standard_Server_Solutions: return "Server Solutions Premium";
                 case WinProductInfo.Standard_Server_Solutions_Core: return "Server Solutions Premium (Core)";
                 case WinProductInfo.Standard_Evaluation_Server: return "Standard Server (Eval)";
+                case WinProductInfo.Standard_Eval_Server_Core: return "Standard Server (Core, Eval)";
+                case WinProductInfo.Standard_A_Server_Core: return "Standard Server A (Core)";
+                case WinProductInfo.Standard_WS_Server_Core: return "Standard Server WS (Core)";
+
+                case WinProductInfo.MediumBusiness_Server_Management: return "Business Management Server";
+                case WinProductInfo.MediumBusiness_Server_Messaging: return "Business Messaging Server";
+                case WinProductInfo.MediumBusiness_Server_Security: return "Business Security Server";
 
                 case WinProductInfo.DataCenter_Server: return "DataCenter";
                 case WinProductInfo.DataCenter_Server_Core: return "DataCenter (Core)";
                 case WinProductInfo.DataCenter_Server_Core_V: return "DataCenter (Core, no Hyper-V)";
                 case WinProductInfo.DataCenter_Server_V: return "DataCenter (no Hyper-V)";
                 case WinProductInfo.Datacenter_Evaluation_Server: return "DataCenter (Eval)";
+                case WinProductInfo.Datacenter_Eval_Server_Core: return "DataCenter (Core, Eval)";
+                case WinProductInfo.Datacenter_A_Server_Core: return "DataCenter A (Core)";
+                case WinProductInfo.Datacenter_WS_Server_Core: return "DataCenter WS (Core)";
+                case WinProductInfo.Datacenter_Server_Azure_Edition: return "DataCenter Azure";
+                case WinProductInfo.Datacenter_Server_Core_Azure_Edition: return "DataCenter Azure (Core)";
 
-                case WinProductInfo.MediumBusiness_Server_Management: return "Business Management Server";
-                case WinProductInfo.MediumBusiness_Server_Messaging: return "Business Messaging Server";
-                case WinProductInfo.MediumBusiness_Server_Security: return "Business Security Server";
+                case WinProductInfo.Enterprise_Server: return "Enterprise Server";
+                case WinProductInfo.Enterprise_Server_Core: return "Enterprise Server (Core)";
+                case WinProductInfo.Enterprise_Server_Core_V: return "Enterprise Server (Core, no Hyper-V)";
+                case WinProductInfo.Enterprise_Server_V: return "Enterprise Server (no Hyper-V)";
+                case WinProductInfo.Enterprise_Server_IA64: return "Enterprise Server Itanium";
+
+                case WinProductInfo.Server_RDSH: return "RDSH Server";
 
                 case WinProductInfo.Home_Server: return "Storage Server 2008R2 Essentials";
                 case WinProductInfo.Home_Premium_Server: return "Windows Home Server 2011";
+                case WinProductInfo.Arm64_Server: return "Arm64 Server";
                 case WinProductInfo.Storage_Enterprise_Server: return "Storage Enterprise Server";
                 case WinProductInfo.Storage_Enterprise_Core: return "Storage Enterprise Server (Core)";
                 case WinProductInfo.Storage_Express_Server: return "Storage Express Server";
@@ -1095,17 +1137,75 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.Server_For_Sb_Solutions_Em: return "Server for SB Solutions EM";
 
                 case WinProductInfo.Cluster_Server: return "HPC Edition";
+                case WinProductInfo.Cluster_Server_V: return "HPC Edition (no Hyper-V)";
                 case WinProductInfo.HyperV: return "Hyper-V Edition";
                 case WinProductInfo.Server_Foundation: return "Server Foundation";
+                case WinProductInfo.One_Core_Update_OS: return "One Core Update OS";
 
+                case WinProductInfo.Cloud_Storage_Server: return "Cloud Storage Server";
+                case WinProductInfo.Cloud_Host_Infrastructure_Server: return "Cloud Host Infrastructure Server";
+                case WinProductInfo.Cloud: return "Cloud";
+                case WinProductInfo.Cloud_N: return "Cloud N";
+                case WinProductInfo.Cloud_E: return "Cloud E";
+                case WinProductInfo.Cloud_E_N: return "Cloud E N";
+                case WinProductInfo.CloudEdition: return "Cloud Edition";
+                case WinProductInfo.CloudEdition_N: return "Cloud Edition N";
+
+                case WinProductInfo.Azure_Server_Core: return "Azure Server (Core)";
+                case WinProductInfo.Azure_Server_CloudHost: return "Azure Server Cloud Host";
+                case WinProductInfo.Azure_Server_CloudMos: return "Azure Server Cloud MOS";
+                case WinProductInfo.AzureStackHci_Server_Core: return "Azure Stack HCI Server (Core)";
+
+                case WinProductInfo.Embedded: return "Windows Embedded";
+                case WinProductInfo.Embedded_A: return "Windows Embedded A";
+                case WinProductInfo.Embedded_E: return "Windows Embedded E";
+                case WinProductInfo.Embedded_Eval: return "Windows Embedded Evaluation";
+                case WinProductInfo.Embedded_E_Eval: return "Windows Embedded E Evaluation";
+                case WinProductInfo.Embedded_Automotive: return "Windows Embedded Automotive";
+                case WinProductInfo.Embedded_Industry: return "Windows Embedded Industry";
+                case WinProductInfo.Embedded_Industry_A: return "Windows Embedded Industry A";
+                case WinProductInfo.Embedded_Industry_E: return "Windows Embedded Industry E";
+                case WinProductInfo.Embedded_Industry_A_E: return "Windows Embedded Industry A E";
+                case WinProductInfo.Embedded_Industry_Eval: return "Windows Embedded Industry Evaluation";
+                case WinProductInfo.Embedded_E_Industry_Eval: return "Windows Embedded Industry E Evaluation";
+                case WinProductInfo.Connected_Car: return "Connected Car";
                 case WinProductInfo.Solution_EmbeddedServer: return "Windows Multipoint Server";
+                case WinProductInfo.Solution_EmbeddedServerCore: return "Windows Multipoint Server Core";
                 case WinProductInfo.Multipoint_Standard_Server: return "Windows Multipoint Server Standard";
                 case WinProductInfo.Multipoint_Premium_Server: return "Windows Multipoint Server Premium";
-
+                case WinProductInfo.Professional_Embedded: return "Windows Professional Embedded";
                 case WinProductInfo.EssentialBusiness_Server_Mgmt: return "Windows Essential Server Solution Management";
                 case WinProductInfo.EssentialBusiness_Server_Addl: return "Windows Essential Server Solution Additional";
                 case WinProductInfo.EssentialBusiness_Server_MgmtSvc: return "Windows Essential Server Solution Management SVC";
                 case WinProductInfo.EssentialBusiness_Server_AddlSvc: return "Windows Essential Server Solution Additional SVC";
+                case WinProductInfo.Industry_Handheld: return "Industry Handheld";
+                case WinProductInfo.PPI_Pro: return "PPI Professional";
+                case WinProductInfo.IOTUAP: return "IOTUAP";
+                case WinProductInfo.ThinPC: return "Thin PC";
+                case WinProductInfo.Holographic: return "Holographic";
+                case WinProductInfo.Holographic_Business: return "Holographic Business";
+                case WinProductInfo.Utility_VM: return "Utility VM";
+                case WinProductInfo.HubOS: return "HubOS";
+                case WinProductInfo.Andromeda: return "Andromeda";
+                case WinProductInfo.Lite: return "Lite";
+                case WinProductInfo.TabletPc: return "Tablet PC";
+                case WinProductInfo.IOT_OS: return "IoT OS";
+                case WinProductInfo.IOT_EDGEOS: return "IoT Edge OS";
+                case WinProductInfo.IOT_Enterprise: return "IoT Enterprise";
+                case WinProductInfo.IOT_Enterprise_S: return "IoT Enterprise S";
+
+                case WinProductInfo.Nano_Server: return "Windows Nano Server";
+                case WinProductInfo.Datacenter_Nano_Server: return "Datacenter Nano Server";
+                case WinProductInfo.Standard_Nano_Server: return "Standard Nano Server";
+                case WinProductInfo.Azure_Nano_Server: return "Azure Nano Server";
+
+                case WinProductInfo.XBox_System_OS: return "X-Box System OS";
+                case WinProductInfo.XBox_Native_OS: return "X-Box Native OS";
+                case WinProductInfo.XBox_Game_OS: return "X-Box Game OS";
+                case WinProductInfo.XBox_Era_OS: return "X-Box Era OS";
+                case WinProductInfo.XBox_Durango_Host_OS: return "X-Box Durango OS";
+                case WinProductInfo.XBox_Scarlett_Host_OS: return "X-Box Scarlett OS";
+                case WinProductInfo.XBox_Keystone: return "X-Box Keystone";
 
                 case WinProductInfo.Unlicensed: return "Unlicensed";
                 default: return string.Empty;
