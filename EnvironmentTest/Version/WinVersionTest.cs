@@ -313,8 +313,9 @@
         {
             int count = 0;
             foreach (WinProductInfo winProductInfo in Enum.GetValues(typeof(WinProductInfo))) {
-                WinVersion winVersion = new WinVersion();
-                winVersion.ProductInfo = winProductInfo;
+                WinVersion winVersion = new WinVersion {
+                    ProductInfo = winProductInfo
+                };
                 if (string.IsNullOrEmpty(winVersion.ProductInfoString) && winProductInfo != WinProductInfo.Undefined) {
                     count++;
                     Console.WriteLine($"Empty Product Info String for {winProductInfo}");

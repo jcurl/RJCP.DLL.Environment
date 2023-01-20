@@ -271,19 +271,19 @@
 
         private void DetectArchitectureWithSystemInfo()
         {
-            Kernel32.SYSTEM_INFO lpSystemInfo = new Kernel32.SYSTEM_INFO();
+            Kernel32.SYSTEM_INFO lpSystemInfo;
 
             // GetNativeSystemInfo is independent if we're 64-bit or not But it needs _WIN32_WINNT 0x0501
             ushort processorNativeArchitecture;
             try {
-                Kernel32.GetNativeSystemInfo(ref lpSystemInfo);
+                Kernel32.GetNativeSystemInfo(out lpSystemInfo);
                 processorNativeArchitecture = lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
             } catch (EntryPointNotFoundException) {
                 processorNativeArchitecture = Kernel32.PROCESSOR_ARCHITECTURE.UNKNOWN;
             }
 
             if (processorNativeArchitecture == Kernel32.PROCESSOR_ARCHITECTURE.UNKNOWN) {
-                Kernel32.GetSystemInfo(ref lpSystemInfo);
+                Kernel32.GetSystemInfo(out lpSystemInfo);
                 processorNativeArchitecture = lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
             }
 
@@ -318,8 +318,8 @@
             uint productInfo = 0;
             bool result;
             try {
-                result = Kernel32.GetProductInfo((uint)MajorVersion, (uint)MinorVersion,
-                    (uint)ServicePackMajor, (uint)ServicePackMinor, ref productInfo);
+                result = Kernel32.GetProductInfo(MajorVersion, MinorVersion,
+                    ServicePackMajor, ServicePackMinor, out productInfo);
             } catch {
                 // The operating system doesn't support this function call
                 result = false;
