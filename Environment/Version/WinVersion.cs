@@ -1722,9 +1722,8 @@ namespace RJCP.Core.Environment.Version
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-            WinVersion p = obj as WinVersion;
-            if (p == null) throw new ArgumentException(Messages.ArgumentEx_NotOsVersion, nameof(obj));
-
+            WinVersion p = obj as WinVersion
+                ?? throw new ArgumentException(Messages.ArgumentEx_NotOsVersion, nameof(obj));
             return Compare(this, p);
         }
         #endregion
