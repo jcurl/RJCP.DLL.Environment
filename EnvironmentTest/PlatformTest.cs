@@ -3,7 +3,7 @@
     using System;
     using NUnit.Framework;
 
-    [TestFixture(Category = "Environment.Platform")]
+    [TestFixture]
     public class PlatformTest
     {
         [Test]

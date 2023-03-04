@@ -14,7 +14,7 @@
     <RootNamespace>RJCP.Core.Environment</RootNamespace>
 
     <Authors>Jason Curl</Authors>
-    <Copyright>(C) 2019-2022, Jason Curl</Copyright>
+    <Copyright>(C) 2019-2023, Jason Curl</Copyright>
     <Company></Company>
     <PackageId>RJCP.Core.Environment</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
