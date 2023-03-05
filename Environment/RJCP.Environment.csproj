@@ -74,6 +74,7 @@
     <Compile Include="Native\Win32\Kernel32+SYSTEM_METRICS.cs" />
     <Compile Include="Native\Win32\Kernel32.cs" />
     <Compile Include="Native\Win32\NtDll.cs" />
+    <Compile Include="Native\Win32\WinBrand.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

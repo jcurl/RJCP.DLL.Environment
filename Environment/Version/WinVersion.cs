@@ -356,7 +356,7 @@ namespace RJCP.Core.Environment.Version
         /// <remarks>
         /// Entries in the database are searched from top to bottom. Items marked as Unknown, -1, Empty, Unknown or
         /// false are not compared. The first entry is taken and returned. An OSProductType of DomainController will
-        /// also match OSProductType.Server for convenience. See <see cref="CalculateWinVersion"/> for how to sort this
+        /// also match OSProductType.Server for convenience. See <see cref="CalculateWinVersion()"/> for how to sort this
         /// table.
         /// </remarks>
         private static readonly WinVersionLookupEntry[] WinVersionDatabase = new WinVersionLookupEntry[] {
@@ -1309,6 +1309,19 @@ namespace RJCP.Core.Environment.Version
                 }
             }
 
+            return CalculateWinVersion(lastMatch);
+        }
+
+        /// <summary>
+        /// Calculates the Windows version for a non-exact match.
+        /// </summary>
+        /// <returns>A string that should be presented to the user.</returns>
+        /// <remarks>
+        /// This class has an internal database of Windows Versions obtained from MSDN. It might be that the internal
+        /// database is out of date, applications can override this to provide more accurate information.
+        /// </remarks>
+        protected virtual string CalculateWinVersion(WinVersion lastMatch)
+        {
             if (lastMatch != null)
                 return string.Format("{0} or later", lastMatch.WinVersionString);
 
