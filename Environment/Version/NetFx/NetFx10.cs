@@ -6,7 +6,7 @@
     /// <summary>
     /// Installation details for .NET 1.0.
     /// </summary>
-    public class NetFx10 : INetVersion
+    public sealed class NetFx10 : INetVersion
     {
         internal NetFx10(string version, string key)
         {

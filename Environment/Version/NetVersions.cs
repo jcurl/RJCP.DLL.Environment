@@ -10,7 +10,7 @@
     /// <summary>
     /// A class to get the versions of .NET installed on the local computer. Only relevant for Windows.
     /// </summary>
-    public class NetVersions : IEnumerable<INetVersion>
+    public sealed class NetVersions : IEnumerable<INetVersion>
     {
         private readonly List<INetVersion> m_Installed = new List<INetVersion>();
 

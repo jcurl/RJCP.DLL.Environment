@@ -9,7 +9,7 @@
     /// <summary>
     /// Older version of .NET 2.0 to 3.5
     /// </summary>
-    public class NetFxLegacy : INetVersion
+    public sealed class NetFxLegacy : INetVersion
     {
         internal NetFxLegacy(string key)
         {

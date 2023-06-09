@@ -9,7 +9,7 @@
     /// <summary>
     /// Installation details for .NET 4.5 and later (up to .NET 4.8).
     /// </summary>
-    public class NetFx45 : INetVersion
+    public sealed class NetFx45 : INetVersion
     {
         internal NetFx45()
         {

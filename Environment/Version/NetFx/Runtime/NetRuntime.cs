@@ -1,18 +1,20 @@
 ﻿namespace RJCP.Core.Environment.Version.NetFx.Runtime
 {
     using System;
+#if NETFRAMEWORK
     using System.Reflection;
     using Resources;
+#endif
 
     /// <summary>
     /// Description about the current running runtime.
     /// </summary>
-    public class NetRuntime : INetVersion
+    public sealed class NetRuntime : INetVersion
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NetRuntime"/> class.
         /// </summary>
-        public NetRuntime()
+        internal NetRuntime()
         {
             Version = Environment.Version.ToString();
 #if NETSTANDARD

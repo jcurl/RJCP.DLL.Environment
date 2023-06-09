@@ -1,6 +1,6 @@
 ﻿namespace RJCP.Core.Environment.Version.NetFx.Net45
 {
-    internal class NetFxVersion
+    internal sealed class NetFxVersion
     {
         internal NetFxVersion(string version, string description)
         {
