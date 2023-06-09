@@ -1315,6 +1315,7 @@ namespace RJCP.Core.Environment.Version
         /// <summary>
         /// Calculates the Windows version for a non-exact match.
         /// </summary>
+        /// <param name="lastMatch">The Windows version.</param>
         /// <returns>A string that should be presented to the user.</returns>
         /// <remarks>
         /// This class has an internal database of Windows Versions obtained from MSDN. It might be that the internal
