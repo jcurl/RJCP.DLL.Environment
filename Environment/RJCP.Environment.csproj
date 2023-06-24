@@ -19,10 +19,11 @@
     <PackageId>RJCP.Core.Environment</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/jcurl/RJCP.DLL.Environment</PackageProjectUrl>
 
     <Description>Provide extensions for environment functions.</Description>
-    <Version>0.2.0</Version>
+    <Version>0.2.1</Version>
 
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
 
