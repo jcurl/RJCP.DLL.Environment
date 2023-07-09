@@ -36,18 +36,17 @@
 
                     object objTargetVersion = key.GetValue("TargetVersion");
                     if (objTargetVersion != null) {
-                        TargetVersion = new Version(objTargetVersion as string);
+                        TargetVersion = NetVersions.GetVersion(objTargetVersion as string);
                     }
 
+                    Version netVersion = null;
                     object objNetVersion = key.GetValue("Version");
                     if (objNetVersion != null) {
-                        NetVersion = new Version(objNetVersion as string);
+                        netVersion = NetVersions.GetVersion(objNetVersion as string);
                     }
 
-                    if (Version == null) {
-                        Version = NetVersion.ToString();
-                        Description = string.Format(Messages.NetFx45Details, NetVersion, Net45Release);
-                    }
+                    Description = string.Format(Messages.NetFx45Details,
+                        netVersion?.ToString() ?? string.Empty, Net45Release);
 
                     IsValid = true;
                 }
@@ -64,8 +63,8 @@
 
             NetFxVersion details = NetFxConfig.GetNetFxVersion(release);
             if (details == null) return;
-            Version = details.Version;
-            Description = details.Description;
+            FrameworkVersion = details.Version;
+            Version = details.Version.ToString();
         }
 
         /// <summary>
@@ -81,10 +80,10 @@
         public Version TargetVersion { get; private set; }
 
         /// <summary>
-        /// Gets the version of .NET 1.0 as read from the registry.
+        /// Gets the version of .NET as read from the registry.
         /// </summary>
         /// <value>The version of .NET as read from the registry.</value>
-        public Version NetVersion { get; private set; }
+        public Version FrameworkVersion { get; private set; }
 
         /// <summary>
         /// Returns <see langword="true"/> if the version information contains valid (even if partially) information.

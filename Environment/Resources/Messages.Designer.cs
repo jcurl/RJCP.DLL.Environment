@@ -331,7 +331,7 @@ namespace RJCP.Core.Environment.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .NET Framework Net Version {0}, Release {1}.
+        ///   Looks up a localized string similar to .NET Framework {0}, Release {1}.
         /// </summary>
         internal static string NetFx45Details {
             get {

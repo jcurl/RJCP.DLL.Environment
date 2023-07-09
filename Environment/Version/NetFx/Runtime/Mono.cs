@@ -24,6 +24,7 @@
                 return;
             }
 
+            FrameworkVersion = Environment.Version;
             Version = Environment.Version.ToString();
 
             MethodInfo displayName = monoType.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
@@ -45,6 +46,12 @@
         /// </summary>
         /// <value>The .NET version string.</value>
         public string Version { get; private set; }
+
+        /// <summary>
+        /// Gets the version that can be used for comparison.
+        /// </summary>
+        /// <value>The .NET version that can be used for comparison.</value>
+        public Version FrameworkVersion { get; private set; }
 
         /// <summary>
         /// Gets the description of the .NET version installed.

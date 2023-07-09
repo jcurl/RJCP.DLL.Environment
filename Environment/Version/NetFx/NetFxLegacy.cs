@@ -13,8 +13,13 @@
     {
         internal NetFxLegacy(string key)
         {
+            if (!key.StartsWith("v")) {
+                IsValid = false;
+                return;
+            }
+
             try {
-                GetNetFxDetails(key);
+                GetNetFxDetails(key, null);
             } catch (SecurityException) {
                 IsValid = false;
             } catch (Exception) {
@@ -22,52 +27,89 @@
             }
         }
 
-        private void GetNetFxDetails(string key)
+        internal NetFxLegacy(string key, string profile)
         {
             if (!key.StartsWith("v")) {
                 IsValid = false;
                 return;
             }
 
-            string fullKeyPath = string.Format(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\{0}", key);
+            try {
+                GetNetFxDetails(key, profile);
+            } catch (SecurityException) {
+                IsValid = false;
+            } catch (Exception) {
+                IsValid = false;
+            }
+        }
+
+        private void GetNetFxDetails(string key, string profile)
+        {
+            string fullKeyPath;
+            if (profile == null) {
+                fullKeyPath = string.Format(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\{0}", key);
+            } else {
+                fullKeyPath = string.Format(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\{0}\{1}", key, profile);
+            }
+
             using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(fullKeyPath)) {
                 IsValid = false;
                 if (registryKey == null) return;
-
-                string installed = registryKey.GetValue("Install", "").ToString();
-                if (installed == null || installed != "1") return;
-
-                string[] path = key.Split('\\');
+                if (!NetVersions.IsInstalled(registryKey)) return;
 
 #if NETFRAMEWORK
-                string netVersion = (string)registryKey.GetValue("Version")
-                    ?? path[0].Substring(1);
+                string keyVersion = key.Substring(1);
 #else
-                string netVersion = (string)registryKey.GetValue("Version")
-                    ?? path[0][1..];
+                string keyVersion = key[1..];
 #endif
-                NetVersion = new Version(netVersion);
+                string netVersion = (string)registryKey.GetValue("Version") ?? keyVersion;
+                Version parsedNetVersion = NetVersions.GetVersion(netVersion);
+                if (parsedNetVersion == null) return;
+
+                if (parsedNetVersion.Major == 4) {
+                    // With .NET 4.5 and later, the version is the newest version. On Windows XP, it should be
+                    // 4.0.30319. Note, this class is only run for .NET 4.0 and earlier, but is a prerequisite for .NET
+                    // 4.5 and later.
+                    const string profilePath = @"SOFTWARE\Microsoft\.NETFramework\Policy\v4.0";
+                    int maxVersion = 0;
+                    using (RegistryKey profileKey = Registry.LocalMachine.OpenSubKey(profilePath)) {
+                        if (profileKey != null) {
+                            foreach (string versionKeyName in profileKey.GetValueNames()) {
+                                if (int.TryParse(versionKeyName, out int buildVersion)) {
+                                    if (maxVersion < buildVersion)
+                                        maxVersion = buildVersion;
+                                }
+                            }
+                        }
+                    }
+                    if (maxVersion == 0) {
+                        netVersion = new Version(4, 0).ToString();
+                    } else {
+                        netVersion = new Version(4, 0, maxVersion).ToString();
+                    }
+                    FrameworkVersion = new Version(4, 0);
+                } else {
+                    Version parsedKeyVersion = new Version(keyVersion);
+                    FrameworkVersion = new Version(parsedKeyVersion.Major, parsedKeyVersion.Minor);
+                }
 
                 string servicePack = registryKey.GetValue("SP", "").ToString();
                 if (servicePack.Equals("0")) servicePack = string.Empty;
 
                 StringBuilder version = new StringBuilder();
-#if NETFRAMEWORK
-                version.Append(path[0].Substring(1));
-#else
-                version.Append(path[0][1..]);
-#endif
-                if (path.Length >= 2) version.Append(' ').Append(path[1]);
+                version.Append(keyVersion);
+                if (profile != null) version.Append(' ').Append(profile);
                 if (!string.IsNullOrEmpty(servicePack)) version.Append(" SP").Append(servicePack);
                 Version = version.ToString();
 
                 StringBuilder description = new StringBuilder();
                 description.Append(Messages.NetFxLegacy).Append(' ').Append(netVersion);
-                if (path.Length >= 2)
-                    description.Append(' ').Append(Messages.NetFxLegacyProfile).Append(' ').Append(path[1]);
+                if (profile != null)
+                    description.Append(' ').Append(Messages.NetFxLegacyProfile).Append(' ').Append(profile);
                 if (!string.IsNullOrEmpty(servicePack))
                     description.Append(' ').Append(Messages.NetFxLegacySp).Append(servicePack);
                 Description = description.ToString();
+                Profile = profile;
 
                 IsValid = true;
             }
@@ -77,7 +119,7 @@
         /// Gets the version of .NET as read from the registry.
         /// </summary>
         /// <value>The version of .NET as read from the registry.</value>
-        public Version NetVersion { get; private set; }
+        public Version FrameworkVersion { get; private set; }
 
         /// <summary>
         /// Returns <see langword="true"/> if the version information contains valid (even if partially) information.
@@ -96,5 +138,11 @@
         /// </summary>
         /// <value>The .NET version string.</value>
         public string Version { get; private set; }
+
+        /// <summary>
+        /// Defines the profile for use.
+        /// </summary>
+        /// <value>The profile for use.</value>
+        public string Profile { get; private set; }
     }
 }

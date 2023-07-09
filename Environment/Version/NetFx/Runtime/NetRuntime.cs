@@ -16,6 +16,7 @@
         /// </summary>
         internal NetRuntime()
         {
+            FrameworkVersion = Environment.Version;
             Version = Environment.Version.ToString();
 #if NETSTANDARD
             Description = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
@@ -51,5 +52,11 @@
         /// </summary>
         /// <value>The .NET version string.</value>
         public string Version { get; private set; }
+
+        /// <summary>
+        /// Gets the version that can be used for comparison.
+        /// </summary>
+        /// <value>The .NET version that can be used for comparison.</value>
+        public Version FrameworkVersion { get; private set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace RJCP.Core.Environment.Version
 {
+    using System;
+
     /// <summary>
     /// Interface INetVersion for getting the version of .NET installed.
     /// </summary>
@@ -16,6 +18,12 @@
         /// </summary>
         /// <value>The .NET version string.</value>
         string Version { get; }
+
+        /// <summary>
+        /// Gets the version that can be used for comparison.
+        /// </summary>
+        /// <value>The .NET version that can be used for comparison.</value>
+        Version FrameworkVersion { get; }
 
         /// <summary>
         /// Gets the description of the .NET version installed.

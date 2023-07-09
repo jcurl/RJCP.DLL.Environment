@@ -1,5 +1,6 @@
 ﻿namespace RJCP.Core.Environment.Version.NetFx
 {
+    using System;
     using Microsoft.Win32;
     using Resources;
 
@@ -27,10 +28,10 @@
             string fullKeyPath = string.Format(@"SOFTWARE\Microsoft\NET Framework Setup\Product\{0}", key);
             using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(fullKeyPath)) {
                 Package = registryKey.GetValue("Package", "").ToString();
-                NetVersion = registryKey.GetValue("Version", "").ToString();
-
-                Description = string.Format(Messages.NetFxDetails, NetVersion, Package);
-                IsValid = true;
+                string netRegistryVersion = registryKey.GetValue("Version", "").ToString();
+                Description = string.Format(Messages.NetFxDetails, netRegistryVersion, Package);
+                FrameworkVersion = new Version(1, 0);
+                IsValid = FrameworkVersion != null;
             }
         }
 
@@ -39,12 +40,6 @@
         /// </summary>
         /// <value>The package as read from the registry.</value>
         public string Package { get; private set; }
-
-        /// <summary>
-        /// Gets the version of .NET 1.0 as read from the registry.
-        /// </summary>
-        /// <value>The version of .NET as read from the registry.</value>
-        public string NetVersion { get; private set; }
 
         /// <summary>
         /// Returns <see langword="true"/> if the version information contains valid (even if partially) information.
@@ -63,5 +58,11 @@
         /// </summary>
         /// <value>The .NET version string.</value>
         public string Version { get; private set; }
+
+        /// <summary>
+        /// Gets the version that can be used for comparison.
+        /// </summary>
+        /// <value>The .NET version that can be used for comparison.</value>
+        public Version FrameworkVersion { get; private set; }
     }
 }

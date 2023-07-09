@@ -202,10 +202,10 @@
     <value>.NET Framework 4.8.1</value>
   </data>
   <data name="NetFx" xml:space="preserve">
-    <value>.NET {0} or später, Release {1}</value>
+    <value>.NET {0} oder später, Release {1}</value>
   </data>
   <data name="NetFx45Details" xml:space="preserve">
-    <value>.NET Framework Net Version {0}, Release {1}</value>
+    <value>.NET Framework {0}, Release {1}</value>
   </data>
   <data name="NetFxDetails" xml:space="preserve">
     <value>.NET Framework {0} {1}</value>

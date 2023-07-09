@@ -45,14 +45,18 @@
                     if (netKey == null) return;
                     foreach (string versionKeyName in netKey.GetSubKeyNames()) {
                         if (versionKeyName.StartsWith("v")) {
-                            RegistryKey versionKey = netKey.OpenSubKey(versionKeyName);
-                            foreach (string langCode in versionKey.GetSubKeyNames()) {
-                                RegistryKey langKey = versionKey.OpenSubKey(langCode);
-                                foreach (string product in langKey.GetSubKeyNames()) {
-                                    RegistryKey productKey = langKey.OpenSubKey(product);
-                                    if (IsInstalled(productKey)) {
-                                        NetFx.NetFx10 net10 = new NetFx.NetFx10(versionKeyName, product);
-                                        if (net10.IsValid) m_Installed.Add(net10);
+                            using (RegistryKey versionKey = netKey.OpenSubKey(versionKeyName)) {
+                                foreach (string langCode in versionKey.GetSubKeyNames()) {
+                                    using (RegistryKey langKey = versionKey.OpenSubKey(langCode)) {
+                                        foreach (string product in langKey.GetSubKeyNames()) {
+                                            using (RegistryKey productKey = langKey.OpenSubKey(product)) {
+                                                if (IsInstalled(productKey)) {
+                                                    NetFx.NetFx10 net10 = new NetFx.NetFx10(versionKeyName, product);
+                                                    if (net10.IsValid)
+                                                        m_Installed.Add(net10);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -79,24 +83,23 @@
                     if (ndpKey == null) return;
                     foreach (string versionKeyName in ndpKey.GetSubKeyNames()) {
                         if (versionKeyName.StartsWith("v")) {
-                            RegistryKey versionKey = ndpKey.OpenSubKey(versionKeyName);
+                            using (RegistryKey versionKey = ndpKey.OpenSubKey(versionKeyName)) {
+                                string defaultValue = versionKey.GetValue(null, "").ToString();
+                                if (defaultValue != null && defaultValue.Equals("deprecated")) return;
 
-                            string defaultValue = versionKey.GetValue(null, "").ToString();
-                            if (defaultValue != null && defaultValue.Equals("deprecated")) return;
-
-                            if (IsInstalled(versionKey)) {
-                                NetFx.NetFxLegacy netfx = new NetFx.NetFxLegacy(versionKeyName);
-                                if (netfx.IsValid) m_Installed.Add(netfx);
-                                continue;
-                            }
-                            foreach (string subKeyName in versionKey.GetSubKeyNames()) {
-                                RegistryKey subKey = versionKey.OpenSubKey(subKeyName);
-                                if (IsInstalled(subKey)) {
-                                    string path = string.Format(@"{0}\{1}", versionKeyName, subKeyName);
-                                    NetFx.NetFxLegacy netfx = new NetFx.NetFxLegacy(path);
-                                    if (netfx.IsValid) {
+                                if (IsInstalled(versionKey)) {
+                                    NetFx.NetFxLegacy netfx = new NetFx.NetFxLegacy(versionKeyName);
+                                    if (netfx.IsValid)
                                         m_Installed.Add(netfx);
-                                        continue;
+                                    continue;
+                                }
+                                foreach (string subKeyName in versionKey.GetSubKeyNames()) {
+                                    using (RegistryKey subKey = versionKey.OpenSubKey(subKeyName)) {
+                                        if (IsInstalled(subKey)) {
+                                            NetFx.NetFxLegacy netfx = new NetFx.NetFxLegacy(versionKeyName, subKeyName);
+                                            if (netfx.IsValid)
+                                                m_Installed.Add(netfx);
+                                        }
                                     }
                                 }
                             }
@@ -108,10 +111,35 @@
             }
         }
 
-        private static bool IsInstalled(RegistryKey key)
+        /// <summary>
+        /// Determines whether the specified NET Framework is installed.
+        /// </summary>
+        /// <param name="key">The key for the framework.</param>
+        /// <returns>
+        /// <see langword="true"/> if the specified key is installed; otherwise, <see langword="false"/>.
+        /// </returns>
+        internal static bool IsInstalled(RegistryKey key)
         {
             string install = key.GetValue("Install", "").ToString();
-            return install.Equals("1");
+            return install.Equals("1", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// Gets the version of the framework from the string.
+        /// </summary>
+        /// <param name="version">The version string.</param>
+        /// <returns>The version of the framework, or <see langword="null"/> if it is invalid.</returns>
+        internal static Version GetVersion(string version)
+        {
+            try {
+                return new Version(version);
+            } catch (ArgumentException) {
+                return null;
+            } catch (FormatException) {
+                return null;
+            } catch (OverflowException) {
+                return null;
+            }
         }
 
         /// <summary>
