@@ -79,7 +79,21 @@
         /// </returns>
         internal static bool IsInstalled(RegistryKey key)
         {
-            string install = key.GetValue("Install", "").ToString();
+            return IsInstalled(key, "Install");
+        }
+
+        /// <summary>
+        /// Determines whether the specified NET Framework is installed.
+        /// </summary>
+        /// <param name="key">The key for the framework.</param>
+        /// <param name="value">The key entry (e.g. <c>Install</c>) to check.</param>
+        /// <returns>
+        /// <see langword="true"/> if the specified key is installed; otherwise, <see langword="false"/>.
+        /// </returns>
+        internal static bool IsInstalled(RegistryKey key, string value)
+        {
+            if (key == null) return false;
+            string install = key.GetValue(value, "").ToString();
             return install.Equals("1", StringComparison.InvariantCultureIgnoreCase);
         }
 

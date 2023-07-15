@@ -34,8 +34,17 @@
                                     continue;
                                 }
 
+                                // For .NET 3.0, we need to look into Setup
+                                using (RegistryKey setup = versionKey.OpenSubKey("Setup")) {
+                                    if (NetVersions.IsInstalled(setup, "InstallSuccess")) {
+                                        NetFxLegacy netfx = new NetFxLegacy(versionKeyName, "Setup", true);
+                                        if (netfx.IsValid) installed.Add(netfx);
+                                        continue;
+                                    }
+                                }
+
                                 // For .NET 4.0, this covers the "Client" and "Full" profile.
-                                foreach (string subKeyName in versionKey.GetSubKeyNames()) {
+                                foreach (string subKeyName in new[] { "Client", "Full" } ) {
                                     using (RegistryKey subKey = versionKey.OpenSubKey(subKeyName)) {
                                         if (subKey == null) continue;
                                         if (NetVersions.IsInstalled(subKey)) {
@@ -55,21 +64,23 @@
             return installed;
         }
 
-        internal NetFxLegacy(string key) : this(key, null) { }
+        internal NetFxLegacy(string key) : this(key, null, true) { }
 
-        internal NetFxLegacy(string key, string profile)
+        internal NetFxLegacy(string key, string profile) : this(key, profile, false) { }
+
+        internal NetFxLegacy(string key, string profile, bool ignoreProfile)
         {
             FrameworkVersion = NetVersions.GetVersion(key);
             if (FrameworkVersion == null) return;
 
             try {
-                GetNetFxDetails(key, profile);
+                GetNetFxDetails(key, profile, ignoreProfile);
             } catch (SecurityException) {
                 IsValid = false;
             }
         }
 
-        private void GetNetFxDetails(string key, string profile)
+        private void GetNetFxDetails(string key, string profile, bool ignoreProfile)
         {
             string fullKeyPath;
             if (profile == null) {
@@ -88,13 +99,13 @@
                     InstallVersion = NetVersions.GetVersion(installVersion);
                 }
 
-                Profile = profile;
+                Profile = ignoreProfile ? string.Empty : profile;
                 string servicePack = registryKey.GetValue("SP", "").ToString();
                 if (servicePack.Equals("0")) servicePack = string.Empty;
 
                 StringBuilder description = new StringBuilder();
                 description.Append(Messages.NetFxLegacy).Append(" v").Append(FrameworkVersion.ToString());
-                if (profile != null)
+                if (!string.IsNullOrEmpty(Profile))
                     description.Append(' ').Append(Messages.NetFxLegacyProfile).Append(' ').Append(profile);
                 if (!string.IsNullOrEmpty(servicePack))
                     description.Append(' ').Append(Messages.NetFxLegacySp).Append(servicePack);
