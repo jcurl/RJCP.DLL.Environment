@@ -44,7 +44,7 @@
                                 }
 
                                 // For .NET 4.0, this covers the "Client" and "Full" profile.
-                                foreach (string subKeyName in new[] { "Client", "Full" } ) {
+                                foreach (string subKeyName in new[] { "Client", "Full" }) {
                                     using (RegistryKey subKey = versionKey.OpenSubKey(subKeyName)) {
                                         if (subKey == null) continue;
                                         if (NetVersions.IsInstalled(subKey)) {
@@ -93,10 +93,22 @@
                 if (registryKey == null) return;
 
                 string installVersion = (string)registryKey.GetValue("Version");
+                string objIncrement = (string)registryKey.GetValue("Increment");
+                if (!int.TryParse(objIncrement, out int rev)) rev = -1;
+
                 if (installVersion == null) {
-                    InstallVersion = FrameworkVersion;
+                    if (rev > 0 && FrameworkVersion.Revision <= 0) {
+                        InstallVersion = new Version(FrameworkVersion.Major, FrameworkVersion.Minor, FrameworkVersion.Build, rev);
+                    } else {
+                        InstallVersion = FrameworkVersion;
+                    }
                 } else {
-                    InstallVersion = NetVersions.GetVersion(installVersion);
+                    Version version = NetVersions.GetVersion(installVersion);
+                    if (rev > 0 && version.Revision <= 0) {
+                        InstallVersion = new Version(version.Major, version.Minor, version.Build, rev);
+                    } else {
+                        InstallVersion = version;
+                    }
                 }
 
                 Profile = ignoreProfile ? string.Empty : profile;
