@@ -87,6 +87,7 @@
     <Compile Include="Version\NetFx\NetFxLegacy.cs" />
     <Compile Include="Version\NetFx\Runtime\NetRuntime.cs" />
     <Compile Include="Version\NetFx\Runtime\Mono.cs" />
+    <Compile Include="Version\DotNetVersionType.cs" />
     <Compile Include="Version\NetVersions.cs" />
     <Compile Include="Version\WinArchitecture.cs" />
     <Compile Include="Version\WinPlatform.cs" />

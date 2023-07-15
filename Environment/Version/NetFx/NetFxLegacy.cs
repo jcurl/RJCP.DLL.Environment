@@ -1,44 +1,70 @@
 ﻿namespace RJCP.Core.Environment.Version.NetFx
 {
     using System;
+    using System.Collections.Generic;
     using System.Security;
     using System.Text;
     using Microsoft.Win32;
     using Resources;
 
     /// <summary>
-    /// Older version of .NET 2.0 to 3.5
+    /// Older version of .NET 2.0 to 4.0.
     /// </summary>
     public sealed class NetFxLegacy : INetVersion
     {
-        internal NetFxLegacy(string key)
+        internal static IList<INetVersion> FindNetFxLegacy()
         {
-            if (!key.StartsWith("v")) {
-                IsValid = false;
-                return;
+            List<INetVersion> installed = new List<INetVersion>();
+
+            string netKey = NetVersions.GetNetKey(@"NET Framework Setup\NDP\");
+            try {
+                using (RegistryKey ndpKey = Registry.LocalMachine.OpenSubKey(netKey)) {
+                    if (ndpKey == null) return installed;
+                    foreach (string versionKeyName in ndpKey.GetSubKeyNames()) {
+                        if (NetVersions.IsValidVersion(versionKeyName)) {
+                            using (RegistryKey versionKey = ndpKey.OpenSubKey(versionKeyName)) {
+                                if (versionKey == null) continue;
+                                string defaultValue = versionKey.GetValue(null, "").ToString();
+                                if (defaultValue != null &&
+                                    defaultValue.Equals("deprecated", StringComparison.InvariantCultureIgnoreCase)) continue;
+
+                                if (NetVersions.IsInstalled(versionKey)) {
+                                    NetFxLegacy netfx = new NetFxLegacy(versionKeyName);
+                                    if (netfx.IsValid) installed.Add(netfx);
+                                    continue;
+                                }
+
+                                // For .NET 4.0, this covers the "Client" and "Full" profile.
+                                foreach (string subKeyName in versionKey.GetSubKeyNames()) {
+                                    using (RegistryKey subKey = versionKey.OpenSubKey(subKeyName)) {
+                                        if (subKey == null) continue;
+                                        if (NetVersions.IsInstalled(subKey)) {
+                                            NetFxLegacy netfx = new NetFxLegacy(versionKeyName, subKeyName);
+                                            if (netfx.IsValid) installed.Add(netfx);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (SecurityException) {
+                /* Ignore */
             }
 
-            try {
-                GetNetFxDetails(key, null);
-            } catch (SecurityException) {
-                IsValid = false;
-            } catch (Exception) {
-                IsValid = false;
-            }
+            return installed;
         }
+
+        internal NetFxLegacy(string key) : this(key, null) { }
 
         internal NetFxLegacy(string key, string profile)
         {
-            if (!key.StartsWith("v")) {
-                IsValid = false;
-                return;
-            }
+            FrameworkVersion = NetVersions.GetVersion(key);
+            if (FrameworkVersion == null) return;
 
             try {
                 GetNetFxDetails(key, profile);
             } catch (SecurityException) {
-                IsValid = false;
-            } catch (Exception) {
                 IsValid = false;
             }
         }
@@ -47,79 +73,35 @@
         {
             string fullKeyPath;
             if (profile == null) {
-                fullKeyPath = string.Format(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\{0}", key);
+                fullKeyPath = NetVersions.GetNetKey($@"NET Framework Setup\NDP\{key}");
             } else {
-                fullKeyPath = string.Format(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\{0}\{1}", key, profile);
+                fullKeyPath = NetVersions.GetNetKey($@"NET Framework Setup\NDP\{key}\{profile}");
             }
 
             using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(fullKeyPath)) {
-                IsValid = false;
                 if (registryKey == null) return;
-                if (!NetVersions.IsInstalled(registryKey)) return;
 
-#if NETFRAMEWORK
-                string keyVersion = key.Substring(1);
-#else
-                string keyVersion = key[1..];
-#endif
-                string netVersion = (string)registryKey.GetValue("Version") ?? keyVersion;
-                Version parsedNetVersion = NetVersions.GetVersion(netVersion);
-                if (parsedNetVersion == null) return;
-
-                if (parsedNetVersion.Major == 4) {
-                    // With .NET 4.5 and later, the version is the newest version. On Windows XP, it should be
-                    // 4.0.30319. Note, this class is only run for .NET 4.0 and earlier, but is a prerequisite for .NET
-                    // 4.5 and later.
-                    const string profilePath = @"SOFTWARE\Microsoft\.NETFramework\Policy\v4.0";
-                    int maxVersion = 0;
-                    using (RegistryKey profileKey = Registry.LocalMachine.OpenSubKey(profilePath)) {
-                        if (profileKey != null) {
-                            foreach (string versionKeyName in profileKey.GetValueNames()) {
-                                if (int.TryParse(versionKeyName, out int buildVersion)) {
-                                    if (maxVersion < buildVersion)
-                                        maxVersion = buildVersion;
-                                }
-                            }
-                        }
-                    }
-                    if (maxVersion == 0) {
-                        netVersion = new Version(4, 0).ToString();
-                    } else {
-                        netVersion = new Version(4, 0, maxVersion).ToString();
-                    }
-                    FrameworkVersion = new Version(4, 0);
+                string installVersion = (string)registryKey.GetValue("Version");
+                if (installVersion == null) {
+                    InstallVersion = FrameworkVersion;
                 } else {
-                    Version parsedKeyVersion = new Version(keyVersion);
-                    FrameworkVersion = new Version(parsedKeyVersion.Major, parsedKeyVersion.Minor);
+                    InstallVersion = NetVersions.GetVersion(installVersion);
                 }
 
+                Profile = profile;
                 string servicePack = registryKey.GetValue("SP", "").ToString();
                 if (servicePack.Equals("0")) servicePack = string.Empty;
 
-                StringBuilder version = new StringBuilder();
-                version.Append(keyVersion);
-                if (profile != null) version.Append(' ').Append(profile);
-                if (!string.IsNullOrEmpty(servicePack)) version.Append(" SP").Append(servicePack);
-                Version = version.ToString();
-
                 StringBuilder description = new StringBuilder();
-                description.Append(Messages.NetFxLegacy).Append(' ').Append(netVersion);
+                description.Append(Messages.NetFxLegacy).Append(" v").Append(FrameworkVersion.ToString());
                 if (profile != null)
                     description.Append(' ').Append(Messages.NetFxLegacyProfile).Append(' ').Append(profile);
                 if (!string.IsNullOrEmpty(servicePack))
                     description.Append(' ').Append(Messages.NetFxLegacySp).Append(servicePack);
                 Description = description.ToString();
-                Profile = profile;
-
                 IsValid = true;
             }
         }
-
-        /// <summary>
-        /// Gets the version of .NET as read from the registry.
-        /// </summary>
-        /// <value>The version of .NET as read from the registry.</value>
-        public Version FrameworkVersion { get; private set; }
 
         /// <summary>
         /// Returns <see langword="true"/> if the version information contains valid (even if partially) information.
@@ -128,16 +110,27 @@
         public bool IsValid { get; private set; }
 
         /// <summary>
+        /// The .NET Version Type.
+        /// </summary>
+        public DotNetVersionType VersionType { get { return DotNetVersionType.NetFx; } }
+
+        /// <summary>
+        /// Gets the version that can be used for comparison.
+        /// </summary>
+        /// <value>The .NET version that can be used for comparison.</value>
+        public Version FrameworkVersion { get; private set; }
+
+        /// <summary>
+        /// Gets the version of the installation.
+        /// </summary>
+        /// <value>The .NET installation version.</value>
+        public Version InstallVersion { get; private set; }
+
+        /// <summary>
         /// Gets the description of the .NET version installed.
         /// </summary>
         /// <value>The .NET version description.</value>
         public string Description { get; private set; }
-
-        /// <summary>
-        /// Gets the version string for the .NET version installed.
-        /// </summary>
-        /// <value>The .NET version string.</value>
-        public string Version { get; private set; }
 
         /// <summary>
         /// Defines the profile for use.

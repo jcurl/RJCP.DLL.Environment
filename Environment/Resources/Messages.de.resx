@@ -205,7 +205,7 @@
     <value>.NET {0} oder später, Release {1}</value>
   </data>
   <data name="NetFx45Details" xml:space="preserve">
-    <value>.NET Framework {0}, Release {1}</value>
+    <value>.NET Framework v{0}, Release {1} ({2})</value>
   </data>
   <data name="NetFxDetails" xml:space="preserve">
     <value>.NET Framework {0} {1}</value>

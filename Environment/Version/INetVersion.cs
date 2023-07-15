@@ -14,16 +14,24 @@
         bool IsValid { get; }
 
         /// <summary>
-        /// Gets the version string for the .NET version installed.
+        /// The .NET Version Type.
         /// </summary>
-        /// <value>The .NET version string.</value>
-        string Version { get; }
+        DotNetVersionType VersionType { get; }
 
         /// <summary>
-        /// Gets the version that can be used for comparison.
+        /// Gets the version of the Framework that can be used for comparison.
         /// </summary>
         /// <value>The .NET version that can be used for comparison.</value>
+        /// <remarks>
+        /// The version returned contains only the <see cref="Version.Major"/> and <see cref="Version.Minor"/> fields.
+        /// </remarks>
         Version FrameworkVersion { get; }
+
+        /// <summary>
+        /// Gets the version of the installation.
+        /// </summary>
+        /// <value>The .NET installation version.</value>
+        Version InstallVersion { get; }
 
         /// <summary>
         /// Gets the description of the .NET version installed.

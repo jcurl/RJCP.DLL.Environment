@@ -25,7 +25,9 @@
             }
 
             FrameworkVersion = Environment.Version;
-            Version = Environment.Version.ToString();
+
+            // Don't know how to get the version of the Mono Runtime internally.
+            InstallVersion = Environment.Version;
 
             MethodInfo displayName = monoType.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
             if (displayName != null) {
@@ -42,16 +44,21 @@
         public bool IsValid { get; private set; }
 
         /// <summary>
-        /// Gets the version string for the .NET version installed.
+        /// The .NET Version Type.
         /// </summary>
-        /// <value>The .NET version string.</value>
-        public string Version { get; private set; }
+        public DotNetVersionType VersionType { get { return DotNetVersionType.Mono; } }
 
         /// <summary>
         /// Gets the version that can be used for comparison.
         /// </summary>
         /// <value>The .NET version that can be used for comparison.</value>
         public Version FrameworkVersion { get; private set; }
+
+        /// <summary>
+        /// Gets the version of the installation.
+        /// </summary>
+        /// <value>The .NET installation version.</value>
+        public Version InstallVersion { get; private set; }
 
         /// <summary>
         /// Gets the description of the .NET version installed.

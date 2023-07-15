@@ -13,12 +13,13 @@ the design and implementation of the NetVersions class in this repository.
     - [2.2.2. CLR Installation Version DotNET 1.1 to 4.0](#222-clr-installation-version-dotnet-11-to-40)
   - [2.3. DotNET Framework 1.0](#23-dotnet-framework-10)
     - [2.3.1. CLR Installation Version DotNET 1.0](#231-clr-installation-version-dotnet-10)
-- [3. Sample Registry Values](#3-sample-registry-values)
-  - [3.1. Windows 10 with DotNET 4.8.1 installed](#31-windows-10-with-dotnet-481-installed)
-  - [3.2. Windows XP with only DotNET 1.0 installed](#32-windows-xp-with-only-dotnet-10-installed)
-  - [3.3. Windows XP with only DotNET 3.0 Installed](#33-windows-xp-with-only-dotnet-30-installed)
-  - [3.4. Windows XP with only DotNET 3.5 installed](#34-windows-xp-with-only-dotnet-35-installed)
-  - [3.5. Windows XP with all DotNET Frameworks Installed](#35-windows-xp-with-all-dotnet-frameworks-installed)
+- [3. Testing](#3-testing)
+- [4. Sample Registry Values](#4-sample-registry-values)
+  - [4.1. Windows 10 with DotNET 4.8.1 installed](#41-windows-10-with-dotnet-481-installed)
+  - [4.2. Windows XP with only DotNET 1.0 installed](#42-windows-xp-with-only-dotnet-10-installed)
+  - [4.3. Windows XP with only DotNET 3.0 Installed](#43-windows-xp-with-only-dotnet-30-installed)
+  - [4.4. Windows XP with only DotNET 3.5 installed](#44-windows-xp-with-only-dotnet-35-installed)
+  - [4.5. Windows XP with all DotNET Frameworks Installed](#45-windows-xp-with-all-dotnet-frameworks-installed)
 
 ## 1. Prior Art
 
@@ -163,14 +164,21 @@ has the key name `NET Framework Setup\NDP`.
 When following the steps above, additionally get the version from the `Version`
 value from the product key (the last step).
 
-## 3. Sample Registry Values
+## 3. Testing
+
+On Windows XP, it is possible to have .NET 1.0 and later installed, and still
+run this program, if the Mono runtime is used to run the software. The latest
+installable version of Mono on Windows XP is
+[3.2.3](https://download.mono-project.com/archive/3.2.3/windows-installer/).
+
+## 4. Sample Registry Values
 
 This section helps to provide actual samples after installation for software
 checking. Various different software checks different keys. Different Operating
 Systems have different keys and values depending on what is installed. The
 tables help to identify differences for testing.
 
-### 3.1. Windows 10 with DotNET 4.8.1 installed
+### 4.1. Windows 10 with DotNET 4.8.1 installed
 
 Windows 10 with .NET 4.8.1 installed. There are many more keys than mentioned
 here, those that are related to the installation version are shown. A complete
@@ -291,7 +299,7 @@ dump can be found in the repository.
 |                                                                           | Install                           | REG_DWORD | 1                                                                              |
 |                                                                           | Version                           | REG_SZ    | 4.0.0.0                                                                        |
 
-### 3.2. Windows XP with only DotNET 1.0 installed
+### 4.2. Windows XP with only DotNET 1.0 installed
 
 | Key Path                                                                               | Key              | Type      | Value                                                                   |
 | -------------------------------------------------------------------------------------- | ---------------- | --------- | ----------------------------------------------------------------------- |
@@ -317,7 +325,7 @@ dump can be found in the repository.
 |                                                                                        | Version          | REG_SZ    | v1.0.3705                                                               |
 |                                                                                        | ProductLanguage  | REG_SZ    | 1033                                                                    |
 
-### 3.3. Windows XP with only DotNET 3.0 Installed
+### 4.3. Windows XP with only DotNET 3.0 Installed
 
 A fresh version of Windows XP SP3 was installed with .NET 3.0
 
@@ -354,7 +362,7 @@ We see with the available keys, that detecting .NET 3.0 is different in that
 there is no `Install` key. In the next section, we see installing .NET 3.5 only
 adds this key and corrects the difference.
 
-### 3.4. Windows XP with only DotNET 3.5 installed
+### 4.4. Windows XP with only DotNET 3.5 installed
 
 A fresh version of Windows XP SP3 was installed with .NET 3.5
 
@@ -416,7 +424,7 @@ A fresh version of Windows XP SP3 was installed with .NET 3.5
 We can see that .NET 3.5 now provides the `Install` key, which the default
 installation of .NET 3.0 did not do.
 
-### 3.5. Windows XP with all DotNET Frameworks Installed
+### 4.5. Windows XP with all DotNET Frameworks Installed
 
 Every framework, except 1.0 is installed (it won't install as 1.1 is already
 installed).

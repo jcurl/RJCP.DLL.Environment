@@ -14,8 +14,8 @@ namespace RJCP.NetVersion
             Console.WriteLine("================================");
 
             foreach (INetVersion version in versions) {
-                Console.WriteLine("Version .NET: {0} ({1}); FrameworkVersion {2}",
-                    version.Version, version.Description, version.FrameworkVersion);
+                Console.WriteLine("Version .NET: {0} ({1}); Install Version {2}",
+                    version.FrameworkVersion, version.Description, version.InstallVersion);
                 if (version is NetFx45 version45) {
                     Console.WriteLine("  Release: {0}; TargetVersion: {1}",
                         version45.Net45Release, version45.TargetVersion);
@@ -26,8 +26,8 @@ namespace RJCP.NetVersion
             Console.WriteLine("Running on Framework");
             Console.WriteLine("================================");
             foreach (INetVersion version in NetVersions.Runtime) {
-                Console.WriteLine("Version .NET: {0} ({1}); FrameworkVersion: {2}",
-                    version.Version, version.Description, version.FrameworkVersion);
+                Console.WriteLine("Version .NET: {0} ({1}); Install Version: {2}",
+                    version.FrameworkVersion, version.Description, version.InstallVersion);
             }
 
             return 0;

@@ -17,10 +17,14 @@
         internal NetRuntime()
         {
             FrameworkVersion = Environment.Version;
-            Version = Environment.Version.ToString();
+            InstallVersion = Environment.Version;
+
 #if NETSTANDARD
+            VersionType = DotNetVersionType.NetCore;
             Description = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
 #else
+            VersionType = DotNetVersionType.NetFx;
+
             // This information is available in .NET 4.7.1 and later. But as we also target earlier frameworks, get this
             // information dynamically.
             Type rti = Type.GetType("System.Runtime.InteropServices.RuntimeInformation");
@@ -36,27 +40,32 @@
         }
 
         /// <summary>
-        /// Gets the description of the .NET version installed.
-        /// </summary>
-        /// <value>The .NET version description.</value>
-        public string Description { get; private set; }
-
-        /// <summary>
         /// Returns <see langword="true"/> if the version information contains valid (even if partially) information.
         /// </summary>
         /// <value><see langword="true"/> if this instance is valid; otherwise, <see langword="false"/>.</value>
         public bool IsValid { get; private set; }
 
         /// <summary>
-        /// Gets the version string for the .NET version installed.
+        /// The .NET Version Type.
         /// </summary>
-        /// <value>The .NET version string.</value>
-        public string Version { get; private set; }
+        public DotNetVersionType VersionType { get; private set; }
 
         /// <summary>
         /// Gets the version that can be used for comparison.
         /// </summary>
         /// <value>The .NET version that can be used for comparison.</value>
         public Version FrameworkVersion { get; private set; }
+
+        /// <summary>
+        /// Gets the version of the installation.
+        /// </summary>
+        /// <value>The .NET installation version.</value>
+        public Version InstallVersion { get; private set; }
+
+        /// <summary>
+        /// Gets the description of the .NET version installed.
+        /// </summary>
+        /// <value>The .NET version description.</value>
+        public string Description { get; private set; }
     }
 }
