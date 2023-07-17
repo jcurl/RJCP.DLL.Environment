@@ -20,6 +20,10 @@ namespace RJCP.NetVersion
                     Console.WriteLine("  Release: {0}; TargetVersion: {1}",
                         version45.Net45Release, version45.TargetVersion);
                 }
+                if (version is Mono mono) {
+                    Console.WriteLine("  mscorlib: {0}; Architecture: {1}; Path: {2}",
+                        mono.MsCorLibVersion, mono.Architecture, mono.MonoPath);
+                }
             }
 
             Console.WriteLine("");

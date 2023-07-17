@@ -25,6 +25,7 @@
                 m_Installed.AddRange(NetFx.NetFx10.FindNetFx10());
                 m_Installed.AddRange(NetFx.NetFxLegacy.FindNetFxLegacy());
                 m_Installed.AddRange(NetFx.NetFx45.FindNetFx());
+                m_Installed.AddRange(NetFx.Mono.FindMonoWindows());
             }
         }
 
@@ -60,7 +61,7 @@
                                 new NetRuntime()
                             };
 
-                            INetVersion mono = new Mono();
+                            INetVersion mono = new MonoRuntime();
                             if (mono.IsValid) RunTimes.Add(mono);
                         }
                     }

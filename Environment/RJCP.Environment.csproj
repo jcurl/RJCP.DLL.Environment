@@ -74,20 +74,23 @@
     <Compile Include="Native\Win32\Kernel32.cs" />
     <Compile Include="Native\Win32\NtDll.cs" />
     <Compile Include="Native\Win32\WinBrand.cs" />
+    <Compile Include="Platform.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Version\DotNetVersionType.cs" />
     <Compile Include="Version\INetVersion.cs" />
+    <Compile Include="Version\NetFx\Mono.cs" />
     <Compile Include="Version\NetFx\Net45\NetFxConfig.cs" />
     <Compile Include="Version\NetFx\Net45\NetFxVersion.cs" />
     <Compile Include="Version\NetFx\NetFx10.cs" />
     <Compile Include="Version\NetFx\NetFx45.cs" />
     <Compile Include="Version\NetFx\NetFxLegacy.cs" />
+    <Compile Include="Version\NetFx\Runtime\MonoRuntime.cs" />
     <Compile Include="Version\NetFx\Runtime\NetRuntime.cs" />
-    <Compile Include="Version\NetFx\Runtime\Mono.cs" />
-    <Compile Include="Version\DotNetVersionType.cs" />
     <Compile Include="Version\NetVersions.cs" />
     <Compile Include="Version\WinArchitecture.cs" />
     <Compile Include="Version\WinPlatform.cs" />
@@ -96,8 +99,6 @@
     <Compile Include="Version\WinSuite.cs" />
     <Compile Include="Version\WinVersionQuery.cs" />
     <Compile Include="Version\WinVersion.cs" />
-    <Compile Include="Platform.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xdg.cs" />
     <Compile Include="Xdg.IXdgResolver.cs" />
     <Compile Include="Xdg.SpecialFolder.cs" />

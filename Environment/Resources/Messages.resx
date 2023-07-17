@@ -231,4 +231,10 @@
   <data name="Net481_Win11_22H2" xml:space="preserve">
     <value>.NET Framework 4.8.1 on Windows 11 22H2</value>
   </data>
+  <data name="Mono" xml:space="preserve">
+    <value>.NET Framework v{0}, Mono Runtime v{1} {2}</value>
+  </data>
+  <data name="MonoNoVersion" xml:space="preserve">
+    <value>.NET Framework v{0}, Mono Runtime {1}</value>
+  </data>
 </root>

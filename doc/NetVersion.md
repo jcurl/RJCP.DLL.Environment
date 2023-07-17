@@ -13,13 +13,19 @@ the design and implementation of the NetVersions class in this repository.
     - [2.2.2. CLR Installation Version DotNET 1.1 to 4.0](#222-clr-installation-version-dotnet-11-to-40)
   - [2.3. DotNET Framework 1.0](#23-dotnet-framework-10)
     - [2.3.1. CLR Installation Version DotNET 1.0](#231-clr-installation-version-dotnet-10)
-- [3. Testing](#3-testing)
-- [4. Sample Registry Values](#4-sample-registry-values)
-  - [4.1. Windows 10 with DotNET 4.8.1 installed](#41-windows-10-with-dotnet-481-installed)
-  - [4.2. Windows XP with only DotNET 1.0 installed](#42-windows-xp-with-only-dotnet-10-installed)
-  - [4.3. Windows XP with only DotNET 3.0 Installed](#43-windows-xp-with-only-dotnet-30-installed)
-  - [4.4. Windows XP with only DotNET 3.5 installed](#44-windows-xp-with-only-dotnet-35-installed)
-  - [4.5. Windows XP with all DotNET Frameworks Installed](#45-windows-xp-with-all-dotnet-frameworks-installed)
+- [3. Detecting Mono on Windows](#3-detecting-mono-on-windows)
+  - [3.1. Mono 1.2.1 - 3.2.3](#31-mono-121---323)
+  - [3.2. Mono 3.12.0 - 4.0.3](#32-mono-3120---403)
+  - [3.3. Mono 4.2.1 - 6.12](#33-mono-421---612)
+  - [3.4. Finding the Profiles](#34-finding-the-profiles)
+  - [3.5. API Versions](#35-api-versions)
+- [4. Testing](#4-testing)
+- [5. Sample Registry Values](#5-sample-registry-values)
+  - [5.1. Windows 10 with DotNET 4.8.1 installed](#51-windows-10-with-dotnet-481-installed)
+  - [5.2. Windows XP with only DotNET 1.0 installed](#52-windows-xp-with-only-dotnet-10-installed)
+  - [5.3. Windows XP with only DotNET 3.0 Installed](#53-windows-xp-with-only-dotnet-30-installed)
+  - [5.4. Windows XP with only DotNET 3.5 installed](#54-windows-xp-with-only-dotnet-35-installed)
+  - [5.5. Windows XP with all DotNET Frameworks Installed](#55-windows-xp-with-all-dotnet-frameworks-installed)
 
 ## 1. Prior Art
 
@@ -164,21 +170,229 @@ has the key name `NET Framework Setup\NDP`.
 When following the steps above, additionally get the version from the `Version`
 value from the product key (the last step).
 
-## 3. Testing
+## 3. Detecting Mono on Windows
+
+Various versions of Mono were installed on a 64-bit version of Windows. This can
+help determine the behaviour for detection. The base path for the table is
+`HKEY_LOCAL_MACHINE\SOFTWARE`.
+
+### 3.1. Mono 1.2.1 - 3.2.3
+
+Mono 3.0.1 installs in a project name specific directory.
+
+They keys are in `HKLM\SOFTWARE\Novell`
+
+| Version | Key Path                 | Key                          | Type      | Value                                   |
+| ------- | ------------------------ | ---------------------------- | --------- | --------------------------------------- |
+| 3.0.1   | `Novell`                 |                              |           |                                         |
+|         | `Novell/Mono`            |                              |           |                                         |
+|         |                          | `DefaultCLR`                 | REG_SZ    | 3.0.1                                   |
+|         | `Novell/Mono/3.0.1`      |                              |           |                                         |
+|         |                          | `FrameworkAssemblyDirectory` | REG_SZ    | `C:\Program Files (x86)\Mono-3.0.1\lib` |
+|         |                          | `GtkPlusDevIsInstalled`      | REG_DWORD | 1                                       |
+|         |                          | `GtkSharpIsInstalled`        | REG_DWORD | 1                                       |
+|         |                          | `MonoConfigDir`              | REG_SZ    | `C:\Program Files (x86)\Mono-3.0.1\etc` |
+|         |                          | `SdkInstallRoot`             | REG_SZ    | `C:\Program Files (x86)\Mono-3.0.1`     |
+|         |                          | `XSPIsInstalled`             | REG_DWORD | 1                                       |
+|         | `Novell/Mono DefaultCLR` |                              |           |                                         |
+|         |                          | `Installer Language`         | REG_SZ    | `1033`                                  |
+
+The only installers are available are 32-bit, so the architecture is `x86`.
+
+Multiple installations of the Mono Runtime can be installed. That is, 3.0.1 and
+3.0.2 can be installed at the same time. The key `DefaultCLR` is updated for the
+last installed version.
+
+If the user installs version A, followed by B, then uninstalls B, the
+`DefaultCLR` registry key is also removed.
+
+### 3.2. Mono 3.12.0 - 4.0.3
+
+Mono 3.12.0 to 4.0.3 does not install any registry keys, so the only way to
+determine if something is installed is by looking in the default program folders
+file for 32-bit. These installers are MSI based, where the previous 3.x
+installers were executables.
+
+Version 4.0.0 and later have File Version information on `mscorlib.dll`, but
+this is the version of the framework it is emulating, not the version of the
+Mono runtime. The `mono.exe` binary has no version information. This could be
+helpful in providing the framework version, but not the install version.
+
+### 3.3. Mono 4.2.1 - 6.12
+
+| Version    | Key Path | Key                          | Type      | Value                        |
+| ---------- | -------- | ---------------------------- | --------- | ---------------------------- |
+| 6.12.0.200 | `Mono`   |                              |           |                              |
+|            |          | `Architecture`               | REG_SZ    | `x64`                        |
+|            |          | `FrameworkAssemblyDirectory` | REG_SZ    | `C:\Program Files\Mono\lib\` |
+|            |          | `Installed`                  | REG_DWORD | 1                            |
+|            |          | `MonoConfigDir`              | REG_SZ    | `C:\Program Files\Mono\etc\` |
+|            |          | `SdkInstallRoot`             | REG_SZ    | `C:\Program Files\Mono\`     |
+|            |          | `Version`                    | REG_SZ    | `6.12.0.200`                 |
+
+Because it is possible to have the 32-bit and 64-bit versions of Mono installed
+at the same time, an application should run as 64-bit, and also check the
+`Wow6432Node`:
+
+| Version    | Key Path | Key                          | Type      | Value                              |
+| ---------- | -------- | ---------------------------- | --------- | ---------------------------------- |
+| 6.12.0.200 | `Mono`   |                              |           |                                    |
+|            |          | `Architecture`               | REG_SZ    | `x86`                              |
+|            |          | `FrameworkAssemblyDirectory` | REG_SZ    | `C:\Program Files (x86)\Mono\lib\` |
+|            |          | `Installed`                  | REG_DWORD | 1                                  |
+|            |          | `MonoConfigDir`              | REG_SZ    | `C:\Program Files (x86)\Mono\etc\` |
+|            |          | `SdkInstallRoot`             | REG_SZ    | `C:\Program Files (x86)\Mono\`     |
+|            |          | `Version`                    | REG_SZ    | `6.12.0.200`                       |
+
+If the `Architecture` key is not present, assume `x86`. It was first added in
+Mono 4.4.0.
+
+### 3.4. Finding the Profiles
+
+[RuntimeFramework.cs::FindAllMonoProfiles](https://github.com/nunit/nunit-console/blob/3.16.3/src/NUnitEngine/nunit.engine.core/RuntimeFramework.cs#L629)
+searches for the profiles in the following order:
+
+* Get the `MonoPrefix` which is the key `SdkInstallRoot`.
+* If the file `lib/mono/1.0/mscorlib.dll` exists, add version 1.1.4322
+* If the file `lib/mono/2.0/mscorlib.dll` exists, add version 2.0
+* If the directory `lib/mono/3.5` exists, add version 3.5
+* If the file `lib/mono/4.0/mscorlib.dll` exists, add version 4.0
+* If the file `lib/mono/4.5/mscorlib.dll` exists, add version 4.5
+
+In general, if the file `mscorelib.dll` exists on Windows, the detection library
+should get the version of the file. Not every copy has a file version. The
+assembly or the library should *not* be loaded into memory space which could be
+a security vulnerability.
+
+### 3.5. API Versions
+
+There isn't a reliable way to know the .NET API version. But as this library
+detects runtimes, this is irrelevant. The version of the run time is what
+defines the APIs that are implemented. The API versions are only needed for
+compiling software. Here's a summary of testing by installing on Windows 7.
+
+Observed are various API folders in the
+`<FrameworkAssemblyDirectory>\mono\xxx-api` where `xxx` is in the table below in
+the column *Framework API Folders*.
+
+| Version      | Framework Folders  | Framework API Folders | Notes                                 |
+| ------------ | ------------------ | --------------------- | ------------------------------------- |
+| 1.2          | 1.0, 2.0           | -                     |                                       |
+| 1.2.1        | 1.0, 2.0           | -                     |                                       |
+| 1.2.2        | 1.0, 2.0           | -                     |                                       |
+| 1.2.2.1      | 1.0, 2.0           | -                     |                                       |
+| 1.2.3        | 1.0, 2.0           | -                     |                                       |
+| 1.2.3.1      | 1.0, 2.0           | -                     |                                       |
+| 1.2.3.50     | 1.0, 2.0           | -                     |                                       |
+| 1.2.4        | 1.0, 2.0           | -                     |                                       |
+| 1.2.5        | 1.0, 2.0           | -                     |                                       |
+| 1.2.5.1      | 1.0, 2.0           | -                     |                                       |
+| 1.2.5.2      | 1.0, 2.0           | -                     |                                       |
+| 1.2.6        | 1.0, 2.0, 2.1      | -                     |                                       |
+| 1.9          | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 1.9.1        | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.0          | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.0.1        | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.2          | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.4          | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.4.2        | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.4.2.1      | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.4.2.2      | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.4.2.3      | 1.0, 2.0, 2.1, 3.5 | -                     |                                       |
+| 2.4.3        | 1.0, 2.0, 3.5      | -                     |                                       |
+| 2.4.3.1      | 1.0, 2.0, 3.5      | -                     |                                       |
+| 2.6          | 1.0, 2.0, 3.5      | -                     |                                       |
+| 2.6.1        | 1.0, 2.0, 3.5      | -                     |                                       |
+| 2.6.3        | 1.0, 2.0, 3.5      | -                     |                                       |
+| 2.6.4        | 1.0, 2.0, 3.5      | -                     |                                       |
+| 2.6.7        | 1.0, 2.0, 3.5      | -                     |                                       |
+| 2.8          | 2.0, 3.5, 4.0      | -                     | Doesn't have Is64BitOperatingSystem   |
+| 2.8.1        | 2.0, 3.5, 4.0      | -                     | Doesn't have Is64BitOperatingSystem   |
+| 2.8.2        | 2.0, 3.5, 4.0      | -                     | Doesn't have Is64BitOperatingSystem   |
+| 2.10         | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.10.1       | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.10.2       | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.10.3       | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.10.4       | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.10.5       | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.10.6       | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.10.9       | 2.0, 3.5, 4.0      | -                     |                                       |
+| 2.11         | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 2.11.2       | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 2.11.3       | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 2.11.4       | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.1        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.2        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.3        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.4        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.5        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.6        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.8        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.9        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.0.10       | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.2.3        | 2.0, 3.5, 4.0, 4.5 | -                     |                                       |
+| 3.12.0       | 2.0, 3.5, 4.0, 4.5 | -                     | No registry keys                      |
+| 3.12.1       | 2.0, 3.5, 4.0, 4.5 | -                     | No registry keys                      |
+| 4.0.0 alpha1 | 4.0, 4.5           | -                     | No registry keys                      |
+| 4.0.1        | 2.0, 3.5, 4.0, 4.5 | -                     | No registry keys                      |
+| 4.0.2        | 2.0, 3.5, 4.0, 4.5 | -                     | No registry keys                      |
+| 4.0.3        | 2.0, 3.5, 4.0, 4.5 | -                     | No registry keys.                     |
+| 4.2.1.124    | 2.0, 3.5, 4.0, 4.5 | -                     | The `Version` key has no build number |
+| 4.2.2.30     | 2.0, 3.5, 4.0, 4.5 | -                     | The `Version` key has no build number |
+| 4.2.3.4      | 2.0, 3.5, 4.0, 4.5 | -                     | The `Version` key has no build number |
+| 4.2.4.4      | 2.0, 3.5, 4.0, 4.5 | -                     | The `Version` key has no build number |
+| 4.3.2.467    | 4.5                | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.4.0.182    | 4.0, 4.5           | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.4.1.0      | 4.0, 4.5           | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.4.2.11     | 4.0, 4.5           | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.6.0.245    | 4.5                | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.6.1.5      | 4.0, 4.5           | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.6.2.16     | 4.5                | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.8.0.524    | 4.0, 4.5           | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 4.8.1.0      | 4.0, 4.5           | 2.0, 3.5, 4.0, 4.5    | The `Version` key has no build number |
+| 5.0.0.100    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.6.2 | The `Version` key has no build number |
+| 5.0.1.1      | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.6.2 | The `Version` key has no build number |
+| 5.2.0.224    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7   | The `Version` key has no build number |
+| 5.4.0.201    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7   | The `Version` key has no build number |
+| 5.4.1.7      | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7   | The `Version` key has no build number |
+| 5.8.0.127    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 | The `Version` key has no build number |
+| 5.8.1.0      | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 | The `Version` key has no build number |
+| 5.10.0.179   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 |                                       |
+| 5.10.1.57    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 |                                       |
+| 5.12.0.301   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 |                                       |
+| 5.14.0.177   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 |                                       |
+| 5.16.0.220   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 |                                       |
+| 5.16.1.0     | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.1 |                                       |
+| 5.18.0.268   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.2 |                                       |
+| 5.18.1.28    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.2 |                                       |
+| 5.20.0.244   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.2 |                                       |
+| 5.20.1.24    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.2 |                                       |
+| 6.0.0.34     | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.2 |                                       |
+| 6.4.0.199    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.7.2 |                                       |
+| 6.6.0.166    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.8   |                                       |
+| 6.8.0.123    | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.8   |                                       |
+| 6.10.0.103   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.8   |                                       |
+| 6.12.0.200   | 4.0, 4.5           | 2.0, 3.5, 4.0 - 4.8   |                                       |
+
+What's important in this table to note, is that while Mono supports various
+APIs, not all profiles are visible. This can affect how applications search for
+available runtimes.
+
+## 4. Testing
 
 On Windows XP, it is possible to have .NET 1.0 and later installed, and still
 run this program, if the Mono runtime is used to run the software. The latest
 installable version of Mono on Windows XP is
 [3.2.3](https://download.mono-project.com/archive/3.2.3/windows-installer/).
 
-## 4. Sample Registry Values
+## 5. Sample Registry Values
 
 This section helps to provide actual samples after installation for software
 checking. Various different software checks different keys. Different Operating
 Systems have different keys and values depending on what is installed. The
 tables help to identify differences for testing.
 
-### 4.1. Windows 10 with DotNET 4.8.1 installed
+### 5.1. Windows 10 with DotNET 4.8.1 installed
 
 Windows 10 with .NET 4.8.1 installed. There are many more keys than mentioned
 here, those that are related to the installation version are shown. A complete
@@ -299,7 +513,7 @@ dump can be found in the repository.
 |                                                                           | Install                           | REG_DWORD | 1                                                                              |
 |                                                                           | Version                           | REG_SZ    | 4.0.0.0                                                                        |
 
-### 4.2. Windows XP with only DotNET 1.0 installed
+### 5.2. Windows XP with only DotNET 1.0 installed
 
 | Key Path                                                                               | Key              | Type      | Value                                                                   |
 | -------------------------------------------------------------------------------------- | ---------------- | --------- | ----------------------------------------------------------------------- |
@@ -325,7 +539,7 @@ dump can be found in the repository.
 |                                                                                        | Version          | REG_SZ    | v1.0.3705                                                               |
 |                                                                                        | ProductLanguage  | REG_SZ    | 1033                                                                    |
 
-### 4.3. Windows XP with only DotNET 3.0 Installed
+### 5.3. Windows XP with only DotNET 3.0 Installed
 
 A fresh version of Windows XP SP3 was installed with .NET 3.0
 
@@ -362,7 +576,7 @@ We see with the available keys, that detecting .NET 3.0 is different in that
 there is no `Install` key. In the next section, we see installing .NET 3.5 only
 adds this key and corrects the difference.
 
-### 4.4. Windows XP with only DotNET 3.5 installed
+### 5.4. Windows XP with only DotNET 3.5 installed
 
 A fresh version of Windows XP SP3 was installed with .NET 3.5
 
@@ -424,7 +638,7 @@ A fresh version of Windows XP SP3 was installed with .NET 3.5
 We can see that .NET 3.5 now provides the `Install` key, which the default
 installation of .NET 3.0 did not do.
 
-### 4.5. Windows XP with all DotNET Frameworks Installed
+### 5.5. Windows XP with all DotNET Frameworks Installed
 
 Every framework, except 1.0 is installed (it won't install as 1.1 is already
 installed).

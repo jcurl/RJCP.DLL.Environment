@@ -6,12 +6,12 @@
     /// <summary>
     /// An instance checking if the .NET Run Time is MONO on Windows or Unix.
     /// </summary>
-    public sealed class Mono : INetVersion
+    public sealed class MonoRuntime : INetVersion
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Mono"/> class.
+        /// Initializes a new instance of the <see cref="MonoRuntime"/> class.
         /// </summary>
-        internal Mono()
+        internal MonoRuntime()
         {
             GetMonoVersion();
         }

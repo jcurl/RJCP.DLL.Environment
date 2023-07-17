@@ -106,6 +106,24 @@ namespace RJCP.Core.Environment.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .NET Framework v{0}, Mono Runtime v{1} {2}.
+        /// </summary>
+        internal static string Mono {
+            get {
+                return ResourceManager.GetString("Mono", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .NET Framework v{0}, Mono Runtime {1}.
+        /// </summary>
+        internal static string MonoNoVersion {
+            get {
+                return ResourceManager.GetString("MonoNoVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .NET Framework 4.5.
         /// </summary>
         internal static string Net45 {
