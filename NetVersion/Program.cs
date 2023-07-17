@@ -16,14 +16,10 @@ namespace RJCP.NetVersion
             foreach (INetVersion version in versions) {
                 Console.WriteLine("Version .NET: {0} ({1}); Install Version {2}",
                     version.FrameworkVersion, version.Description, version.InstallVersion);
-                if (version is NetFx45 version45) {
-                    Console.WriteLine("  Release: {0}; TargetVersion: {1}",
-                        version45.Net45Release, version45.TargetVersion);
-                }
-                if (version is Mono mono) {
-                    Console.WriteLine("  mscorlib: {0}; Architecture: {1}; Path: {2}",
-                        mono.MsCorLibVersion, mono.Architecture, mono.MonoPath);
-                }
+                if (version is NetFx45 version45)
+                    Console.WriteLine("  Release: {0}; TargetVersion: {1}", version45.Net45Release, version45.TargetVersion);
+                if (version is Mono mono)
+                    Console.WriteLine("  mscorlib: {0}; Path: {1}", mono.MsCorLibVersion, mono.MonoPath);
             }
 
             Console.WriteLine("");
