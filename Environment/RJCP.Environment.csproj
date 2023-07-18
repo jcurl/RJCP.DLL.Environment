@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="Version\DotNetVersionType.cs" />
     <Compile Include="Version\INetVersion.cs" />
+    <Compile Include="Version\INetVersionMono.cs" />
     <Compile Include="Version\NetFx\Mono.cs" />
     <Compile Include="Version\NetFx\Net45\NetFxConfig.cs" />
     <Compile Include="Version\NetFx\Net45\NetFxVersion.cs" />

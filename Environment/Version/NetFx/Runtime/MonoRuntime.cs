@@ -1,12 +1,15 @@
 ﻿namespace RJCP.Core.Environment.Version.NetFx.Runtime
 {
     using System;
+    using System.Diagnostics;
+    using System.IO;
     using System.Reflection;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// An instance checking if the .NET Run Time is MONO on Windows or Unix.
     /// </summary>
-    public sealed class MonoRuntime : INetVersion
+    public sealed class MonoRuntime : INetVersionMono
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoRuntime"/> class.
@@ -27,14 +30,61 @@
             FrameworkVersion = Environment.Version;
 
             // Don't know how to get the version of the Mono Runtime internally.
-            InstallVersion = Environment.Version;
+            InstallVersion = new Version(0, 0);
+
+            Assembly monoAssembly = Assembly.GetAssembly(monoType);
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(monoAssembly.Location);
+            if (Version.TryParse(fvi.FileVersion, out Version fileVersion)) {
+                MsCorLibVersion = fileVersion;
+            } else {
+                MsCorLibVersion = new Version(0, 0);
+            }
+
+            // Usually starts of as "C:\ProgramFiles\Mono\lib\4.5\mscorlib.dll".
+            string binPath = Path.GetDirectoryName(monoAssembly.Location);
+            int i = 4;
+            do {
+                string testPath = TestPath(binPath, "mono.exe");
+                if (testPath != null) {
+                    MonoPath = testPath;
+                    continue;
+                }
+
+                testPath = TestPath(binPath, "mono");
+                if (testPath != null) {
+                    MonoPath = testPath;
+                    continue;
+                }
+
+                binPath = Path.GetDirectoryName(binPath);
+                i--;
+            } while (MonoPath == null && i > 0);
 
             MethodInfo displayName = monoType.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
             if (displayName != null) {
                 Description = string.Format("Mono {0}", displayName.Invoke(null, null));
             }
 
+            if (Platform.IsWinNT()) {
+                if (Environment.Is64BitOperatingSystem) {
+                    if (Environment.Is64BitProcess) {
+                        Architecture = "x64";
+                    } else {
+                        Architecture = "x86";
+                    }
+                }
+            } else {
+                Architecture = "x86";
+            }
+
             IsValid = true;
+        }
+
+        private static string TestPath(string path, string monoName)
+        {
+            string testPath = Path.Combine(path, "bin", monoName);
+            if (File.Exists(testPath)) return testPath;
+            return null;
         }
 
         /// <summary>
@@ -65,5 +115,20 @@
         /// </summary>
         /// <value>The .NET version description.</value>
         public string Description { get; private set; }
+
+        /// <summary>
+        /// Gets the path to the Mono binary.
+        /// </summary>
+        public string MonoPath { get; private set; }
+
+        /// <summary>
+        /// Gets the version of the MSCorLib.DLL file installed.
+        /// </summary>
+        public Version MsCorLibVersion { get; private set; }
+
+        /// <summary>
+        /// Gets the architecture for the Mono runtime.
+        /// </summary>
+        public string Architecture { get; private set; }
     }
 }

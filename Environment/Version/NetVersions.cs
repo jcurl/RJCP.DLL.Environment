@@ -44,29 +44,29 @@
         }
 
         private static readonly object RunTimeLock = new object();
-        private static List<INetVersion> RunTimes;
+        private static INetVersion s_RunTime;
 
         /// <summary>
-        /// Gets the detected .NET runtimes.
+        /// Gets the detected .NET runtime.
         /// </summary>
-        /// <value>The current .NET runtimes.</value>
-        public static IEnumerable<INetVersion> Runtime
+        /// <value>The current .NET runtime.</value>
+        public static INetVersion Runtime
         {
             get
             {
-                if (RunTimes == null) {
+                if (s_RunTime == null) {
                     lock (RunTimeLock) {
-                        if (RunTimes == null) {
-                            RunTimes = new List<INetVersion> {
-                                new NetRuntime()
-                            };
-
+                        if (s_RunTime == null) {
                             INetVersion mono = new MonoRuntime();
-                            if (mono.IsValid) RunTimes.Add(mono);
+                            if (mono.IsValid) {
+                                s_RunTime = mono;
+                            } else {
+                                s_RunTime = new NetRuntime();
+                            }
                         }
                     }
                 }
-                return RunTimes;
+                return s_RunTime;
             }
         }
 

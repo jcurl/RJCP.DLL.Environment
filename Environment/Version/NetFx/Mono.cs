@@ -11,7 +11,7 @@
     /// <summary>
     /// Installation details for the Mono Runtime.
     /// </summary>
-    public sealed class Mono : INetVersion
+    public sealed class Mono : INetVersionMono
     {
         private const string NovellKey = @"SOFTWARE\Novell\Mono";
         private const string NovellKey86 = @"SOFTWARE\Wow6432Node\Novell\Mono";
