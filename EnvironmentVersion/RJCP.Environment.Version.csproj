@@ -61,6 +61,7 @@
   <ItemGroup>
     <PackageReference Include="RJCP.MSBuildTasks" Version="0.2.4" PrivateAssets="all" />
     <ProjectReference Include="..\Environment\RJCP.Environment.csproj" />
+    <ProjectReference Include="..\..\path\code\RJCP.IO.Path.csproj" />
   </ItemGroup>
 
   <ItemGroup>
