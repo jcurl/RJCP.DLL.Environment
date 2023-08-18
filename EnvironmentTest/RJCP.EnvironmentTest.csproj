@@ -54,8 +54,6 @@
   <ItemGroup>
     <Compile Include="PlatformTest.cs" />
     <Compile Include="Resources\ResourcesPrintTest.cs" />
-    <Compile Include="Version\NetVersionTest.cs" />
-    <Compile Include="Version\WinVersionTest.cs" />
     <Compile Include="XdgTest.cs" />
   </ItemGroup>
 

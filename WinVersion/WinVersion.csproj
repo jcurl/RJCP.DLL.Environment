@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Environment\RJCP.Environment.csproj" />
+    <ProjectReference Include="..\EnvironmentVersion\RJCP.Environment.Version.csproj" />
   </ItemGroup>
 
   <ItemGroup>

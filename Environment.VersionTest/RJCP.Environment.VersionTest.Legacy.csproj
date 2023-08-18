@@ -17,15 +17,15 @@
     <Configurations>Debug;Release</Configurations>
     <DefineConstants>$(DefineConstants);NET40_LEGACY</DefineConstants>
 
-    <AssemblyName>RJCP.Core.EnvironmentTest40</AssemblyName>
-    <AssemblyTitle>RJCP.Core.EnvironmentTest</AssemblyTitle>
+    <AssemblyName>RJCP.Core.Environment.VersionTest40</AssemblyName>
+    <AssemblyTitle>RJCP.Core.Environment.VersionTest</AssemblyTitle>
     <Product>RJCP.Core.Environment</Product>
     <RootNamespace>RJCP.Core.Environment</RootNamespace>
 
     <Authors>Jason Curl</Authors>
     <Copyright>(C) 2019-2023, Jason Curl</Copyright>
     <Company></Company>
-    <Description>Test harness for RJCP.Core.Environment.</Description>
+    <Description>Test harness for RJCP.Core.Environment.Version.</Description>
     <Version>1.0.0</Version>
 
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -59,13 +59,16 @@
     <ProjectReference Include="..\Environment\RJCP.Environment.csproj">
       <SetTargetFramework>TargetFramework=net40</SetTargetFramework>
     </ProjectReference>
+    <ProjectReference Include="..\EnvironmentVersion\RJCP.Environment.Version.csproj">
+      <SetTargetFramework>TargetFramework=net40</SetTargetFramework>
+    </ProjectReference>
     <ProjectReference Include="..\..\nunitextensions\CodeQuality\RJCP.CodeQuality.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="PlatformTest.cs" />
     <Compile Include="Resources\ResourcesPrintTest.cs" />
-    <Compile Include="XdgTest.cs" />
+    <Compile Include="Version\NetVersionTest.cs" />
+    <Compile Include="Version\WinVersionTest.cs" />
   </ItemGroup>
 
   <!-- Implicit top import required explicitly to change build output path -->

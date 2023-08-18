@@ -4,7 +4,6 @@
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
-    using System.Runtime.InteropServices;
 
     /// <summary>
     /// An instance checking if the .NET Run Time is MONO on Windows or Unix.
