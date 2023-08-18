@@ -15,11 +15,6 @@
         /// </summary>
         internal MonoRuntime()
         {
-            GetMonoVersion();
-        }
-
-        private void GetMonoVersion()
-        {
             Type monoType = Type.GetType("Mono.Runtime");
             if (monoType == null) {
                 IsValid = false;

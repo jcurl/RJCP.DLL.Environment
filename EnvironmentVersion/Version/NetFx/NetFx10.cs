@@ -48,7 +48,7 @@
             return installed;
         }
 
-        internal NetFx10(string version, string key)
+        private NetFx10(string version, string key)
         {
             FrameworkVersion = NetVersions.GetVersion(version);
             if (FrameworkVersion == null) return;

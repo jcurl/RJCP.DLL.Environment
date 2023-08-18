@@ -64,11 +64,11 @@
             return installed;
         }
 
-        internal NetFxLegacy(string key) : this(key, null, true) { }
+        private NetFxLegacy(string key) : this(key, null, true) { }
 
-        internal NetFxLegacy(string key, string profile) : this(key, profile, false) { }
+        private NetFxLegacy(string key, string profile) : this(key, profile, false) { }
 
-        internal NetFxLegacy(string key, string profile, bool ignoreProfile)
+        private NetFxLegacy(string key, string profile, bool ignoreProfile)
         {
             FrameworkVersion = NetVersions.GetVersion(key);
             if (FrameworkVersion == null) return;

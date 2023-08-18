@@ -3,7 +3,6 @@ namespace RJCP.NetVersion
     using System;
     using RJCP.Core.Environment.Version;
     using RJCP.Core.Environment.Version.NetFx;
-    using RJCP.Core.Environment.Version.NetFx.Runtime;
 
     static class Program
     {

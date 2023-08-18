@@ -56,7 +56,7 @@
             return installed;
         }
 
-        internal static bool FindMonoWindows4(string key, IList<INetVersion> installed)
+        private static bool FindMonoWindows4(string key, IList<INetVersion> installed)
         {
             try {
                 using (RegistryKey monoKey = Registry.LocalMachine.OpenSubKey(key)) {
@@ -75,7 +75,7 @@
             }
         }
 
-        internal static void FindMonoWindowsNovell(string key, IList<INetVersion> installed)
+        private static void FindMonoWindowsNovell(string key, IList<INetVersion> installed)
         {
             try {
                 using (RegistryKey monoKey = Registry.LocalMachine.OpenSubKey(key)) {
@@ -91,7 +91,7 @@
             }
         }
 
-        internal static void FindMonoWindowsNovell(RegistryKey monoKey, string version, IList<INetVersion> installed)
+        private static void FindMonoWindowsNovell(RegistryKey monoKey, string version, IList<INetVersion> installed)
         {
             try {
                 using (RegistryKey installKey = monoKey.OpenSubKey(version)) {
@@ -106,7 +106,7 @@
             }
         }
 
-        internal static void FindMonoWindowsProfiles(string path, string assemblyDir, string version, string arch, IList<INetVersion> installed)
+        private static void FindMonoWindowsProfiles(string path, string assemblyDir, string version, string arch, IList<INetVersion> installed)
         {
             if (!File.Exists(path)) return;
             if (!Directory.Exists(assemblyDir)) return;
@@ -147,7 +147,7 @@
             }
         }
 
-        internal Mono(Version framework, Version file, Version install, string path, string arch)
+        private Mono(Version framework, Version file, Version install, string path, string arch)
         {
             if (framework == null) return;
             FrameworkVersion = framework;

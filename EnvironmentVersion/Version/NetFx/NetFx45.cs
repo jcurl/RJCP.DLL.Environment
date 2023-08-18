@@ -26,12 +26,7 @@
             return installed;
         }
 
-        internal NetFx45()
-        {
-            GetNetFx45Details();
-        }
-
-        private void GetNetFx45Details()
+        private NetFx45()
         {
             try {
                 string fullKeyPath = NetVersions.GetNetKey(@"NET Framework Setup\NDP\v4\Full");

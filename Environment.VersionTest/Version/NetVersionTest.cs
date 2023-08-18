@@ -2,7 +2,6 @@
 {
     using System;
     using NetFx;
-    using NetFx.Runtime;
     using NUnit.Framework;
 
     [TestFixture]
