@@ -7,6 +7,7 @@
     using System.Security;
     using Microsoft.Win32;
     using Resources;
+    using RJCP.IO.Files.Exe;
     using Runtime;
 
     /// <summary>
@@ -31,7 +32,7 @@
             /// Gets the found mono installations.
             /// </summary>
             /// <value>
-            /// The found installations of Mono (from <see cref="AddMonoProfile(string, string, string, string)"/>).
+            /// The found installations of Mono (from <see cref="AddMonoProfile(string, string, string)"/>).
             /// </value>
             public IList<INetVersion> Installed
             {
@@ -44,17 +45,44 @@
             /// <param name="path">The path to the mono binary.</param>
             /// <param name="assemblyDir">The FrameworkAssemblyDirectory directory.</param>
             /// <param name="version">The version of the Mono installation.</param>
-            /// <param name="arch">The architecture for the Mono implementation.</param>
-            public void AddMonoProfile(string path, string assemblyDir, string version, string arch)
+            /// <remarks>
+            /// The architecture is determined from the binary. It must be either an ELF file, or a Windows PE file. It
+            /// is queried for the architecture.
+            /// </remarks>
+            public bool AddMonoProfile(string path, string assemblyDir, string version)
             {
-                if (!File.Exists(path)) return;
-                if (!Directory.Exists(assemblyDir)) return;
+                return AddMonoProfile(path, assemblyDir, version, null);
+            }
+
+            /// <summary>
+            /// Adds profiles from the Mono path, if this path hasn't already been detected.
+            /// </summary>
+            /// <param name="path">The path to the mono binary.</param>
+            /// <param name="assemblyDir">The FrameworkAssemblyDirectory directory.</param>
+            /// <param name="version">The version of the Mono installation.</param>
+            /// <param name="arch">
+            /// The architecture for the Mono implementation. Set to <see langword="null"/> for automatic detection
+            /// based on the EXE file.
+            /// </param>
+            /// <returns>
+            /// Returns <see langword="true"/> if the path is already known or added to the list. <see
+            /// langword="false"/> otherwise, which can occur if the file is invalid, or the architecture is unknown.
+            /// </returns>
+            public bool AddMonoProfile(string path, string assemblyDir, string version, string arch)
+            {
+                if (!File.Exists(path)) return false;
+                if (!Directory.Exists(assemblyDir)) return false;
 
                 // Checks the i-nodes and filesystem information (resolving to the final file) to
                 // check if this binary has already been detected.
                 IO.FileSystemNodeInfo monoExe = new IO.FileSystemNodeInfo(path);
-                if (m_Detected.Contains(monoExe)) return;
+                if (m_Detected.Contains(monoExe)) return true;
                 m_Detected.Add(monoExe);
+
+                if (arch == null) {
+                    arch = FindMonoArch(path);
+                    if (arch == null) return false;
+                }
 
                 Version net35 = null;
                 Version net11 = GetFileVersion(assemblyDir, @"mono\1.0\mscorlib.dll");
@@ -75,6 +103,7 @@
                 if (net35 != null) m_Installed.Add(new Mono(new Version(3, 5), net35, installVersion, path, arch));
                 if (net40 != null) m_Installed.Add(new Mono(new Version(4, 0), net40, installVersion, path, arch));
                 if (net45 != null) m_Installed.Add(new Mono(new Version(4, 5), net45, installVersion, path, arch));
+                return true;
             }
 
             private static Version GetFileVersion(string assemblyDir, string file)
@@ -89,6 +118,21 @@
                     return new Version(0, 0);
                 } catch (FileNotFoundException) {
                     return null;
+                }
+            }
+
+            private static string FindMonoArch(string path)
+            {
+                FileExecutable monoExe = FileExecutable.GetFile(path);
+                if (monoExe == null || !monoExe.IsExe) return null;
+
+                switch (monoExe.MachineType) {
+                case FileMachineType.Intel386:
+                    return "x86";
+                case FileMachineType.Amd64:
+                    return "x64";
+                default:
+                    return "";
                 }
             }
         }
@@ -117,21 +161,26 @@
             if (installed.Installed.Count == 0) {
                 // Not running on Mono so we "guess" the path.
                 if (Environment.Is64BitProcess)
-                    FindMonoFromPath(
+                    FindMonoFromSdkPath(
                         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Mono"),
-                        "x64", installed);
-                FindMonoFromPath(
+                        installed);
+                FindMonoFromSdkPath(
                     Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Mono"),
-                    "x86", installed);
+                    installed);
             }
 
             // Always add the current flavour of Mono as an available runtime.
             string binPath = MonoRuntime.GetMonoRuntimeClrPath();
-            if (binPath != null) {
-                string sdkRoot = Path.GetDirectoryName(binPath);
-                sdkRoot = Path.GetDirectoryName(sdkRoot);
-                string arch = MonoRuntime.GetMonoClrArchitecture();
-                FindMonoFromPath(sdkRoot, arch, installed);
+            FindMonoFromPath(binPath, installed);
+
+            // Finally, search the path looking for the first copy of Mono
+            string envPath = Environment.GetEnvironmentVariable("PATH");
+            if (!string.IsNullOrWhiteSpace(envPath)) {
+                string[] paths = envPath.Split(';');
+                foreach (string path in paths) {
+                    string monoPath = Path.Combine(path, "mono.exe");
+                    if (FindMonoFromPath(monoPath, installed)) break;
+                }
             }
 
             return installed.Installed;
@@ -186,11 +235,19 @@
             }
         }
 
-        private static void FindMonoFromPath(string sdkPath, string arch, MonoInstall installed)
+        private static bool FindMonoFromPath(string monoPath, MonoInstall installed)
+        {
+            if (!File.Exists(monoPath)) return false;
+            string sdkRoot = Path.GetDirectoryName(monoPath);
+            sdkRoot = Path.GetDirectoryName(sdkRoot);
+            return FindMonoFromSdkPath(sdkRoot, installed);
+        }
+
+        private static bool FindMonoFromSdkPath(string sdkPath, MonoInstall installed)
         {
             string monoPath = Path.Combine(sdkPath, "bin", "mono.exe");
             string assemblyDir = Path.Combine(sdkPath, "lib");
-            installed.AddMonoProfile(monoPath, assemblyDir, null, arch);
+            return installed.AddMonoProfile(monoPath, assemblyDir, null);
         }
 
         private Mono(Version framework, Version file, Version install, string path, string arch)
