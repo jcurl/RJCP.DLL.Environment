@@ -64,7 +64,8 @@
                 msCorLibVersion = new Version(0, 0);
             }
 
-            // Usually starts of as "C:\ProgramFiles\Mono\lib\4.5\mscorlib.dll".
+            // Windows: Usually starts of as "C:\ProgramFiles\Mono\lib\4.5\mscorlib.dll".
+            // Linux: Usually "/usr/lib/mono/4.5/mscorlib.dll"
             string binPath = Path.GetDirectoryName(monoAssembly.Location);
             int i = 4;
             do {

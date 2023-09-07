@@ -26,6 +26,8 @@
                 m_Installed.AddRange(NetFx.NetFxLegacy.FindNetFxLegacy());
                 m_Installed.AddRange(NetFx.NetFx45.FindNetFx());
                 m_Installed.AddRange(NetFx.Mono.FindMonoWindows());
+            } else {
+                m_Installed.AddRange(NetFx.Mono.FindMonoLinux());
             }
         }
 
