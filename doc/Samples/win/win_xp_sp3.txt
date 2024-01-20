@@ -1,0 +1,17 @@
+Windows XP x64 (Professional) Service Pack 3, v5.1.2600.0
+WinVersionString: Windows XP
+VersionString: 5.1.2600.0
+Major.Minor.Build: 5.1.2600
+PlatformId: WinNT
+PlatformIdString: Windows NT
+ProductInfo: Professional
+ProductInfoString: Professional
+ProductType: Workstation
+ProductTypeString: 
+Suite Flags: 00000100
+SuiteString: 
+NativeArchitecture: x64
+Architecture: x64
+CSD Version: Service Pack 3
+Server R2: False
+Service Pack: 3.0

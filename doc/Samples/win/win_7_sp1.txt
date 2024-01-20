@@ -1,0 +1,17 @@
+Windows 7 x64 (Enterprise) Service Pack 1, v6.1.7601.0
+WinVersionString: Windows 7
+VersionString: 6.1.7601.0
+Major.Minor.Build: 6.1.7601
+PlatformId: WinNT
+PlatformIdString: Windows NT
+ProductInfo: Enterprise
+ProductInfoString: Enterprise
+ProductType: Workstation
+ProductTypeString: 
+Suite Flags: 00000100
+SuiteString: 
+NativeArchitecture: x64
+Architecture: x64
+CSD Version: Service Pack 1
+Server R2: False
+Service Pack: 1.0

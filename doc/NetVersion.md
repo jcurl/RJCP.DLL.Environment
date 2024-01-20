@@ -117,23 +117,23 @@ will *not* be found. One must look at:
 A generic algorithm to get the installation version (note, not the framework
 version):
 
-* When iterating over the key `HKLM\Software\Microsoft\NET Framework
+- When iterating over the key `HKLM\Software\Microsoft\NET Framework
   Setup\NDP\v{0}`, the version part in the key should be used first.
-  * The major and minor is the framework version.
-* If the `Install` value is not in the key, then ignore. Or if the key itself
+  - The major and minor is the framework version.
+- If the `Install` value is not in the key, then ignore. Or if the key itself
   has the value `deprecated` then ignore.
-* If there is no `Version` key, then use the NDP key, else read the string and
+- If there is no `Version` key, then use the NDP key, else read the string and
   use that version. Note, that this may appear different to the .NET framework
   version. For example, on Windows XP with .NET 3.0 and service packs installed,
   it could be `3.2.x` and not `3.0`.
-* If there is an `Increment` key, this can be the fourth element in the version.
-* Get the Service Pack version with the key `SP` if it exists. A value of zero
+- If there is an `Increment` key, this can be the fourth element in the version.
+- Get the Service Pack version with the key `SP` if it exists. A value of zero
   indicates no service pack update.
 
 For Framework 3.0, the following should also be done, if it is not iterated
 above:
 
-* Check the `Setup` key if it exists. If the `InstallSuccess` value is `1`, then
+- Check the `Setup` key if it exists. If the `InstallSuccess` value is `1`, then
   get the `Version`.
 
 ### 2.3. DotNET Framework 1.0
@@ -151,15 +151,15 @@ There is no `Install` key.
 
 Follow these steps:
 
-* Open the subkey `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework
+- Open the subkey `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework
   Setup\Full`
-* Iterate over the subkeys that start with `v`, like `v1.0.3705`
-* Iterate over the subkeys which are the language codes, like `1033`
-* Iterate over the subkeys which is the product name
-* Open `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\Product\{0}`
+- Iterate over the subkeys that start with `v`, like `v1.0.3705`
+- Iterate over the subkeys which are the language codes, like `1033`
+- Iterate over the subkeys which is the product name
+- Open `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\Product\{0}`
   where that key is the product name
-* Ensure that the key `Install` is 1.
-* If the `Package` is `Full` and `ProductLanguage` matches the language code
+- Ensure that the key `Install` is 1.
+- If the `Package` is `Full` and `ProductLanguage` matches the language code
   then this is installed.
 
 Note, there is no overlap with this algorithm for .NET 4.0 and later, as this
@@ -252,12 +252,12 @@ Mono 4.4.0.
 [RuntimeFramework.cs::FindAllMonoProfiles](https://github.com/nunit/nunit-console/blob/3.16.3/src/NUnitEngine/nunit.engine.core/RuntimeFramework.cs#L629)
 searches for the profiles in the following order:
 
-* Get the `MonoPrefix` which is the key `SdkInstallRoot`.
-* If the file `lib/mono/1.0/mscorlib.dll` exists, add version 1.1.4322
-* If the file `lib/mono/2.0/mscorlib.dll` exists, add version 2.0
-* If the directory `lib/mono/3.5` exists, add version 3.5
-* If the file `lib/mono/4.0/mscorlib.dll` exists, add version 4.0
-* If the file `lib/mono/4.5/mscorlib.dll` exists, add version 4.5
+- Get the `MonoPrefix` which is the key `SdkInstallRoot`.
+- If the file `lib/mono/1.0/mscorlib.dll` exists, add version 1.1.4322
+- If the file `lib/mono/2.0/mscorlib.dll` exists, add version 2.0
+- If the directory `lib/mono/3.5` exists, add version 3.5
+- If the file `lib/mono/4.0/mscorlib.dll` exists, add version 4.0
+- If the file `lib/mono/4.5/mscorlib.dll` exists, add version 4.5
 
 In general, if the file `mscorelib.dll` exists on Windows, the detection library
 should get the version of the file. Not every copy has a file version. The

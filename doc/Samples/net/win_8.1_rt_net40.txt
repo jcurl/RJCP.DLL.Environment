@@ -1,0 +1,10 @@
+Installed versions of .NET
+================================
+Version .NET: 4.0 (.NET Framework v4.0 Profile Client); Install Version 4.5.51641
+Version .NET: 4.0 (.NET Framework v4.0 Profile Full); Install Version 4.5.51641
+Version .NET: 4.5.1 (.NET Framework v4.5.1, Release 378675 (.NET Framework 4.5.1 installed with Windows 8.1 or Windows Server 2012 R2)); Install Version 4.5.51641
+  Release: 378675; TargetVersion: 4.0.0
+
+Running on Framework
+================================
+Version .NET: 4.0.30319.34003 (.NET Environment Runtime); Install Version: 4.0.30319.34003

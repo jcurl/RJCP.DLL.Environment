@@ -1,0 +1,13 @@
+Installed versions of .NET
+================================
+Version .NET: 2.0.50727 (.NET Framework v2.0.50727 SP2); Install Version 2.0.50727.5420
+Version .NET: 3.0 (.NET Framework v3.0 SP2); Install Version 3.0.30729.5420
+Version .NET: 3.5 (.NET Framework v3.5 SP1); Install Version 3.5.30729.5420
+Version .NET: 4.0 (.NET Framework v4.0 Profile Client); Install Version 4.8.3761
+Version .NET: 4.0 (.NET Framework v4.0 Profile Full); Install Version 4.8.3761
+Version .NET: 4.8 (.NET Framework v4.8, Release 528049 (.NET Framework 4.8)); Install Version 4.8.3761
+  Release: 528049; TargetVersion: 4.0.0
+
+Running on Framework
+================================
+Version .NET: 4.0.30319.42000 (.NET Framework 4.8.4069.0); Install Version: 4.0.30319.42000

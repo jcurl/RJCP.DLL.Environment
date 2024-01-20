@@ -1,0 +1,11 @@
+Installed versions of .NET
+================================
+Version .NET: 4.0 (.NET Framework v4.0, Mono Runtime v0.0 x64); Install Version 0.0
+  mscorlib: 4.0.30319.1; Architecture: x64; Path: /usr/bin/mono
+Version .NET: 4.5 (.NET Framework v4.5, Mono Runtime v0.0 x64); Install Version 0.0
+  mscorlib: 4.6.57.0; Architecture: x64; Path: /usr/bin/mono
+
+Running on Framework
+================================
+Version .NET: 4.0.30319.42000 (Mono 6.12.0.200 (tarball Tue Jul 11 21:37:50 UTC 2023)); Install Version: 0.0
+  mscorlib: 4.6.57.0; Architecture: x64; Path: /usr/bin/mono

@@ -1,0 +1,17 @@
+Windows 8.1 RT ARM (Windows Core ARM), v6.3.9600.0
+WinVersionString: Windows 8.1 RT
+VersionString: 6.3.9600.0
+Major.Minor.Build: 6.3.9600
+PlatformId: WinNT
+PlatformIdString: Windows NT
+ProductInfo: Core_Arm
+ProductInfoString: Windows Core ARM
+ProductType: Workstation
+ProductTypeString: 
+Suite Flags: 00000100
+SuiteString: 
+NativeArchitecture: ARM
+Architecture: ARM
+CSD Version: 
+Server R2: False
+Service Pack: 0.0
