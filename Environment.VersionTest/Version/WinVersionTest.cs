@@ -716,6 +716,28 @@
         }
 
         [Test]
+        public void WinVersionCheckWindows8_1RT()
+        {
+            WinVersion winver = new WinVersion {
+                PlatformId = WinPlatform.WinNT,
+                MajorVersion = 6,
+                MinorVersion = 3,
+                BuildNumber = 9600,
+                CSDVersion = "",
+                SuiteFlags = (WinSuite)0x100,
+                ProductType = WinProductType.Workstation,
+                ProductInfo = WinProductInfo.Core_Arm,
+                ServicePackMajor = 0,
+                ServicePackMinor = 0,
+                IsExtendedPropsSet = true,
+                NativeArchitecture = WinArchitecture.ARM
+            };
+            Console.WriteLine($"{winver}");
+            Assert.That(winver, Is.EqualTo(WinVersion.Win8_1));
+            Assert.That(winver.ToString(), Is.EqualTo("Windows 8.1 RT ARM (Windows Core ARM), v6.3.9600.0"));
+        }
+
+        [Test]
         public void WinVersionCheckWindows2012R2()
         {
             WinVersion winver = new WinVersion {
