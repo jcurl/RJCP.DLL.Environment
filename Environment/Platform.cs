@@ -98,7 +98,7 @@
         }
 
         /// <summary>
-        /// Determines if the process is started from an MSys Shell
+        /// Determines if the process is started from an MSys Shell.
         /// </summary>
         /// <returns>
         /// Returns <see langword="true"/> the system is running from an MSys shell, otherwise, <see langword="false"/>.
@@ -111,6 +111,28 @@
             if (string.IsNullOrWhiteSpace(msystem)) return false;
 
             return msystem.StartsWith("MIN", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines if the process is started from a Cygwin shell.
+        /// </summary>
+        /// <returns>
+        /// Returns <see langword="true"/> the system is running from a Cygwin shell, otherwise, ///
+        /// <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// It is observed that Windows executables inherit a new environment variable <c>_</c> that has the name of the
+        /// process. If this is found in the current process space, we assume we're started from Cygwin.
+        /// </remarks>
+        public static bool IsCygwin()
+        {
+            if (!IsWinNT()) return false;
+
+            // This check passes also on MSYS. So we make sure we're not MSYS first.
+            if (IsMSys()) return false;
+
+            string cygLocalExe = Environment.GetEnvironmentVariable("_");
+            return (!string.IsNullOrWhiteSpace(cygLocalExe));
         }
     }
 }
