@@ -19,7 +19,7 @@
             FrameworkVersion = Environment.Version;
             InstallVersion = Environment.Version;
 
-#if NETSTANDARD
+#if NET6_0_OR_GREATER
             VersionType = DotNetVersionType.NetCore;
             Description = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
 #else

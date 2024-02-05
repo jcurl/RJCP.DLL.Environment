@@ -1,7 +1,7 @@
 ﻿namespace RJCP.Core.Environment
 {
     using System;
-#if NETSTANDARD
+#if NET6_0_OR_GREATER
     using System.Runtime.InteropServices;
 #endif
 
@@ -18,7 +18,7 @@
         /// </returns>
         public static bool IsWinNT()
         {
-#if NETSTANDARD
+#if NET6_0_OR_GREATER
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 #else
             return Environment.OSVersion.Platform == PlatformID.Win32NT;
@@ -38,7 +38,7 @@
         /// </remarks>
         public static bool IsUnix()
         {
-#if NETSTANDARD
+#if NET6_0_OR_GREATER
             return
                 RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX);

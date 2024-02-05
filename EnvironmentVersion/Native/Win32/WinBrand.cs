@@ -7,7 +7,7 @@
     internal static class WinBrand
     {
         [DllImport("winbrand.dll", CharSet = CharSet.Unicode)]
-#if NET45_OR_GREATER
+#if NET45_OR_GREATER || NET6_0_OR_GREATER
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 #endif
         public static extern string BrandingFormatString(string format);
