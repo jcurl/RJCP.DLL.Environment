@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetVersion", "NetVersion\Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinVersion", "WinVersion\WinVersion.csproj", "{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RJCP.Core.SysCompat", "SysCompat\RJCP.Core.SysCompat.csproj", "{6613C927-718A-452F-84AE-33D9FD9B45F3}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RJCP.Environment", "Environment\RJCP.Environment.csproj", "{C5539D81-64C8-4019-9C0E-A5FAED61E77F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RJCP.Environment.Version", "EnvironmentVersion\RJCP.Environment.Version.csproj", "{860BA936-6C7B-43C9-9F7B-3EC1F9B96A54}"
@@ -53,6 +55,10 @@ Global
 		{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7155948-57A0-4BEF-8BB0-C11A24BC27D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6613C927-718A-452F-84AE-33D9FD9B45F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6613C927-718A-452F-84AE-33D9FD9B45F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6613C927-718A-452F-84AE-33D9FD9B45F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6613C927-718A-452F-84AE-33D9FD9B45F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5539D81-64C8-4019-9C0E-A5FAED61E77F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5539D81-64C8-4019-9C0E-A5FAED61E77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5539D81-64C8-4019-9C0E-A5FAED61E77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
