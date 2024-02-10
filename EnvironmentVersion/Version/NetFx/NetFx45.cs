@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Versioning;
     using System.Security;
     using Microsoft.Win32;
     using Net45;
@@ -12,6 +13,7 @@
     /// </summary>
     public sealed class NetFx45 : INetVersion
     {
+        [SupportedOSPlatform("windows")]
         internal static IList<INetVersion> FindNetFx()
         {
             List<INetVersion> installed = new List<INetVersion>();
@@ -26,6 +28,7 @@
             return installed;
         }
 
+        [SupportedOSPlatform("windows")]
         private NetFx45()
         {
             try {

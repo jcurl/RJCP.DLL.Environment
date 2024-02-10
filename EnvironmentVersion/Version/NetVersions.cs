@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Runtime.Versioning;
     using Microsoft.Win32;
     using NetFx.Runtime;
 
@@ -26,9 +27,11 @@
                 m_Installed.AddRange(NetFx.NetFxLegacy.FindNetFxLegacy());
                 m_Installed.AddRange(NetFx.NetFx45.FindNetFx());
                 m_Installed.AddRange(NetFx.Mono.FindMonoWindows());
-            } else {
+            } else if (Platform.IsUnix()) {
                 m_Installed.AddRange(NetFx.Mono.FindMonoLinux());
             }
+
+            // Else the list is empty, if not Linux or Windows.
         }
 
         /// <summary>
@@ -80,6 +83,7 @@
         /// <returns>
         /// <see langword="true"/> if the specified key is installed; otherwise, <see langword="false"/>.
         /// </returns>
+        [SupportedOSPlatform("windows")]
         internal static bool IsInstalled(RegistryKey key)
         {
             return IsInstalled(key, "Install");
@@ -93,6 +97,7 @@
         /// <returns>
         /// <see langword="true"/> if the specified key is installed; otherwise, <see langword="false"/>.
         /// </returns>
+        [SupportedOSPlatform("windows")]
         internal static bool IsInstalled(RegistryKey key, string value)
         {
             if (key == null) return false;
@@ -129,6 +134,7 @@
         /// </summary>
         /// <param name="path">The path to append to <c>HKLM\Software\Microsoft</c>.</param>
         /// <returns>The formatted path for the registry.</returns>
+        [SupportedOSPlatform("windows")]
         internal static string GetNetKey(string path)
         {
             if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess) {

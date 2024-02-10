@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Versioning;
     using System.Security;
     using System.Text;
     using Microsoft.Win32;
@@ -12,6 +13,7 @@
     /// </summary>
     public sealed class NetFxLegacy : INetVersion
     {
+        [SupportedOSPlatform("windows")]
         internal static IList<INetVersion> FindNetFxLegacy()
         {
             List<INetVersion> installed = new List<INetVersion>();
@@ -64,10 +66,13 @@
             return installed;
         }
 
+        [SupportedOSPlatform("windows")]
         private NetFxLegacy(string key) : this(key, null, true) { }
 
+        [SupportedOSPlatform("windows")]
         private NetFxLegacy(string key, string profile) : this(key, profile, false) { }
 
+        [SupportedOSPlatform("windows")]
         private NetFxLegacy(string key, string profile, bool ignoreProfile)
         {
             FrameworkVersion = NetVersions.GetVersion(key);
@@ -80,6 +85,7 @@
             }
         }
 
+        [SupportedOSPlatform("windows")]
         private void GetNetFxDetails(string key, string profile, bool ignoreProfile)
         {
             string fullKeyPath;

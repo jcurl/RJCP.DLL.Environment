@@ -1,6 +1,7 @@
 namespace RJCP.Core.Environment.Version
 {
     using System;
+    using System.Runtime.Versioning;
     using System.Text;
     using Resources;
 
@@ -271,6 +272,7 @@ namespace RJCP.Core.Environment.Version
         /// <summary>
         /// Get the version of the OS that we're running on.
         /// </summary>
+        [SupportedOSPlatform("windows")]
         public static WinVersion LocalMachine
         {
             get

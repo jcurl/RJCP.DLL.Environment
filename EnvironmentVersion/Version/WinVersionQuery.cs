@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.InteropServices;
+    using System.Runtime.Versioning;
     using System.Security;
     using System.Security.Permissions;
     using Microsoft.Win32;
@@ -18,6 +19,8 @@
         /// Default constructor, getting information about the local machine. Use the static method <c>LocalMachine</c>
         /// instead for efficiency.
         /// </summary>
+        /// <exception cref="PlatformNotSupportedException">Windows Version Query is only supported on Windows.</exception>
+        [SupportedOSPlatform("windows")]
         public WinVersionQuery()
         {
             if (!Platform.IsWinNT())
@@ -195,6 +198,7 @@
         /// A method to get OS information natively from the .NET subsystem.
         /// </summary>
         /// <returns><see langword="true"/> if the information could be obtained; <see langword="false"/> otherwise.</returns>
+        [SupportedOSPlatform("windows")]
         private void GetNativeVersion()
         {
             OperatingSystem os = Environment.OSVersion;
@@ -427,6 +431,7 @@
             }
         }
 
+        [SupportedOSPlatform("windows")]
         private void DetectWin10()
         {
             if (MajorVersion != 10) return;

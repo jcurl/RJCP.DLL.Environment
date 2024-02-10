@@ -1,6 +1,8 @@
 ﻿namespace RJCP.Core.Environment.Version
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Versioning;
     using NUnit.Framework;
 
     [TestFixture]
@@ -8,6 +10,7 @@
     {
         [Test]
         [Platform(Include = "Win32NT")]
+        [SupportedOSPlatform("windows")]
         public void OSVersionCheckCurrentOS()
         {
             WinVersion current = WinVersion.LocalMachine;
@@ -33,6 +36,7 @@
 
         [Test]
         [Platform(Include = "Unix")]
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Test Case confirming behaviour")]
         public void OSVersionCheckCurrentOSNotSupported()
         {
             Assert.That(() => {

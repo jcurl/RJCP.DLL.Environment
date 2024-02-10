@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Versioning;
     using System.Security;
     using Microsoft.Win32;
     using Resources;
@@ -11,6 +12,7 @@
     /// </summary>
     public sealed class NetFx10 : INetVersion
     {
+        [SupportedOSPlatform("windows")]
         internal static IList<INetVersion> FindNetFx10()
         {
             List<INetVersion> installed = new List<INetVersion>();
@@ -48,6 +50,7 @@
             return installed;
         }
 
+        [SupportedOSPlatform("windows")]
         private NetFx10(string version, string key)
         {
             FrameworkVersion = NetVersions.GetVersion(version);

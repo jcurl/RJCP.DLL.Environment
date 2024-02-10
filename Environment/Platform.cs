@@ -3,6 +3,7 @@
     using System;
 #if NET6_0_OR_GREATER
     using System.Runtime.InteropServices;
+    using System.Runtime.Versioning;
 #endif
 
     /// <summary>
@@ -16,6 +17,9 @@
         /// <returns>
         /// <see langword="true"/> if the operating system is Windows NT or later; otherwise, <see langword="false"/>.
         /// </returns>
+#if NET6_0_OR_GREATER
+        [SupportedOSPlatformGuard("windows")]
+#endif
         public static bool IsWinNT()
         {
 #if NET6_0_OR_GREATER
@@ -36,12 +40,14 @@
         /// Details of how to detect the platform under MONO can be found at
         /// http://www.mono-project.com/docs/faq/technical/#how-to-detect-the-execution-platform
         /// </remarks>
+#if NET6_0_OR_GREATER
+        [SupportedOSPlatformGuard("linux")]
+#endif
         public static bool IsUnix()
         {
 #if NET6_0_OR_GREATER
             return
-                RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
-                RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+                RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 #else
             int platform = (int)Environment.OSVersion.Platform;
             return ((platform == 4) || (platform == 6) || (platform == 128));
@@ -103,6 +109,9 @@
         /// <returns>
         /// Returns <see langword="true"/> the system is running from an MSys shell, otherwise, <see langword="false"/>.
         /// </returns>
+#if NET6_0_OR_GREATER
+        [SupportedOSPlatformGuard("windows")]
+#endif
         public static bool IsMSys()
         {
             if (!IsWinNT()) return false;
@@ -124,6 +133,9 @@
         /// It is observed that Windows executables inherit a new environment variable <c>_</c> that has the name of the
         /// process. If this is found in the current process space, we assume we're started from Cygwin.
         /// </remarks>
+#if NET6_0_OR_GREATER
+        [SupportedOSPlatformGuard("windows")]
+#endif
         public static bool IsCygwin()
         {
             if (!IsWinNT()) return false;

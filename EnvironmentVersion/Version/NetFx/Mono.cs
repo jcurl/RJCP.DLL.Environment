@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Runtime.Versioning;
     using System.Security;
     using Microsoft.Win32;
     using Resources;
@@ -137,6 +138,7 @@
             }
         }
 
+        [SupportedOSPlatform("windows")]
         internal static IList<INetVersion> FindMonoWindows()
         {
             MonoInstall installed = new MonoInstall();
@@ -186,6 +188,7 @@
             return installed.Installed;
         }
 
+        [SupportedOSPlatform("linux")]
         internal static IList<INetVersion> FindMonoLinux()
         {
             MonoInstall installed = new MonoInstall();
@@ -207,6 +210,7 @@
             return installed.Installed;
         }
 
+        [SupportedOSPlatform("windows")]
         private static void FindMono4Windows(string key, MonoInstall installed)
         {
             try {
@@ -225,6 +229,7 @@
             }
         }
 
+        [SupportedOSPlatform("windows")]
         private static void FindMonoNovellWindows(string key, MonoInstall installed)
         {
             try {
@@ -241,6 +246,7 @@
             }
         }
 
+        [SupportedOSPlatform("windows")]
         private static void FindMonoNovellWindows(RegistryKey monoKey, string version, MonoInstall installed)
         {
             try {
