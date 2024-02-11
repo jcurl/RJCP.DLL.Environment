@@ -5,7 +5,6 @@
     using System.Runtime.InteropServices;
     using System.Runtime.Versioning;
     using System.Security;
-    using System.Security.Permissions;
     using Microsoft.Win32;
     using Native.Win32;
     using Resources;
@@ -27,36 +26,14 @@
             if (!Platform.IsWinNT())
                 throw new PlatformNotSupportedException(Messages.PlatformNotSupportedEx);
 
-            bool isNativeQuery = true;
+            if (!GetVersionEx())
+                GetVersion();
 
-#if NETFRAMEWORK
-            // Create a security permission object to describe the UnmanagedCode permission:
-            SecurityPermission perm =
-               new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);
-
-            // Check that you have permission to access unmanaged code. If you don't have permission to access unmanaged
-            // code, then this call will throw a SecurityException. Even though the CallUnmanagedCodeWithPermission
-            // method is called from a stack frame that already calls Assert for unmanaged code, you still cannot call
-            // native code. Because you use Deny here, the permission gets overwritten.
-            try {
-                perm.Assert();
-            } catch {
-                isNativeQuery = false;
-            }
-#endif
-
-            if (isNativeQuery) {
-                if (!GetVersionEx())
-                    GetVersion();
-
-                DetectArchitecture();
-                GetProductInfo();
-                DetectWin2003R2();
-                DetectWinXP();
-                DetectWinXPx64();
-            } else {
-                GetNativeVersion();
-            }
+            DetectArchitecture();
+            GetProductInfo();
+            DetectWin2003R2();
+            DetectWinXP();
+            DetectWinXPx64();
             DetectWin10();
             Lock();
         }
