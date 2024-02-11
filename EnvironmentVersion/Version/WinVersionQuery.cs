@@ -13,6 +13,7 @@
     /// <summary>
     /// Class to get information about the local machine.
     /// </summary>
+    [SupportedOSPlatform("windows")]
     internal class WinVersionQuery : WinVersion
     {
         /// <summary>

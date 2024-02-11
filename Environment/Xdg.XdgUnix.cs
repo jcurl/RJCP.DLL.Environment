@@ -1,9 +1,11 @@
 ﻿namespace RJCP.Core.Environment
 {
     using System;
+    using System.Runtime.Versioning;
 
     public static partial class Xdg
     {
+        [SupportedOSPlatform("linux")]
         private sealed class XdgUnix : IXdgResolver
         {
             public string ResolveHomeDirectory()

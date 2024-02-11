@@ -1,6 +1,7 @@
 ﻿namespace RJCP.Core.Environment
 {
     using System;
+    using System.Runtime.Versioning;
     using NUnit.Framework;
 
     [TestFixture]
@@ -34,6 +35,7 @@
 
         [Test]
         [Platform(Include = "Win32NT")]
+        [SupportedOSPlatform("windows")]
         public void SpecialFolderLocalApplicationDirectoryWin32()
         {
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -42,6 +44,7 @@
 
         [Test]
         [Platform(Include = "Unix")]
+        [SupportedOSPlatform("windows")]
         public void SpecialFolderLocalApplicationDirectoryUnix()
         {
             string dir = Xdg.GetFolderPath(Xdg.SpecialFolder.LocalApplicationData);
@@ -50,6 +53,7 @@
 
         [Test]
         [Platform(Include = "Win32NT")]
+        [SupportedOSPlatform("windows")]
         public void SpecialFolderCommonApplicationDirectoryWin32()
         {
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
@@ -58,6 +62,7 @@
 
         [Test]
         [Platform(Include = "Unix")]
+        [SupportedOSPlatform("windows")]
         public void SpecialFolderCommonApplicationDirectoryUnix()
         {
             string dir = Xdg.GetFolderPath(Xdg.SpecialFolder.CommonApplicationData);

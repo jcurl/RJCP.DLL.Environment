@@ -2,10 +2,12 @@
 {
     using System;
     using System.IO;
+    using System.Runtime.Versioning;
     using Resources;
 
     public static partial class Xdg
     {
+        [SupportedOSPlatform("windows")]
         private sealed class XdgWindows : IXdgResolver
         {
             public string ResolveHomeDirectory()
