@@ -1736,7 +1736,7 @@ namespace RJCP.Core.Environment.Version
         /// </returns>
         public virtual int CompareTo(object obj)
         {
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            ThrowHelper.ThrowIfNull(obj);
 
             WinVersion p = obj as WinVersion
                 ?? throw new ArgumentException(Messages.ArgumentEx_NotOsVersion, nameof(obj));

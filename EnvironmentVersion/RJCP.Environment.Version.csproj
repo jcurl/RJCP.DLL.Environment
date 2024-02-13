@@ -47,12 +47,12 @@
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <ProjectReference Include="..\SysCompat\RJCP.Core.SysCompat.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="RJCP.MSBuildTasks" Version="0.2.4" PrivateAssets="all" />
     <ProjectReference Include="..\Environment\RJCP.Environment.csproj" />
+    <ProjectReference Include="..\SysCompat\RJCP.Core.SysCompat.csproj" />
     <ProjectReference Include="..\..\path\code\RJCP.IO.Path.csproj" />
   </ItemGroup>
 

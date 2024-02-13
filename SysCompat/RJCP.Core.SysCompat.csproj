@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net40;net60</TargetFrameworks>
+    <TargetFrameworks>net40;net462;net60</TargetFrameworks>
     <OutputType>Library</OutputType>
     <Configurations>Debug;Release</Configurations>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -28,6 +28,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnableDefaultItems>false</EnableDefaultItems>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion Condition="$(TargetFramework.StartsWith('net4'))">10</LangVersion>
 
     <RevisionControl>git</RevisionControl>
     <RevisionControlLabel>release/syscomp/v$(Version)</RevisionControlLabel>
@@ -58,17 +59,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="System\ThrowHelper.cs" />
+    <None Include="System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
     <None Include="System\Runtime\Versioning\OSPlatformAttribute.cs" />
     <None Include="System\Runtime\Versioning\SupportedOSPlatformAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <Compile Include="System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
     <Compile Include="System\Runtime\Versioning\OSPlatformAttribute.cs" />
     <Compile Include="System\Runtime\Versioning\SupportedOSPlatformAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\LICENSE.md" Pack="true" PackagePath="\" />
-    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
