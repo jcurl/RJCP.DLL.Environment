@@ -16,22 +16,22 @@
         [SupportedOSPlatform("windows")]
         internal static IList<INetVersion> FindNetFxLegacy()
         {
-            List<INetVersion> installed = new List<INetVersion>();
+            List<INetVersion> installed = new();
 
             string netKey = NetVersions.GetNetKey(@"NET Framework Setup\NDP\");
             try {
                 using (RegistryKey ndpKey = Registry.LocalMachine.OpenSubKey(netKey)) {
-                    if (ndpKey == null) return installed;
+                    if (ndpKey is null) return installed;
                     foreach (string versionKeyName in ndpKey.GetSubKeyNames()) {
                         if (NetVersions.IsValidVersion(versionKeyName)) {
                             using (RegistryKey versionKey = ndpKey.OpenSubKey(versionKeyName)) {
-                                if (versionKey == null) continue;
+                                if (versionKey is null) continue;
                                 string defaultValue = versionKey.GetValue(null, "").ToString();
-                                if (defaultValue != null &&
+                                if (defaultValue is not null &&
                                     defaultValue.Equals("deprecated", StringComparison.InvariantCultureIgnoreCase)) continue;
 
                                 if (NetVersions.IsInstalled(versionKey)) {
-                                    NetFxLegacy netfx = new NetFxLegacy(versionKeyName);
+                                    NetFxLegacy netfx = new(versionKeyName);
                                     if (netfx.IsValid) installed.Add(netfx);
                                     continue;
                                 }
@@ -39,7 +39,7 @@
                                 // For .NET 3.0, we need to look into Setup
                                 using (RegistryKey setup = versionKey.OpenSubKey("Setup")) {
                                     if (NetVersions.IsInstalled(setup, "InstallSuccess")) {
-                                        NetFxLegacy netfx = new NetFxLegacy(versionKeyName, "Setup", true);
+                                        NetFxLegacy netfx = new(versionKeyName, "Setup", true);
                                         if (netfx.IsValid) installed.Add(netfx);
                                         continue;
                                     }
@@ -48,9 +48,9 @@
                                 // For .NET 4.0, this covers the "Client" and "Full" profile.
                                 foreach (string subKeyName in new[] { "Client", "Full" }) {
                                     using (RegistryKey subKey = versionKey.OpenSubKey(subKeyName)) {
-                                        if (subKey == null) continue;
+                                        if (subKey is null) continue;
                                         if (NetVersions.IsInstalled(subKey)) {
-                                            NetFxLegacy netfx = new NetFxLegacy(versionKeyName, subKeyName);
+                                            NetFxLegacy netfx = new(versionKeyName, subKeyName);
                                             if (netfx.IsValid) installed.Add(netfx);
                                         }
                                     }
@@ -76,7 +76,7 @@
         private NetFxLegacy(string key, string profile, bool ignoreProfile)
         {
             FrameworkVersion = NetVersions.GetVersion(key);
-            if (FrameworkVersion == null) return;
+            if (FrameworkVersion is null) return;
 
             try {
                 GetNetFxDetails(key, profile, ignoreProfile);
@@ -89,20 +89,20 @@
         private void GetNetFxDetails(string key, string profile, bool ignoreProfile)
         {
             string fullKeyPath;
-            if (profile == null) {
+            if (profile is null) {
                 fullKeyPath = NetVersions.GetNetKey($@"NET Framework Setup\NDP\{key}");
             } else {
                 fullKeyPath = NetVersions.GetNetKey($@"NET Framework Setup\NDP\{key}\{profile}");
             }
 
             using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(fullKeyPath)) {
-                if (registryKey == null) return;
+                if (registryKey is null) return;
 
                 string installVersion = (string)registryKey.GetValue("Version");
                 string objIncrement = (string)registryKey.GetValue("Increment");
                 if (!int.TryParse(objIncrement, out int rev)) rev = -1;
 
-                if (installVersion == null) {
+                if (installVersion is null) {
                     if (rev > 0 && FrameworkVersion.Revision <= 0) {
                         InstallVersion = new Version(FrameworkVersion.Major, FrameworkVersion.Minor, FrameworkVersion.Build, rev);
                     } else {
@@ -121,7 +121,7 @@
                 string servicePack = registryKey.GetValue("SP", "").ToString();
                 if (servicePack.Equals("0")) servicePack = string.Empty;
 
-                StringBuilder description = new StringBuilder();
+                StringBuilder description = new();
                 description.Append(Messages.NetFxLegacy).Append(" v").Append(FrameworkVersion.ToString());
                 if (!string.IsNullOrEmpty(Profile))
                     description.Append(' ').Append(Messages.NetFxLegacyProfile).Append(' ').Append(profile);

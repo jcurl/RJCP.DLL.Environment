@@ -16,14 +16,14 @@
         private const string MessageResources = "RJCP.Core.Environment.Resources.Messages";
 
         private static readonly CultureInfo[] Cultures = new CultureInfo[] {
-            new CultureInfo("en"),
-            new CultureInfo("en-US"),
-            new CultureInfo("en-GB"),
-            new CultureInfo("en-AU"),
-            new CultureInfo("de"),
-            new CultureInfo("de-DE"),
-            new CultureInfo("de-AT"),
-            new CultureInfo("ro")
+            new("en"),
+            new("en-US"),
+            new("en-GB"),
+            new("en-AU"),
+            new("de"),
+            new("de-DE"),
+            new("de-AT"),
+            new("ro")
         };
 
         private static CultureInfo GetNeutralResourceLanguage()
@@ -60,11 +60,11 @@
 
         private static bool CheckMissingResources(string baseName, Assembly assembly, CultureInfo culture)
         {
-            ResourceManager rsrc = new ResourceManager(baseName, assembly);
+            ResourceManager rsrc = new(baseName, assembly);
             ResourceSet set = rsrc.GetResourceSet(culture, true, true);
             ResourceSet invariant = rsrc.GetResourceSet(GetNeutralResourceLanguage(), true, false);
 
-            HashSet<string> found = new HashSet<string>();
+            HashSet<string> found = new();
             foreach (DictionaryEntry entry in set) {
                 string key = entry.Key.ToString();
                 if (entry.Value is string resource && !string.IsNullOrWhiteSpace(resource))
@@ -80,7 +80,7 @@
             }
 
             Console.WriteLine("Resource: {0}; Culture: {1}; Parent: {2}", baseName, culture.ToString(), culture.Parent.ToString());
-            List<string> missing = new List<string>();
+            List<string> missing = new();
             foreach (DictionaryEntry entry in invariant) {
                 string key = entry.Key.ToString();
                 if (!found.Contains(key)) {

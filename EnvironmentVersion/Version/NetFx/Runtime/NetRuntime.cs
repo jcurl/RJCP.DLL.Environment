@@ -28,13 +28,12 @@
             // This information is available in .NET 4.7.1 and later. But as we also target earlier frameworks, get this
             // information dynamically.
             Type rti = Type.GetType("System.Runtime.InteropServices.RuntimeInformation");
-            if (rti != null) {
+            if (rti is not null) {
                 PropertyInfo property = rti.GetProperty("FrameworkDescription");
                 Description = property.GetValue(null, null) as string;
             }
 
-            if (Description == null)
-                Description = Messages.NetFxRuntime;
+            Description ??= Messages.NetFxRuntime;
 #endif
             IsValid = true;
         }

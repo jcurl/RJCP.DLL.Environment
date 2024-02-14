@@ -32,13 +32,8 @@
 #endif
         public static void ThrowIfNull(object argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
-#if NETFRAMEWORK
-            if (argument == null)
-                throw new ArgumentNullException(paramName);
-#else
             if (argument is null)
                 throw new ArgumentNullException(paramName);
-#endif
         }
     }
 }

@@ -12,7 +12,7 @@
     /// </summary>
     public sealed class NetVersions : IEnumerable<INetVersion>
     {
-        private readonly List<INetVersion> m_Installed = new List<INetVersion>();
+        private readonly List<INetVersion> m_Installed = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NetVersions"/> class.
@@ -48,7 +48,7 @@
             return GetEnumerator();
         }
 
-        private static readonly object RunTimeLock = new object();
+        private static readonly object RunTimeLock = new();
         private static INetVersion s_RunTime;
 
         /// <summary>
@@ -59,9 +59,9 @@
         {
             get
             {
-                if (s_RunTime == null) {
+                if (s_RunTime is null) {
                     lock (RunTimeLock) {
-                        if (s_RunTime == null) {
+                        if (s_RunTime is null) {
                             INetVersion mono = new MonoRuntime();
                             if (mono.IsValid) {
                                 s_RunTime = mono;
@@ -100,7 +100,7 @@
         [SupportedOSPlatform("windows")]
         internal static bool IsInstalled(RegistryKey key, string value)
         {
-            if (key == null) return false;
+            if (key is null) return false;
             string install = key.GetValue(value, "").ToString();
             return install.Equals("1", StringComparison.InvariantCultureIgnoreCase);
         }

@@ -26,8 +26,8 @@
         /// </summary>
         private sealed class MonoInstall
         {
-            private readonly HashSet<IO.FileSystemNodeInfo> m_Detected = new HashSet<IO.FileSystemNodeInfo>();
-            private readonly List<INetVersion> m_Installed = new List<INetVersion>();
+            private readonly HashSet<IO.FileSystemNodeInfo> m_Detected = new();
+            private readonly List<INetVersion> m_Installed = new();
 
             /// <summary>
             /// Gets the found mono installations.
@@ -76,13 +76,13 @@
 
                 // Checks the i-nodes and filesystem information (resolving to the final file) to
                 // check if this binary has already been detected.
-                IO.FileSystemNodeInfo monoExe = new IO.FileSystemNodeInfo(path);
+                IO.FileSystemNodeInfo monoExe = new(path);
                 if (m_Detected.Contains(monoExe)) return true;
                 m_Detected.Add(monoExe);
 
-                if (arch == null) {
+                if (arch is null) {
                     arch = FindMonoArch(path);
-                    if (arch == null) return false;
+                    if (arch is null) return false;
                 }
 
                 Version net35 = null;
@@ -90,7 +90,7 @@
                 Version net20 = GetFileVersion(assemblyDir, "mono", "2.0", "mscorlib.dll");
                 Version net40 = GetFileVersion(assemblyDir, "mono", "4.0", "mscorlib.dll");
                 Version net45 = GetFileVersion(assemblyDir, "mono", "4.5", "mscorlib.dll");
-                if (net20 != null) {
+                if (net20 is not null) {
                     if (Directory.Exists(Path.Combine(assemblyDir, @"mono\3.5"))) {
                         net35 = net20;
                     }
@@ -99,11 +99,11 @@
                 if (!Version.TryParse(version, out Version installVersion))
                     installVersion = new Version(0, 0);
 
-                if (net11 != null) m_Installed.Add(new Mono(new Version(1, 1, 4322), net11, installVersion, path, arch));
-                if (net20 != null) m_Installed.Add(new Mono(new Version(2, 0), net20, installVersion, path, arch));
-                if (net35 != null) m_Installed.Add(new Mono(new Version(3, 5), net35, installVersion, path, arch));
-                if (net40 != null) m_Installed.Add(new Mono(new Version(4, 0), net40, installVersion, path, arch));
-                if (net45 != null) m_Installed.Add(new Mono(new Version(4, 5), net45, installVersion, path, arch));
+                if (net11 is not null) m_Installed.Add(new Mono(new Version(1, 1, 4322), net11, installVersion, path, arch));
+                if (net20 is not null) m_Installed.Add(new Mono(new Version(2, 0), net20, installVersion, path, arch));
+                if (net35 is not null) m_Installed.Add(new Mono(new Version(3, 5), net35, installVersion, path, arch));
+                if (net40 is not null) m_Installed.Add(new Mono(new Version(4, 0), net40, installVersion, path, arch));
+                if (net45 is not null) m_Installed.Add(new Mono(new Version(4, 5), net45, installVersion, path, arch));
                 return true;
             }
 
@@ -125,7 +125,7 @@
             private static string FindMonoArch(string path)
             {
                 FileExecutable monoExe = FileExecutable.GetFile(path);
-                if (monoExe == null || !monoExe.IsExe) return null;
+                if (monoExe is null || !monoExe.IsExe) return null;
 
                 switch (monoExe.MachineType) {
                 case FileMachineType.Intel386:
@@ -141,7 +141,7 @@
         [SupportedOSPlatform("windows")]
         internal static IList<INetVersion> FindMonoWindows()
         {
-            MonoInstall installed = new MonoInstall();
+            MonoInstall installed = new();
 
             // Check both 32-bit and 64-bit installations (if running on a 32-bit framework, can only check for the
             // 32-bit installation).
@@ -191,7 +191,7 @@
         [SupportedOSPlatform("linux")]
         internal static IList<INetVersion> FindMonoLinux()
         {
-            MonoInstall installed = new MonoInstall();
+            MonoInstall installed = new();
 
             // Always add the current flavour of Mono as an available runtime.
             string binPath = MonoRuntime.GetMonoRuntimeClrPath();
@@ -215,9 +215,9 @@
         {
             try {
                 using (RegistryKey monoKey = Registry.LocalMachine.OpenSubKey(key)) {
-                    if (monoKey == null) return;
+                    if (monoKey is null) return;
                     if (!NetVersions.IsInstalled(monoKey, "Installed")) return;
-                    if (!(monoKey.GetValue("SdkInstallRoot") is string sdkDir)) return;
+                    if (monoKey.GetValue("SdkInstallRoot") is not string sdkDir) return;
                     string monoPath = Path.Combine(sdkDir, "bin", "mono.exe");
                     string assemblyDir = monoKey.GetValue("FrameworkAssemblyDirectory") as string;
                     string version = monoKey.GetValue("Version") as string;
@@ -234,7 +234,7 @@
         {
             try {
                 using (RegistryKey monoKey = Registry.LocalMachine.OpenSubKey(key)) {
-                    if (monoKey == null) return;
+                    if (monoKey is null) return;
                     // If this key doesn't exist, then the user must reinstall (they uninstalled a version, which
                     // removed the key, even though other versions may still be present).
                     if (monoKey.GetValue("DefaultCLR") is string defaultClr) {
@@ -251,8 +251,8 @@
         {
             try {
                 using (RegistryKey installKey = monoKey.OpenSubKey(version)) {
-                    if (installKey == null) return;
-                    if (!(installKey.GetValue("SdkInstallRoot") is string sdkDir)) return;
+                    if (installKey is null) return;
+                    if (installKey.GetValue("SdkInstallRoot") is not string sdkDir) return;
                     string monoPath = Path.Combine(sdkDir, "bin", "mono.exe");
                     string assemblyDir = installKey.GetValue("FrameworkAssemblyDirectory") as string;
                     installed.AddMonoProfile(monoPath, assemblyDir, version, "x86");
@@ -272,15 +272,14 @@
 
         private static bool FindMonoFromSdkPath(string sdkPath, string monoPath, MonoInstall installed)
         {
-            if (monoPath == null)
-                monoPath = Path.Combine(sdkPath, "bin", "mono.exe");
+            monoPath ??= Path.Combine(sdkPath, "bin", "mono.exe");
             string assemblyDir = Path.Combine(sdkPath, "lib");
             return installed.AddMonoProfile(monoPath, assemblyDir, null);
         }
 
         private Mono(Version framework, Version file, Version install, string path, string arch)
         {
-            if (framework == null) return;
+            if (framework is null) return;
             FrameworkVersion = framework;
             InstallVersion = install ?? file;
             MonoPath = path;
@@ -288,7 +287,7 @@
             Architecture = arch ?? "x86";
             IsValid = true;
 
-            if (InstallVersion != null) {
+            if (InstallVersion is not null) {
                 Description = string.Format(Messages.Mono, FrameworkVersion.ToString(), InstallVersion.ToString(), arch);
             } else {
                 Description = string.Format(Messages.MonoNoVersion, FrameworkVersion.ToString(), arch);

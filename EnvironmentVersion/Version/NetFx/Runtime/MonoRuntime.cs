@@ -16,7 +16,7 @@
         internal MonoRuntime()
         {
             Type monoType = GetMonoRuntimeType();
-            if (monoType == null) {
+            if (monoType is null) {
                 IsValid = false;
                 return;
             }
@@ -30,7 +30,7 @@
             MsCorLibVersion = msCoreLibVersion;
 
             MethodInfo displayName = monoType.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
-            if (displayName != null) {
+            if (displayName is not null) {
                 Description = string.Format("Mono {0}", displayName.Invoke(null, null));
             }
 
@@ -50,7 +50,7 @@
         internal static string GetMonoRuntimeClrPath()
         {
             Type monoType = GetMonoRuntimeType();
-            if (monoType == null) return null;
+            if (monoType is null) return null;
             return GetMonoClrPath(monoType, out _);
         }
 
@@ -70,10 +70,10 @@
             int i = 4;
             do {
                 string testPath = TestPath(binPath, "mono.exe");
-                if (testPath != null) return testPath;
+                if (testPath is not null) return testPath;
 
                 testPath = TestPath(binPath, "mono");
-                if (testPath != null) return testPath;
+                if (testPath is not null) return testPath;
 
                 binPath = Path.GetDirectoryName(binPath);
                 i--;

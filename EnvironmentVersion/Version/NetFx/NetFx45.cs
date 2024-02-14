@@ -16,10 +16,10 @@
         [SupportedOSPlatform("windows")]
         internal static IList<INetVersion> FindNetFx()
         {
-            List<INetVersion> installed = new List<INetVersion>();
+            List<INetVersion> installed = new();
 
             try {
-                NetFx45 version45 = new NetFx45();
+                NetFx45 version45 = new();
                 if (version45.IsValid) installed.Add(version45);
             } catch (SecurityException) {
                 /* Ignore */
@@ -34,21 +34,21 @@
             try {
                 string fullKeyPath = NetVersions.GetNetKey(@"NET Framework Setup\NDP\v4\Full");
                 using (RegistryKey key = Registry.LocalMachine.OpenSubKey(fullKeyPath)) {
-                    if (key == null) return;
+                    if (key is null) return;
 
                     object objRelease = key.GetValue("Release");
-                    if (objRelease == null) return;
+                    if (objRelease is null) return;
                     Net45Release = (int)objRelease;
                     NetFxVersion details = NetFxConfig.GetNetFxVersion(Net45Release);
                     FrameworkVersion = details?.Version;
 
                     object objTargetVersion = key.GetValue("TargetVersion");
-                    if (objTargetVersion != null) {
+                    if (objTargetVersion is not null) {
                         TargetVersion = NetVersions.GetVersion(objTargetVersion as string);
                     }
 
                     object objInstallVersion = key.GetValue("Version");
-                    if (objInstallVersion != null) {
+                    if (objInstallVersion is not null) {
                         InstallVersion = NetVersions.GetVersion(objInstallVersion as string);
                     }
 

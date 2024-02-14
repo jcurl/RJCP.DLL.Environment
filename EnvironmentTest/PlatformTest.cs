@@ -26,7 +26,7 @@
             bool result = Platform.IsUnix();
 
             // Check http://www.mono-project.com/docs/faq/technical/#how-to-detect-the-execution-platform
-            if ((platform == 4) || (platform == 6) || (platform == 128)) {
+            if (platform is 4 or 6 or 128) {
                 Assert.That(result, Is.True);
             } else {
                 Assert.That(result, Is.False);

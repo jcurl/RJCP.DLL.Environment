@@ -52,7 +52,7 @@
 
             // Get the basic information. If this shows we've got a newer operating system, we can get more detailed
             // information later.
-            Kernel32.OSVERSIONINFO info = new Kernel32.OSVERSIONINFO();
+            Kernel32.OSVERSIONINFO info = new();
             try {
                 result = Kernel32.GetVersionEx(info);
                 if (!result) {
@@ -88,7 +88,7 @@
                 return true;
             }
 
-            Kernel32.OSVERSIONINFOEX infoex = new Kernel32.OSVERSIONINFOEX();
+            Kernel32.OSVERSIONINFOEX infoex = new();
             result = Kernel32.GetVersionEx(infoex);
             if (!result) {
                 int error = Marshal.GetLastWin32Error();
@@ -97,7 +97,7 @@
             }
 
             int ntstatus;
-            Kernel32.OSVERSIONINFOEX rtlInfoEx = new Kernel32.OSVERSIONINFOEX();
+            Kernel32.OSVERSIONINFOEX rtlInfoEx = new();
             try {
                 ntstatus = NtDll.RtlGetVersion(rtlInfoEx);
             } catch {
@@ -109,8 +109,8 @@
             if (ntstatus == 0) {
                 // The direct call worked, and should overcome the API breakage that depends on a manifest. Just in case
                 // that the real method returns a value that is older than the "real" windows API.
-                Version vInfo = new Version(infoex.MajorVersion, infoex.MinorVersion, infoex.BuildNumber);
-                Version vRtl = new Version(rtlInfoEx.MajorVersion, rtlInfoEx.MinorVersion, rtlInfoEx.BuildNumber);
+                Version vInfo = new(infoex.MajorVersion, infoex.MinorVersion, infoex.BuildNumber);
+                Version vRtl = new(rtlInfoEx.MajorVersion, rtlInfoEx.MinorVersion, rtlInfoEx.BuildNumber);
                 newer = vRtl >= vInfo;
             } else {
                 newer = false;
@@ -205,7 +205,7 @@
                 try {
                     RegistryKey rk =
                         Registry.LocalMachine.OpenSubKey(@"System\CurrentControlSet\Control\ProductOptions");
-                    if (rk != null) {
+                    if (rk is not null) {
                         if (rk.GetValue("ProductType") is string producttype) {
                             if (producttype.Equals("WinNT")) ProductType = WinProductType.Workstation;
                             if (producttype.Equals("ServerNT")) ProductType = WinProductType.Server;
@@ -417,7 +417,7 @@
             try {
                 RegistryKey rk =
                     Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
-                if (rk != null) {
+                if (rk is not null) {
                     object ubrobj = rk.GetValue("UBR");
                     if (ubrobj is int ubr) {
                         UpdateBuildNumber = ubr;

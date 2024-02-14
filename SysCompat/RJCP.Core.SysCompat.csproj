@@ -51,14 +51,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="RJCP.MSBuildTasks" Version="0.2.4" PrivateAssets="all" />
+    <PackageReference Include="CSharpIsNullAnalyzer" Version="0.1.495" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\ThrowHelper.cs" />
     <None Include="System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
     <None Include="System\Runtime\Versioning\OSPlatformAttribute.cs" />

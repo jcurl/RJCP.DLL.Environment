@@ -50,7 +50,7 @@
                 RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 #else
             int platform = (int)Environment.OSVersion.Platform;
-            return ((platform == 4) || (platform == 6) || (platform == 128));
+            return (platform is 4 or 6 or 128);
 #endif
         }
 
@@ -100,7 +100,7 @@
         /// <returns><see langword="true"/> if running on the Mono CLR; otherwise, <see langword="false"/>.</returns>
         public static bool IsMonoClr()
         {
-            return Type.GetType("Mono.Runtime") != null;
+            return Type.GetType("Mono.Runtime") is not null;
         }
 
         /// <summary>

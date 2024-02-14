@@ -10,7 +10,7 @@
         [Test]
         public void ReadAllVersions()
         {
-            NetVersions versions = new NetVersions();
+            NetVersions versions = new();
             foreach (INetVersion version in versions) {
                 Assert.That(version.IsValid, Is.True);
                 Assert.That(version.FrameworkVersion, Is.Not.Null);

@@ -8,7 +8,7 @@
     internal static class NetFxConfig
     {
         // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
-        private readonly static Dictionary<int, NetFxVersion> Versions = new Dictionary<int, NetFxVersion>() {
+        private readonly static Dictionary<int, NetFxVersion> Versions = new() {
             { 378389, new NetFxVersion(new Version(4, 5), Messages.Net45) },
             { 378675, new NetFxVersion(new Version(4, 5, 1), Messages.Net451_Win81) },
             { 378758, new NetFxVersion(new Version(4, 5, 1), Messages.Net451_Vista) },
@@ -47,7 +47,7 @@
                     derivedVersion = netVersion.Value;
 
                 if (netVersion.Key >= release) {
-                    if (derivedVersion == null) {
+                    if (derivedVersion is null) {
                         description = string.Format(Messages.Net45_Unknown, release);
                         return new NetFxVersion(new Version(4, 0), description);
                     }
@@ -57,7 +57,7 @@
 
             // This can't happen, because the enumeration will always have at least one element, but quiesces a possible
             // null pointer warning.
-            if (derivedVersion == null) return null;
+            if (derivedVersion is null) return null;
 
             description = string.Format(Messages.NetFx, derivedVersion.Version, release);
             return new NetFxVersion(derivedVersion.Version, description);

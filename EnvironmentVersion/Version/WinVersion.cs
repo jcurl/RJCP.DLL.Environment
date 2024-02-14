@@ -266,7 +266,7 @@ namespace RJCP.Core.Environment.Version
             IsReadOnly = readOnly;
         }
 
-        private static readonly object s_Lock = new object();
+        private static readonly object s_Lock = new();
         private static WinVersionQuery s_Current = null;
 
         /// <summary>
@@ -279,9 +279,7 @@ namespace RJCP.Core.Environment.Version
             {
                 if (s_Current is null) {
                     lock (s_Lock) {
-                        if (s_Current is null) {
-                            s_Current = new WinVersionQuery();
-                        }
+                        s_Current ??= new WinVersionQuery();
                     }
                 }
 
@@ -290,55 +288,55 @@ namespace RJCP.Core.Environment.Version
         }
 
         #region Static properties describing known Operating Systems
-        private static readonly WinVersion _Win32s = new WinVersion(WinPlatform.Win32s, 3, -1, true);
-        private static readonly WinVersion _WinCE = new WinVersion(WinPlatform.WinCE, 3, -1, true);
-        private static readonly WinVersion _Win95 = new WinVersion(WinPlatform.Win9x, 4, 0, "", true);
-        private static readonly WinVersion _Win95OSR2 = new WinVersion(WinPlatform.Win9x, 4, 0, "B", true);
-        private static readonly WinVersion _Win95OSR2C = new WinVersion(WinPlatform.Win9x, 4, 0, "C", true);
-        private static readonly WinVersion _Win98 = new WinVersion(WinPlatform.Win9x, 4, 10, "", true);
-        private static readonly WinVersion _Win98SE = new WinVersion(WinPlatform.Win9x, 4, 10, "A", true);
-        private static readonly WinVersion _WinME = new WinVersion(WinPlatform.Win9x, 4, 90, true);
-        private static readonly WinVersion _WinNT351 = new WinVersion(WinPlatform.WinNT, 3, 51, true);
-        private static readonly WinVersion _WinNT4 = new WinVersion(WinPlatform.WinNT, 4, 0, true);
-        private static readonly WinVersion _Win2000 = new WinVersion(WinPlatform.WinNT, 5, 0, true);
-        private static readonly WinVersion _WinXP = new WinVersion(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, true);
-        private static readonly WinVersion _WinXPSP0 = new WinVersion(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 0, 0, true);
-        private static readonly WinVersion _WinXPSP1 = new WinVersion(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 1, 0, true);
-        private static readonly WinVersion _WinXPSP2 = new WinVersion(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 2, 0, true);
-        private static readonly WinVersion _WinXPSP3 = new WinVersion(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 3, 0, true);
-        private static readonly WinVersion _WinXPx64 = new WinVersion(WinPlatform.WinNT, 5, 2, WinProductType.Workstation, true);
-        private static readonly WinVersion _Win2003 = new WinVersion(WinPlatform.WinNT, 5, 2, WinProductType.Server, true);
-        private static readonly WinVersion _Win2003R2 = new WinVersion(WinPlatform.WinNT, 5, 2, true, WinProductType.Server, true);
-        private static readonly WinVersion _Vista = new WinVersion(WinPlatform.WinNT, 6, 0, WinProductType.Workstation, true);
-        private static readonly WinVersion _Win2008 = new WinVersion(WinPlatform.WinNT, 6, 0, WinProductType.Server, true);
-        private static readonly WinVersion _Win7 = new WinVersion(WinPlatform.WinNT, 6, 1, WinProductType.Workstation, true);
-        private static readonly WinVersion _Win2008R2 = new WinVersion(WinPlatform.WinNT, 6, 1, WinProductType.Server, true);
-        private static readonly WinVersion _Win8 = new WinVersion(WinPlatform.WinNT, 6, 2, WinProductType.Workstation, true);
-        private static readonly WinVersion _WinRT = new WinVersion(WinPlatform.WinNT, 6, 2, WinArchitecture.ARM, true);
-        private static readonly WinVersion _Win2012 = new WinVersion(WinPlatform.WinNT, 6, 2, WinProductType.Server, true);
-        private static readonly WinVersion _Win8_1 = new WinVersion(WinPlatform.WinNT, 6, 3, WinProductType.Workstation, true);
-        private static readonly WinVersion _Win8_1RT = new WinVersion(WinPlatform.WinNT, 6, 3, WinArchitecture.ARM, true);
-        private static readonly WinVersion _Win2012R2 = new WinVersion(WinPlatform.WinNT, 6, 3, WinProductType.Server, true);
-        private static readonly WinVersion _Win10 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, true);
-        private static readonly WinVersion _Win10_1507 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 10240, true);
-        private static readonly WinVersion _Win10_1511 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 10586, true);
-        private static readonly WinVersion _Win10_1607 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 14393, true);
-        private static readonly WinVersion _Win10_1703 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 15063, true);
-        private static readonly WinVersion _Win10_1709 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 16299, true);
-        private static readonly WinVersion _Win10_1803 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 17134, true);
-        private static readonly WinVersion _Win10_1809 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 17763, true);
-        private static readonly WinVersion _Win10_1903 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 18362, true);
-        private static readonly WinVersion _Win10_1909 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 18363, true);
-        private static readonly WinVersion _Win10_2004 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19041, true);
-        private static readonly WinVersion _Win10_20H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19042, true);
-        private static readonly WinVersion _Win10_21H1 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19043, true);
-        private static readonly WinVersion _Win10_21H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19044, true);
-        private static readonly WinVersion _Win10_22H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19045, true);
-        private static readonly WinVersion _Win11_21H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22000, true);
-        private static readonly WinVersion _Win11_22H2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22621, true);
-        private static readonly WinVersion _Win2016 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
-        private static readonly WinVersion _Win2019 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
-        private static readonly WinVersion _Win2022 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
+        private static readonly WinVersion _Win32s = new(WinPlatform.Win32s, 3, -1, true);
+        private static readonly WinVersion _WinCE = new(WinPlatform.WinCE, 3, -1, true);
+        private static readonly WinVersion _Win95 = new(WinPlatform.Win9x, 4, 0, "", true);
+        private static readonly WinVersion _Win95OSR2 = new(WinPlatform.Win9x, 4, 0, "B", true);
+        private static readonly WinVersion _Win95OSR2C = new(WinPlatform.Win9x, 4, 0, "C", true);
+        private static readonly WinVersion _Win98 = new(WinPlatform.Win9x, 4, 10, "", true);
+        private static readonly WinVersion _Win98SE = new(WinPlatform.Win9x, 4, 10, "A", true);
+        private static readonly WinVersion _WinME = new(WinPlatform.Win9x, 4, 90, true);
+        private static readonly WinVersion _WinNT351 = new(WinPlatform.WinNT, 3, 51, true);
+        private static readonly WinVersion _WinNT4 = new(WinPlatform.WinNT, 4, 0, true);
+        private static readonly WinVersion _Win2000 = new(WinPlatform.WinNT, 5, 0, true);
+        private static readonly WinVersion _WinXP = new(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, true);
+        private static readonly WinVersion _WinXPSP0 = new(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 0, 0, true);
+        private static readonly WinVersion _WinXPSP1 = new(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 1, 0, true);
+        private static readonly WinVersion _WinXPSP2 = new(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 2, 0, true);
+        private static readonly WinVersion _WinXPSP3 = new(WinPlatform.WinNT, 5, 1, WinProductType.Workstation, 2600, 3, 0, true);
+        private static readonly WinVersion _WinXPx64 = new(WinPlatform.WinNT, 5, 2, WinProductType.Workstation, true);
+        private static readonly WinVersion _Win2003 = new(WinPlatform.WinNT, 5, 2, WinProductType.Server, true);
+        private static readonly WinVersion _Win2003R2 = new(WinPlatform.WinNT, 5, 2, true, WinProductType.Server, true);
+        private static readonly WinVersion _Vista = new(WinPlatform.WinNT, 6, 0, WinProductType.Workstation, true);
+        private static readonly WinVersion _Win2008 = new(WinPlatform.WinNT, 6, 0, WinProductType.Server, true);
+        private static readonly WinVersion _Win7 = new(WinPlatform.WinNT, 6, 1, WinProductType.Workstation, true);
+        private static readonly WinVersion _Win2008R2 = new(WinPlatform.WinNT, 6, 1, WinProductType.Server, true);
+        private static readonly WinVersion _Win8 = new(WinPlatform.WinNT, 6, 2, WinProductType.Workstation, true);
+        private static readonly WinVersion _WinRT = new(WinPlatform.WinNT, 6, 2, WinArchitecture.ARM, true);
+        private static readonly WinVersion _Win2012 = new(WinPlatform.WinNT, 6, 2, WinProductType.Server, true);
+        private static readonly WinVersion _Win8_1 = new(WinPlatform.WinNT, 6, 3, WinProductType.Workstation, true);
+        private static readonly WinVersion _Win8_1RT = new(WinPlatform.WinNT, 6, 3, WinArchitecture.ARM, true);
+        private static readonly WinVersion _Win2012R2 = new(WinPlatform.WinNT, 6, 3, WinProductType.Server, true);
+        private static readonly WinVersion _Win10 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, true);
+        private static readonly WinVersion _Win10_1507 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 10240, true);
+        private static readonly WinVersion _Win10_1511 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 10586, true);
+        private static readonly WinVersion _Win10_1607 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 14393, true);
+        private static readonly WinVersion _Win10_1703 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 15063, true);
+        private static readonly WinVersion _Win10_1709 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 16299, true);
+        private static readonly WinVersion _Win10_1803 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 17134, true);
+        private static readonly WinVersion _Win10_1809 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 17763, true);
+        private static readonly WinVersion _Win10_1903 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 18362, true);
+        private static readonly WinVersion _Win10_1909 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 18363, true);
+        private static readonly WinVersion _Win10_2004 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19041, true);
+        private static readonly WinVersion _Win10_20H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19042, true);
+        private static readonly WinVersion _Win10_21H1 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19043, true);
+        private static readonly WinVersion _Win10_21H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19044, true);
+        private static readonly WinVersion _Win10_22H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19045, true);
+        private static readonly WinVersion _Win11_21H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22000, true);
+        private static readonly WinVersion _Win11_22H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22621, true);
+        private static readonly WinVersion _Win2016 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
+        private static readonly WinVersion _Win2019 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
+        private static readonly WinVersion _Win2022 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
 
         private sealed class WinVersionLookupEntry
         {
@@ -362,63 +360,63 @@ namespace RJCP.Core.Environment.Version
         /// table.
         /// </remarks>
         private static readonly WinVersionLookupEntry[] WinVersionDatabase = new WinVersionLookupEntry[] {
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.Win32s, true), "Windows 32s"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinCE, true), "Windows 32s"),
-            new WinVersionLookupEntry(_Win95, "Windows 95"),
-            new WinVersionLookupEntry(_Win95OSR2, "Windows 95OSR2"),
-            new WinVersionLookupEntry(_Win95OSR2C, "Windows 95OSR2"),
-            new WinVersionLookupEntry(_Win98, "Windows 98"),
-            new WinVersionLookupEntry(_Win98SE, "Windows 98SE"),
-            new WinVersionLookupEntry(_WinME, "Windows ME"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.Win9x, 4, -1, true), "Windows 9x"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.Win9x, true), "Windows 9x"),
-            new WinVersionLookupEntry(_WinNT351, "Windows NT 3.51"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 3, -1, true), "Windows NT 3.x"),
-            new WinVersionLookupEntry(_WinNT4, "Windows NT 4"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 4, -1, true), "Windows NT 4.x"),
-            new WinVersionLookupEntry(_Win2000, "Windows 2000"),
-            new WinVersionLookupEntry(_WinXP, "Windows XP"),
-            new WinVersionLookupEntry(_Win2003R2, "Windows 2003R2"),
-            new WinVersionLookupEntry(_Win2003, "Windows 2003"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 5, 2, true), "Windows XP/2003"),
-            new WinVersionLookupEntry(_WinXPx64, "Windows XP"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 5, -1, true), "Windows NT 5.x"),
-            new WinVersionLookupEntry(_Vista, "Windows Vista"),
-            new WinVersionLookupEntry(_Win2008, "Windows 2008"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 6, 0, true), "Windows Vista/2008"),
-            new WinVersionLookupEntry(_Win7, "Windows 7"),
-            new WinVersionLookupEntry(_Win2008R2, "Windows 2008R2"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 6, 1, true), "Windows 7/2008R2"),
-            new WinVersionLookupEntry(_WinRT, "Windows RT"),
-            new WinVersionLookupEntry(_Win8, "Windows 8"),
-            new WinVersionLookupEntry(_Win2012, "Windows 2012"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 6, 2, true), "Windows 8/2012"),
-            new WinVersionLookupEntry(_Win8_1RT, "Windows 8.1 RT"),
-            new WinVersionLookupEntry(_Win8_1, "Windows 8.1"),
-            new WinVersionLookupEntry(_Win2012R2, "Windows 2012R2"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 6, 3, true), "Windows 8.1/2012R2"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 6, -1, true), "Windows NT 6.x"),
-            new WinVersionLookupEntry(_Win10_1507, "Windows 10 v1507 - Threshold 1"),
-            new WinVersionLookupEntry(_Win10_1511, "Windows 10 v1511 - Threshold 2"),
-            new WinVersionLookupEntry(_Win10_1607, "Windows 10 v1607 - Redstone 1"),
-            new WinVersionLookupEntry(_Win2016, "Windows 10 Server 2016"),
-            new WinVersionLookupEntry(_Win10_1703, "Windows 10 v1703 - Redstone 2"),
-            new WinVersionLookupEntry(_Win10_1709, "Windows 10 v1709 - Redstone 3"),
-            new WinVersionLookupEntry(_Win10_1803, "Windows 10 v1803 - Redstone 4"),
-            new WinVersionLookupEntry(_Win10_1809, "Windows 10 v1809 - Redstone 5"),
-            new WinVersionLookupEntry(_Win2019, "Windows 10 Server 2019"),
-            new WinVersionLookupEntry(_Win10_1903, "Windows 10 v1903"),
-            new WinVersionLookupEntry(_Win10_1909, "Windows 10 v1909"),
-            new WinVersionLookupEntry(_Win10_2004, "Windows 10 v2004"),
-            new WinVersionLookupEntry(_Win10_20H2, "Windows 10 v20H2"),
-            new WinVersionLookupEntry(_Win10_21H1, "Windows 10 v21H1"),
-            new WinVersionLookupEntry(_Win10_21H2, "Windows 10 v21H2"),
-            new WinVersionLookupEntry(_Win10_22H2, "Windows 10 v22H2"),
-            new WinVersionLookupEntry(_Win11_21H2, "Windows 11 v21H2"),
-            new WinVersionLookupEntry(_Win2022, "Windows 11 Server 2022"),
-            new WinVersionLookupEntry(_Win11_22H2, "Windows 11 v22H2"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
-            new WinVersionLookupEntry(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
+            new(new WinVersion(WinPlatform.Win32s, true), "Windows 32s"),
+            new(new WinVersion(WinPlatform.WinCE, true), "Windows 32s"),
+            new(_Win95, "Windows 95"),
+            new(_Win95OSR2, "Windows 95OSR2"),
+            new(_Win95OSR2C, "Windows 95OSR2"),
+            new(_Win98, "Windows 98"),
+            new(_Win98SE, "Windows 98SE"),
+            new(_WinME, "Windows ME"),
+            new(new WinVersion(WinPlatform.Win9x, 4, -1, true), "Windows 9x"),
+            new(new WinVersion(WinPlatform.Win9x, true), "Windows 9x"),
+            new(_WinNT351, "Windows NT 3.51"),
+            new(new WinVersion(WinPlatform.WinNT, 3, -1, true), "Windows NT 3.x"),
+            new(_WinNT4, "Windows NT 4"),
+            new(new WinVersion(WinPlatform.WinNT, 4, -1, true), "Windows NT 4.x"),
+            new(_Win2000, "Windows 2000"),
+            new(_WinXP, "Windows XP"),
+            new(_Win2003R2, "Windows 2003R2"),
+            new(_Win2003, "Windows 2003"),
+            new(new WinVersion(WinPlatform.WinNT, 5, 2, true), "Windows XP/2003"),
+            new(_WinXPx64, "Windows XP"),
+            new(new WinVersion(WinPlatform.WinNT, 5, -1, true), "Windows NT 5.x"),
+            new(_Vista, "Windows Vista"),
+            new(_Win2008, "Windows 2008"),
+            new(new WinVersion(WinPlatform.WinNT, 6, 0, true), "Windows Vista/2008"),
+            new(_Win7, "Windows 7"),
+            new(_Win2008R2, "Windows 2008R2"),
+            new(new WinVersion(WinPlatform.WinNT, 6, 1, true), "Windows 7/2008R2"),
+            new(_WinRT, "Windows RT"),
+            new(_Win8, "Windows 8"),
+            new(_Win2012, "Windows 2012"),
+            new(new WinVersion(WinPlatform.WinNT, 6, 2, true), "Windows 8/2012"),
+            new(_Win8_1RT, "Windows 8.1 RT"),
+            new(_Win8_1, "Windows 8.1"),
+            new(_Win2012R2, "Windows 2012R2"),
+            new(new WinVersion(WinPlatform.WinNT, 6, 3, true), "Windows 8.1/2012R2"),
+            new(new WinVersion(WinPlatform.WinNT, 6, -1, true), "Windows NT 6.x"),
+            new(_Win10_1507, "Windows 10 v1507 - Threshold 1"),
+            new(_Win10_1511, "Windows 10 v1511 - Threshold 2"),
+            new(_Win10_1607, "Windows 10 v1607 - Redstone 1"),
+            new(_Win2016, "Windows 10 Server 2016"),
+            new(_Win10_1703, "Windows 10 v1703 - Redstone 2"),
+            new(_Win10_1709, "Windows 10 v1709 - Redstone 3"),
+            new(_Win10_1803, "Windows 10 v1803 - Redstone 4"),
+            new(_Win10_1809, "Windows 10 v1809 - Redstone 5"),
+            new(_Win2019, "Windows 10 Server 2019"),
+            new(_Win10_1903, "Windows 10 v1903"),
+            new(_Win10_1909, "Windows 10 v1909"),
+            new(_Win10_2004, "Windows 10 v2004"),
+            new(_Win10_20H2, "Windows 10 v20H2"),
+            new(_Win10_21H1, "Windows 10 v21H1"),
+            new(_Win10_21H2, "Windows 10 v21H2"),
+            new(_Win10_22H2, "Windows 10 v22H2"),
+            new(_Win11_21H2, "Windows 11 v21H2"),
+            new(_Win2022, "Windows 11 Server 2022"),
+            new(_Win11_22H2, "Windows 11 v22H2"),
+            new(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
+            new(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
 
         /// <summary>
@@ -827,7 +825,7 @@ namespace RJCP.Core.Environment.Version
         /// </remarks>
         public bool IsServer
         {
-            get { return m_ProductType == WinProductType.Server || m_ProductType == WinProductType.DomainController; }
+            get { return m_ProductType is WinProductType.Server or WinProductType.DomainController; }
         }
 
         private int m_ServicePackMajor = -1;
@@ -929,7 +927,7 @@ namespace RJCP.Core.Environment.Version
                 Version v = Version;
                 if (m_UpdateBuildNumber >= 0) return v.ToString();
 
-                Version vo = new Version(v.Major, v.Minor, v.Build, 0);
+                Version vo = new(v.Major, v.Minor, v.Build, 0);
                 return vo.ToString();
             }
         }
@@ -968,7 +966,7 @@ namespace RJCP.Core.Environment.Version
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new();
 
                 if (SuiteFlag(WinSuite.SmallBusiness)) SuiteStringAdd(sb, "Small Business");
                 if (SuiteFlag(WinSuite.Enterprise)) {
@@ -1244,7 +1242,7 @@ namespace RJCP.Core.Environment.Version
             switch (compare.ProductType) {
             case WinProductType.Server:
             case WinProductType.DomainController:
-                if (m_ProductType != WinProductType.Server && m_ProductType != WinProductType.DomainController) return false;
+                if (m_ProductType is not WinProductType.Server and not WinProductType.DomainController) return false;
                 break;
             case WinProductType.Workstation:
                 if (m_ProductType != WinProductType.Workstation) return false;
@@ -1286,8 +1284,8 @@ namespace RJCP.Core.Environment.Version
                 }
 
                 if (entry.OSVersion.BuildNumber != -1 && entry.OSVersion.BuildNumber != m_BuildNumber) continue;
-                if (entry.OSVersion.CSDVersion != null) {
-                    if (m_CSDVersion == null) continue;
+                if (entry.OSVersion.CSDVersion is not null) {
+                    if (m_CSDVersion is null) continue;
                     if (!entry.OSVersion.CSDVersion.Equals(m_CSDVersion.Trim())) continue;
                 }
                 if (entry.OSVersion.ProductType != WinProductType.Unknown) {
@@ -1303,7 +1301,7 @@ namespace RJCP.Core.Environment.Version
 
                 if (entry.OSVersion.MajorVersion == -1 ||
                     entry.OSVersion.MajorVersion != -1 && entry.OSVersion.MinorVersion == -1) {
-                    if (lastMatch == null)
+                    if (lastMatch is null)
                         return entry.WinVersionString;
                     break;
                 } else {
@@ -1325,7 +1323,7 @@ namespace RJCP.Core.Environment.Version
         /// </remarks>
         protected virtual string CalculateWinVersion(WinVersion lastMatch)
         {
-            if (lastMatch != null)
+            if (lastMatch is not null)
                 return string.Format("{0} or later", lastMatch.WinVersionString);
 
             return string.Empty;
@@ -1340,7 +1338,7 @@ namespace RJCP.Core.Environment.Version
         {
             get
             {
-                if (m_WinVersionInfo == null) m_WinVersionInfo = CalculateWinVersion();
+                m_WinVersionInfo ??= CalculateWinVersion();
                 return m_WinVersionInfo;
             }
         }
@@ -1466,7 +1464,7 @@ namespace RJCP.Core.Environment.Version
         /// <returns>A <see cref="string"/> that represents this instance.</returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(WinVersionString);
+            StringBuilder sb = new(WinVersionString);
 
             if (m_IsExtendedPropsSet) {
                 ToStringBuild(sb, ProductTypeString);
@@ -1506,7 +1504,7 @@ namespace RJCP.Core.Environment.Version
                 if (sb.Length > 0) sb.Append(' ');
                 sb.Append('(').Append(pinfo).Append(')');
             }
-            if (m_CSDVersion != null)
+            if (m_CSDVersion is not null)
                 ToStringBuild(sb, m_CSDVersion.Trim());
             sb.Append(", v").Append(VersionString);
             return sb.ToString();
@@ -1534,7 +1532,7 @@ namespace RJCP.Core.Environment.Version
         public override bool Equals(object obj)
         {
             WinVersion p = obj as WinVersion;
-            if (p != null) return this == p;
+            if (p is not null) return this == p;
             return false;
         }
 
@@ -1567,8 +1565,8 @@ namespace RJCP.Core.Environment.Version
 
             if (o.m_PlatformId == WinPlatform.Win9x) {
                 // We compare the CSD string instead of the service pack
-                string os = o.m_CSDVersion == null ? "" : o.m_CSDVersion.Trim();
-                string ps = p.m_CSDVersion == null ? "" : p.m_CSDVersion.Trim();
+                string os = o.m_CSDVersion is null ? "" : o.m_CSDVersion.Trim();
+                string ps = p.m_CSDVersion is null ? "" : p.m_CSDVersion.Trim();
                 return string.Compare(os, ps, true, System.Globalization.CultureInfo.InvariantCulture);
             }
 

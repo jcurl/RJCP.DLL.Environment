@@ -36,7 +36,9 @@
 
         [Test]
         [Platform(Include = "Unix")]
+#if NET6_0_OR_GREATER
         [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Test Case confirming behaviour")]
+#endif
         public void OSVersionCheckCurrentOSNotSupported()
         {
             Assert.That(() => {
@@ -167,7 +169,7 @@
         [Test]
         public void WinVersionFuturistic()
         {
-            WinVersion p65 = new WinVersion(WinPlatform.WinNT, 6, 5);
+            WinVersion p65 = new(WinPlatform.WinNT, 6, 5);
             Assert.That(WinVersion.Win7, Is.LessThan(p65));
             Assert.That(WinVersion.Win2008R2, Is.LessThan(p65));
             Assert.That(WinVersion.Vista, Is.LessThan(p65));
@@ -185,7 +187,7 @@
             Assert.That(WinVersion.Win95OSR2, Is.LessThan(p65));
             Assert.That(WinVersion.Win95, Is.LessThan(p65));
 
-            WinVersion p70 = new WinVersion(WinPlatform.WinNT, 7, 0);
+            WinVersion p70 = new(WinPlatform.WinNT, 7, 0);
             Assert.That(WinVersion.Win8, Is.LessThan(p70));
             Assert.That(WinVersion.Win2012, Is.LessThan(p70));
             Assert.That(WinVersion.Win7, Is.LessThan(p70));
@@ -205,7 +207,7 @@
             Assert.That(WinVersion.Win95OSR2, Is.LessThan(p70));
             Assert.That(WinVersion.Win95, Is.LessThan(p70));
 
-            WinVersion p100 = new WinVersion(WinPlatform.WinNT, 10, 0);
+            WinVersion p100 = new(WinPlatform.WinNT, 10, 0);
             Assert.That(WinVersion.Win8, Is.LessThan(p100));
             Assert.That(WinVersion.Win2012, Is.LessThan(p100));
             Assert.That(WinVersion.Win7, Is.LessThan(p100));
@@ -227,7 +229,7 @@
             Assert.That(WinVersion.Windows10, Is.EqualTo(p100));
             Assert.That(WinVersion.Win2016, Is.EqualTo(p100));
 
-            WinVersion p101 = new WinVersion(WinPlatform.WinNT, 10, 1);
+            WinVersion p101 = new(WinPlatform.WinNT, 10, 1);
             Assert.That(WinVersion.Win8, Is.LessThan(p101));
             Assert.That(WinVersion.Win2012, Is.LessThan(p101));
             Assert.That(WinVersion.Win7, Is.LessThan(p101));
@@ -258,7 +260,7 @@
         [Test]
         public void WinVersionUnknown()
         {
-            WinVersion ver61 = new WinVersion(WinPlatform.WinNT, 6, 1) {
+            WinVersion ver61 = new(WinPlatform.WinNT, 6, 1) {
                 PlatformId = WinPlatform.Unknown
             };
 
@@ -317,7 +319,7 @@
         {
             int count = 0;
             foreach (WinProductInfo winProductInfo in Enum.GetValues(typeof(WinProductInfo))) {
-                WinVersion winVersion = new WinVersion {
+                WinVersion winVersion = new() {
                     ProductInfo = winProductInfo
                 };
                 if (string.IsNullOrEmpty(winVersion.ProductInfoString) && winProductInfo != WinProductInfo.Undefined) {
@@ -331,7 +333,7 @@
         [Test]
         public void WinVersionCheckWindows98SE()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.Win9x,
                 MajorVersion = 4,
                 MinorVersion = 10,
@@ -352,7 +354,7 @@
         [Test]
         public void WinVersionCheckWindowsME()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.Win9x,
                 MajorVersion = 4,
                 MinorVersion = 90,
@@ -373,7 +375,7 @@
         [Test]
         public void WinVersionCheckWindowsNT4SP6()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 4,
                 MinorVersion = 0,
@@ -394,7 +396,7 @@
         [Test]
         public void WinVersionCheckWindows2000()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 5,
                 MinorVersion = 0,
@@ -420,7 +422,7 @@
         [Test]
         public void WinVersionCheckWindows2000SP3()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 5,
                 MinorVersion = 0,
@@ -441,7 +443,7 @@
         [Test]
         public void WinVersionCheckWindowsXPHome()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 5,
                 MinorVersion = 1,
@@ -462,7 +464,7 @@
         [Test]
         public void WinVersionCheckWindowsXPHomeSP2()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 5,
                 MinorVersion = 1,
@@ -486,7 +488,7 @@
         [Test]
         public void WinVersionCheckWindowsXPSP3()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 5,
                 MinorVersion = 1,
@@ -509,7 +511,7 @@
         [Test]
         public void WinVersionCheckWindowsXPx64()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 5,
                 MinorVersion = 2,
@@ -530,7 +532,7 @@
         [Test]
         public void WinVersionCheckWindows2003()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 5,
                 MinorVersion = 2,
@@ -551,7 +553,7 @@
         [Test]
         public void WinVersionCheckWindowsVista()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 0,
@@ -572,7 +574,7 @@
         [Test]
         public void WinVersionCheckWindows2008()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 0,
@@ -593,7 +595,7 @@
         [Test]
         public void WinVersionCheckWindows7()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 1,
@@ -617,7 +619,7 @@
         [Test]
         public void WinVersionCheckWindows7x64()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 1,
@@ -638,7 +640,7 @@
         [Test]
         public void WinVersionCheckWindows2008R2DC()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 1,
@@ -659,7 +661,7 @@
         [Test]
         public void WinVersionCheckWindows2008R2()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 1,
@@ -680,7 +682,7 @@
         [Test]
         public void WinVersionCheckWindows8x64()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 2,
@@ -701,7 +703,7 @@
         [Test]
         public void WinVersionCheckWindows8_1x64()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 3,
@@ -722,7 +724,7 @@
         [Test]
         public void WinVersionCheckWindows8_1RT()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 3,
@@ -744,7 +746,7 @@
         [Test]
         public void WinVersionCheckWindows2012R2()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 6,
                 MinorVersion = 3,
@@ -765,7 +767,7 @@
         [Test]
         public void WinVersionCheckWindows10_20H2()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -785,7 +787,7 @@
         [Test]
         public void WinVersionCheckWindows11_21H2()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -806,7 +808,7 @@
         [Test]
         public void WinVersionCheckWindows10Server2019DC()
         {
-            WinVersion winver = new WinVersion {
+            WinVersion winver = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -827,7 +829,7 @@
         [Test]
         public void UnknownWindows10VeryEarly()
         {
-            WinVersion winVersion = new WinVersion {
+            WinVersion winVersion = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -847,7 +849,7 @@
         [Test]
         public void UnknownWindows10Early()
         {
-            WinVersion winVersion = new WinVersion {
+            WinVersion winVersion = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -867,7 +869,7 @@
         [Test]
         public void UnknownWindows10()
         {
-            WinVersion winVersion = new WinVersion {
+            WinVersion winVersion = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -887,7 +889,7 @@
         [Test]
         public void UnknownWindows11()
         {
-            WinVersion winVersion = new WinVersion {
+            WinVersion winVersion = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -909,7 +911,7 @@
         [TestCase(22652)]
         public void UnknownWindows2022(int build)
         {
-            WinVersion winVersion = new WinVersion {
+            WinVersion winVersion = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
@@ -931,7 +933,7 @@
         [TestCase(19042)]
         public void UnknownWindows2019(int build)
         {
-            WinVersion winVersion = new WinVersion {
+            WinVersion winVersion = new() {
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,

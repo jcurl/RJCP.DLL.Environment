@@ -8,7 +8,7 @@ namespace RJCP.NetVersion
     {
         static int Main()
         {
-            NetVersions versions = new NetVersions();
+            NetVersions versions = new();
 
             Console.WriteLine("Installed versions of .NET");
             Console.WriteLine("================================");

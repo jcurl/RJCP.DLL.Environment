@@ -14,16 +14,16 @@
     /// </remarks>
     public static partial class Xdg
     {
-        private static readonly object s_XdgResolverSyncRoot = new object();
+        private static readonly object s_XdgResolverSyncRoot = new();
         private static IXdgResolver s_XdgResolver;
 
         private static IXdgResolver XdgResolver
         {
             get
             {
-                if (s_XdgResolver == null) {
+                if (s_XdgResolver is null) {
                     lock (s_XdgResolverSyncRoot) {
-                        if (s_XdgResolver == null) {
+                        if (s_XdgResolver is null) {
                             if (Platform.IsUnix()) {
                                 s_XdgResolver = new XdgUnix();
                             } else if (Platform.IsWinNT()) {
