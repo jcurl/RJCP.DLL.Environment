@@ -172,60 +172,6 @@
             }
         }
 
-        /// <summary>
-        /// A method to get OS information natively from the .NET subsystem.
-        /// </summary>
-        /// <returns><see langword="true"/> if the information could be obtained; <see langword="false"/> otherwise.</returns>
-        [SupportedOSPlatform("windows")]
-        private void GetNativeVersion()
-        {
-            OperatingSystem os = Environment.OSVersion;
-
-            switch (os.Platform) {
-            case PlatformID.Win32S:
-                PlatformId = WinPlatform.Win32s;
-                break;
-            case PlatformID.Win32Windows:
-                PlatformId = WinPlatform.Win9x;
-                break;
-            case PlatformID.WinCE:
-                PlatformId = WinPlatform.WinCE;
-                break;
-            case PlatformID.Win32NT:
-                PlatformId = WinPlatform.WinNT;
-                break;
-            default:
-                PlatformId = WinPlatform.Unknown;
-                break;
-            }
-
-            if (PlatformId == WinPlatform.WinNT) {
-                // Try to get the information from the registry
-                ProductType = WinProductType.Unknown;
-                try {
-                    RegistryKey rk =
-                        Registry.LocalMachine.OpenSubKey(@"System\CurrentControlSet\Control\ProductOptions");
-                    if (rk is not null) {
-                        if (rk.GetValue("ProductType") is string producttype) {
-                            if (producttype.Equals("WinNT")) ProductType = WinProductType.Workstation;
-                            if (producttype.Equals("ServerNT")) ProductType = WinProductType.Server;
-                        }
-                    }
-                } catch {
-                    ProductType = WinProductType.Unknown;
-                }
-
-                // Found by reverse compiling System.Environment.OSVersion
-                ServicePackMajor = os.Version.Revision >> 0x10;
-                ServicePackMinor = os.Version.Revision & 0xFFFF;
-            }
-            MajorVersion = os.Version.Major;
-            MinorVersion = os.Version.Minor;
-            BuildNumber = os.Version.Build;
-            CSDVersion = os.ServicePack;
-            NativeArchitecture = WinArchitecture.Unknown;
-        }
-
         private void DetectArchitecture()
         {
             if (DetectArchitectureWithWow2()) return;
