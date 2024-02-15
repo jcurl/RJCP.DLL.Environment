@@ -72,7 +72,9 @@ For details on how this is used, please study the implementation of
 In .NET 6.0 and later, there are the helpers
 
 ```csharp
-ArgumentNullException.ThrowIfNull(param)
+ArgumentNullException.ThrowIfNull(param);
+ArgumentException.ThrowIfNullOrEmpty(param);
+ArgumentException.ThrowIfNullOrWhiteSpace(param);
 ```
 
 Usage within your .NET Framework and .NET Core projects can use instead:
@@ -81,10 +83,24 @@ Usage within your .NET Framework and .NET Core projects can use instead:
 using System;
 
 ThrowHelper.ThrowIfNull(obj);
+ThrowHelper.ThrowIfNullOrEmpty(strparam);
+ThrowHelper.ThrowIfNullOrWhiteSpace(strparam);
 ```
 
 The Package is compiled with the language version C# 10, so that projects using
 this library for this feature do not need to upgrade.
+
+The additional methods are provided, which are not part of the framework. These
+methods are useful if you have your own translated strings that you wish to
+provide the user. Note that the method name must change, due to the overload
+`ThrowIfNullOrEmpty(string, string)` exists.
+
+```csharp
+using System;
+
+ThrowHelper.ThrowIfNullOrEmptyMsg(message, strparam);
+ThrowHelper.ThrowIfNullOrWhiteSpace(message, strparam);
+```
 
 #### 2.2.1. Discussion of How it Works
 
