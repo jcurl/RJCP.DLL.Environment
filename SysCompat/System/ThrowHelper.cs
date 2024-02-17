@@ -31,7 +31,7 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNull(object argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        public static void ThrowIfNull(object argument, [CallerArgumentExpression("argument")] string paramName = null)
         {
             if (argument is null)
                 throw new ArgumentNullException(paramName);
@@ -57,7 +57,7 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrEmpty(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        public static void ThrowIfNullOrEmpty(string argument, [CallerArgumentExpression("argument")] string paramName = null)
         {
             if (string.IsNullOrEmpty(argument)) {
                 ThrowIfNull(argument, paramName);
@@ -86,7 +86,7 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrEmptyMsg(string message, string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        public static void ThrowIfNullOrEmptyMsg(string message, string argument, [CallerArgumentExpression("argument")] string paramName = null)
         {
             if (string.IsNullOrEmpty(argument)) {
                 ThrowIfNull(argument, paramName);
@@ -114,7 +114,7 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrWhiteSpace(string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        public static void ThrowIfNullOrWhiteSpace(string argument, [CallerArgumentExpression("argument")] string paramName = null)
         {
             if (string.IsNullOrWhiteSpace(argument)) {
                 ThrowIfNull(argument, paramName);
@@ -139,7 +139,7 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrWhiteSpaceMsg(string message, string argument, [CallerArgumentExpression(nameof(argument))] string paramName = null)
+        public static void ThrowIfNullOrWhiteSpaceMsg(string message, string argument, [CallerArgumentExpression("argument")] string paramName = null)
         {
             if (string.IsNullOrWhiteSpace(argument)) {
                 ThrowIfNull(argument, paramName);
