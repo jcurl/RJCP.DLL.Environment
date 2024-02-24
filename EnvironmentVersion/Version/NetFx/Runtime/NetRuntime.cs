@@ -22,6 +22,9 @@
 #if NET6_0_OR_GREATER
             VersionType = DotNetVersionType.NetCore;
             Description = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
+#elif NET471_OR_GREATER
+            VersionType = DotNetVersionType.NetFx;
+            Description = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
 #else
             VersionType = DotNetVersionType.NetFx;
 

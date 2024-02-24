@@ -149,6 +149,7 @@ Quality:
 - Add references for OS Compatibility (DOTNET-938)
 - Upgrade to .NET Core 6.0 (DOTNET-936, DOTNET-940, DOTNET-942, DOTNET-959,
   DOTNET-963)
+- Add .NET 4.8 target, and enable usage of APIs without reflection (DOTNET-976)
 
 ### 4.3. Version 0.2.0
 
