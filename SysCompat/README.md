@@ -18,6 +18,8 @@ when using newer C# Language versions.
     - [3.1.2. Enablement](#312-enablement)
   - [3.2. Required Properties](#32-required-properties)
     - [3.2.1. Enablement](#321-enablement)
+- [4. Version History](#4-version-history)
+  - [4.1. Version 0.2.0](#41-version-020)
 
 ## 1. .NET Framework Usage
 
@@ -286,3 +288,9 @@ If compiling with C# 10 or earlier:
   #endif
   }
   ```
+
+## 4. Version History
+
+### 4.1. Version 0.2.0
+
+- Initial Version
