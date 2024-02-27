@@ -37,7 +37,7 @@ target older frameworks.
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net40;net60</TargetFrameworks>
+    <TargetFrameworks>net40;net6.0;net8.0</TargetFrameworks>
     ...
 
     <LangVersion Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">10</LangVersion>
@@ -197,7 +197,7 @@ feature is described here. In your assembly for .NET Framework, ensure that:
 
   ```xml
   <PropertyGroup>
-    <TargetFrameworks>net40;net462;net60</TargetFrameworks>
+    <TargetFrameworks>net40;net462;net6.0;net8.0</TargetFrameworks>
     ...
     <LangVersion Condition="$(TargetFramework.StartsWith('net4'))">10</LangVersion>
   ```
@@ -248,7 +248,7 @@ If compiling with C# 10 or earlier:
 
   ```xml
   <PropertyGroup>
-    <TargetFrameworks>net40;net462;net60</TargetFrameworks>
+    <TargetFrameworks>net40;net462;net6.0;net8.0</TargetFrameworks>
     ...
     <LangVersion>11</LangVersion>
   ```
