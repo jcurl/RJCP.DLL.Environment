@@ -9,7 +9,7 @@
     /// If using with .NET Core 6.0 or later without considering .NET Framework source compatibility, then use the
     /// native implementations instead.
     /// </remarks>
-    public static class ThrowHelper
+    public static partial class ThrowHelper
     {
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/> if <paramref name="argument"/> is <see langword="null"/>.
@@ -20,10 +20,6 @@
         /// <remarks>
         /// Is used to implement CA1510.
         /// <para>
-        /// This method works also with .NET 4.0 Framework, so long as the language version is set to C# 10 (due to
-        /// <see cref="CallerArgumentExpressionAttribute"/>).
-        /// </para>
-        /// <para>
         /// If using with .NET Core 6.0 or later without considering .NET Framework source compatibility, then use
         /// <c>ArgumentNullException.ThrowIfNull</c> instead.
         /// </para>
@@ -31,7 +27,8 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNull(object argument, [CallerArgumentExpression("argument")] string paramName = null)
+        public static void ThrowIfNull(object argument,
+            [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
             if (argument is null)
                 throw new ArgumentNullException(paramName);
@@ -46,10 +43,6 @@
         /// <exception cref="ArgumentException">string 'paramName' is empty.</exception>
         /// <remarks>
         /// <para>
-        /// This method works also with .NET 4.0 Framework, so long as the language version is set to C# 10 (due to
-        /// <see cref="CallerArgumentExpressionAttribute"/>).
-        /// </para>
-        /// <para>
         /// If using with .NET Core 6.0 or later without considering .NET Framework source compatibility, then use
         /// <c>ArgumentException.ThrowIfNullOrEmpty</c> instead.
         /// </para>
@@ -57,7 +50,8 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrEmpty(string argument, [CallerArgumentExpression("argument")] string paramName = null)
+        public static void ThrowIfNullOrEmpty(string argument,
+            [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
             if (string.IsNullOrEmpty(argument)) {
                 ThrowIfNull(argument, paramName);
@@ -73,20 +67,11 @@
         /// <param name="paramName">Name of the parameter.</param>
         /// <exception cref="ArgumentNullException"><paramref name="argument"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">string 'paramName' is empty.</exception>
-        /// <remarks>
-        /// <para>
-        /// This method works also with .NET 4.0 Framework, so long as the language version is set to C# 10 (due to
-        /// <see cref="CallerArgumentExpressionAttribute"/>).
-        /// </para>
-        /// <para>
-        /// If using with .NET Core 6.0 or later without considering .NET Framework source compatibility, then use
-        /// <c>ArgumentException.ThrowIfNullOrEmpty</c> instead.
-        /// </para>
-        /// </remarks>
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrEmptyMsg(string message, string argument, [CallerArgumentExpression("argument")] string paramName = null)
+        public static void ThrowIfNullOrEmptyMsg(string argument, string message,
+            [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
             if (string.IsNullOrEmpty(argument)) {
                 ThrowIfNull(argument, paramName);
@@ -103,10 +88,6 @@
         /// <exception cref="ArgumentException">string 'paramName' is empty or whitespace.</exception>
         /// <remarks>
         /// <para>
-        /// This method works also with .NET 4.0 Framework, so long as the language version is set to C# 10 (due to
-        /// <see cref="CallerArgumentExpressionAttribute"/>).
-        /// </para>
-        /// <para>
         /// If using with .NET Core 6.0 or later without considering .NET Framework source compatibility, then use
         /// <c>ArgumentException.ThrowIfNullOrWhiteSpace</c> instead.
         /// </para>
@@ -114,7 +95,8 @@
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrWhiteSpace(string argument, [CallerArgumentExpression("argument")] string paramName = null)
+        public static void ThrowIfNullOrWhiteSpace(string argument,
+            [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
             if (string.IsNullOrWhiteSpace(argument)) {
                 ThrowIfNull(argument, paramName);
@@ -130,20 +112,15 @@
         /// <param name="paramName">Name of the parameter.</param>
         /// <exception cref="ArgumentNullException"><paramref name="argument"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">string 'paramName' is empty or whitespace.</exception>
-        /// <remarks>
-        /// <para>
-        /// This method works also with .NET 4.0 Framework, so long as the language version is set to C# 10 (due to
-        /// <see cref="CallerArgumentExpressionAttribute"/>).
-        /// </para>
-        /// </remarks>
 #if NET6_0_OR_GREATER || NET462_OR_GREATER
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void ThrowIfNullOrWhiteSpaceMsg(string message, string argument, [CallerArgumentExpression("argument")] string paramName = null)
+        public static void ThrowIfNullOrWhiteSpaceMsg(string argument, string message,
+            [CallerArgumentExpression(nameof(argument))] string paramName = null)
         {
             if (string.IsNullOrWhiteSpace(argument)) {
                 ThrowIfNull(argument, paramName);
-                throw new ArgumentException($"string '{paramName}' may not be empty or whitespace", paramName);
+                throw new ArgumentException(message, paramName);
             }
         }
     }

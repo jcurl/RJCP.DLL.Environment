@@ -1,9 +1,9 @@
-namespace System
+namespace System.Throw
 {
     using NUnit.Framework;
 
     [TestFixture]
-    public class ThrowHelperTest
+    public class ArgumentNullExceptionTest
     {
         private string m_TestString = "TestString";
 
@@ -20,10 +20,14 @@ namespace System
         [Test]
         public void ThrowIfNull()
         {
+            const string message = "ThrowIfNull";
+
             Assert.That(() => {
                 string myArg = null;
                 ThrowHelper.ThrowIfNull(myArg);
             }, Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("myArg"));
+
+            ThrowHelper.ThrowIfNull(message);
         }
 
         [Test]
@@ -51,10 +55,14 @@ namespace System
         [Test]
         public void ThrowIfNullOrEmpty()
         {
+            const string message = "ThrowIfNull";
+
             Assert.That(() => {
                 string myArg = string.Empty;
                 ThrowHelper.ThrowIfNullOrEmpty(myArg);
             }, Throws.TypeOf<ArgumentException>().With.Property("ParamName").EqualTo("myArg"));
+
+            ThrowHelper.ThrowIfNullOrEmpty(message);
         }
 
         [Test]
@@ -64,6 +72,26 @@ namespace System
                 string myArg = null;
                 ThrowHelper.ThrowIfNullOrEmpty(myArg);
             }, Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("myArg"));
+        }
+
+        [Test]
+        public void ThrowIfNullOrEmptyMsg()
+        {
+            const string message = "ThrowIfNull";
+#if NETFRAMEWORK
+            const string result = "Throw if null or empty\r\nParameter name: myArg";
+#else
+            const string result = "Throw if null or empty (Parameter 'myArg')";
+#endif
+
+            Assert.That(() => {
+                string myArg = string.Empty;
+                ThrowHelper.ThrowIfNullOrEmptyMsg(myArg, "Throw if null or empty");
+            }, Throws.TypeOf<ArgumentException>()
+                .With.Property("ParamName").EqualTo("myArg")
+                .And.Message.EqualTo(result));
+
+            ThrowHelper.ThrowIfNullOrEmptyMsg(message, "Throw if null or empty");
         }
 
         [Test]
@@ -101,8 +129,21 @@ namespace System
         [Test]
         public void ThrowIfNullOrWhiteSpace()
         {
+            const string message = "ThrowIfNull";
+
             Assert.That(() => {
                 string myArg = string.Empty;
+                ThrowHelper.ThrowIfNullOrWhiteSpace(myArg);
+            }, Throws.TypeOf<ArgumentException>().With.Property("ParamName").EqualTo("myArg"));
+
+            ThrowHelper.ThrowIfNullOrWhiteSpace(message);
+        }
+
+        [Test]
+        public void ThrowIfNullOrWhiteSpace_Whitespace()
+        {
+            Assert.That(() => {
+                string myArg = "     ";
                 ThrowHelper.ThrowIfNullOrWhiteSpace(myArg);
             }, Throws.TypeOf<ArgumentException>().With.Property("ParamName").EqualTo("myArg"));
         }
@@ -114,6 +155,46 @@ namespace System
                 string myArg = null;
                 ThrowHelper.ThrowIfNullOrWhiteSpace(myArg);
             }, Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("myArg"));
+        }
+
+        [Test]
+        public void ThrowIfNullOrWhiteSpaceMsg()
+        {
+            const string message = "ThrowIfNull";
+#if NETFRAMEWORK
+            const string result = "Throw if null or empty\r\nParameter name: myArg";
+#else
+            const string result = "Throw if null or empty (Parameter 'myArg')";
+#endif
+
+            Assert.That(() => {
+                string myArg = string.Empty;
+                ThrowHelper.ThrowIfNullOrWhiteSpaceMsg(myArg, "Throw if null or empty");
+            }, Throws.TypeOf<ArgumentException>()
+                .With.Property("ParamName").EqualTo("myArg")
+                .And.Message.EqualTo(result));
+
+            ThrowHelper.ThrowIfNullOrWhiteSpaceMsg(message, "Throw if null or empty");
+        }
+
+        [Test]
+        public void ThrowIfNullOrWhiteSpaceMsg_WhiteSpace()
+        {
+            const string message = "ThrowIfNull";
+#if NETFRAMEWORK
+            const string result = "Throw if null or whitespace\r\nParameter name: myArg";
+#else
+            const string result = "Throw if null or whitespace (Parameter 'myArg')";
+#endif
+
+            Assert.That(() => {
+                string myArg = "     ";
+                ThrowHelper.ThrowIfNullOrWhiteSpaceMsg(myArg, "Throw if null or whitespace");
+            }, Throws.TypeOf<ArgumentException>()
+                .With.Property("ParamName").EqualTo("myArg")
+                .And.Message.EqualTo(result));
+
+            ThrowHelper.ThrowIfNullOrWhiteSpaceMsg(message, "Throw if null or whitespace");
         }
 
         [Test]

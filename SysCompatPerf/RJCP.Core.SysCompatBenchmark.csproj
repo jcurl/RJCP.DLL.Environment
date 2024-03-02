@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net48;net6.0;net8.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <Configurations>Debug;Release</Configurations>
+    <RollForward>Major</RollForward>
+
+    <AssemblyName>RJCP.Core.SysCompatBenchmark</AssemblyName>
+    <AssemblyTitle>RJCP.Core.SysCompatBenchmark</AssemblyTitle>
+    <Product>RJCP.Core.SysCompat</Product>
+    <RootNamespace>RJCP.Core</RootNamespace>
+
+    <Authors>Jason Curl</Authors>
+    <Copyright>(C) 2024, Jason Curl</Copyright>
+    <Company></Company>
+    <Description>Benchmark harness for RJCP.Core.SysCompat.</Description>
+    <Version>1.0.0</Version>
+
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>Default</AnalysisMode>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <LangVersion Condition="$(TargetFramework.StartsWith('net4'))">10</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(TargetFrameworkIdentifier) == '.NETFramework'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+    <PackageReference Include="CSharpIsNullAnalyzer" Version="0.1.495" PrivateAssets="all" />
+    <ProjectReference Include="..\SysCompat\RJCP.Core.SysCompat.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ThrowIfArray.cs" />
+    <Compile Include="ThrowIfEnum.cs" />
+    <Compile Include="ThrowIfNullBenchmark.cs" />
+  </ItemGroup>
+</Project>

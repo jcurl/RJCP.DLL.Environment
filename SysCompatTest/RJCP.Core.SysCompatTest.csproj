@@ -51,6 +51,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="System\ThrowHelperTest.cs" />
+    <Compile Include="System\Throw\ArgumentNullExceptionTest.cs" />
+    <Compile Include="System\Throw\EventLine.cs" />
+    <Compile Include="System\Throw\ThrowIfArrayTest.cs" />
+    <Compile Include="System\Throw\ThrowIfBetweenTest.cs" />
+    <Compile Include="System\Throw\ThrowIfEnumTest.cs" />
+    <Compile Include="System\Throw\ThrowIfEqualTest.cs" />
+    <Compile Include="System\Throw\ThrowIfGreaterThanOrEqualTest.cs" />
+    <Compile Include="System\Throw\ThrowIfGreaterThanTest.cs" />
+    <Compile Include="System\Throw\ThrowIfLessThanOrEqualTest.cs" />
+    <Compile Include="System\Throw\ThrowIfLessThanTest.cs" />
+    <Compile Include="System\Throw\ThrowIfNegativeOrZeroTest.cs" />
+    <Compile Include="System\Throw\ThrowIfNegativeTest.cs" />
+    <Compile Include="System\Throw\ThrowIfNotBetweenTest.cs" />
+    <Compile Include="System\Throw\ThrowIfNotEqualTest.cs" />
+    <Compile Include="System\Throw\ThrowIfZeroTest.cs" />
   </ItemGroup>
 </Project>
