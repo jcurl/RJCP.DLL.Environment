@@ -77,23 +77,52 @@ For details on how this is used, please study the implementation of
 | LangVersion | 7.3                     |
 | Framework   | .NET Framework and Core |
 
-In .NET 6.0 and later, there are the helpers
+To resolve Code Analysis findings (e.g.
+[CA1510](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1510),
+[CA1511](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1511),
+[CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512),
+[CA1513](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1513)
+and among others), helper methods have been created that can be used on older
+frameworks.
 
-```csharp
-ArgumentNullException.ThrowIfNull(param);
-ArgumentException.ThrowIfNullOrEmpty(param);
-ArgumentException.ThrowIfNullOrWhiteSpace(param);
-```
+| Helper                         | Rule                                                                                               | .NET Method                                                                                                                                                          | .NET Verison |
+| ------------------------------ | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| `ThrowIfNull)`                 | [CA1510](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1510) | [`ArgumentNullException.ThrowIfNull`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull)                                         | 7.0 +        |
+| `ThrowIfNullOrEmpty`           | [CA1511](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1511) | [`ArgumentException.ThrowIfNullOrEmpty`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorempty)                                   | 7.0 +        |
+| `ThrowIfNullOrEmptyMsg`        | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfNullOrWhiteSpace`      | [CA1511](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1511) | [`ArgumentException.ThrowIfNullOrWhiteSpace`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorempty)                              | 7.0 +        |
+| `ThrowIfNullOrWhiteSpaceMsg`   | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfZero` ¹                | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfZero`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifzero)                             | 8.0 +        |
+| `ThrowIfNegative` ¹            | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfNegative`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative)                     | 8.0 +        |
+| `ThrowIfNegativeOrZero` ¹      | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfNegativeOrZero`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero)         | 8.0 +        |
+| `ThrowIfEqual` ¹²              | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfEqual`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal)                           | 8.0 +        |
+| `ThrowIfNotEqual` ¹²           | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfNotEqual`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnotequal)                     | 8.0 +        |
+| `ThrowIfGreaterThan` ¹³        | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfGreaterThan`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan)               | 8.0 +        |
+| `ThrowIfGreaterThanOrEqual` ¹³ | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal) | 8.0 +        |
+| `ThrowIfLessThan` ¹³           | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfLessThan`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthan)                     | 8.0 +        |
+| `ThrowIfLessThanOrEqual` ¹³    | [CA1512](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1512) | [`ArgumentOutOfRangeException.ThrowIfLessThanOrEqual`](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal)       | 8.0 +        |
+| `ThrowIfBetween`               | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfNotBetween`            | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfDisposed`              | [CA1513](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1513) | [`ObjectDisposedException.ThrowIf`](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif)                                             | 7.0 +        |
+| `ThrowIfArrayEmpty`            | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfArrayOutOfBounds`      | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfEnumUndefined`         | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfEnumHasNoFlag`         | -                                                                                                  | -                                                                                                                                                                    | -            |
 
-Usage within your .NET Framework and .NET Core projects can use instead:
+Notes:
 
-```csharp
-using System;
-
-ThrowHelper.ThrowIfNull(obj);
-ThrowHelper.ThrowIfNullOrEmpty(strparam);
-ThrowHelper.ThrowIfNullOrWhiteSpace(strparam);
-```
+- ¹ These methods have overloads for the basic types `int`, `long`, `nint`,
+  `float`, `double`, `uint`, `ulong` and `nuint`. The .NET implementation is
+  slightly different taking generic types not available in older frameworks. Of
+  course, for some methods where it doesn't make sense (throw if not negative or
+  zero), only methods with signed types are provided.
+- ² Provides an interface for `IEquatable<T>`. These use the default equatable
+  for the type, and so the `value` may be `null` when comparing, in addition to
+  the `other` parameter. This is how the .NET implementation also implements the
+  method.
+- ³ Provides an interface for `IComparable<T>`. These use the default comparer
+  for the type, and so the `value` may be `null` when comparing, in addition to
+  the `other` parameter. This is different to the .NET implementation.
 
 The Package is compiled with the language version C# 10, so that projects using
 this library for this feature do not need to upgrade.

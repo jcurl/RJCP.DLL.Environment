@@ -55,6 +55,7 @@
     <Compile Include="System\Throw\EventLine.cs" />
     <Compile Include="System\Throw\ThrowIfArrayTest.cs" />
     <Compile Include="System\Throw\ThrowIfBetweenTest.cs" />
+    <Compile Include="System\Throw\ThrowIfDisposedTest.cs" />
     <Compile Include="System\Throw\ThrowIfEnumTest.cs" />
     <Compile Include="System\Throw\ThrowIfEqualTest.cs" />
     <Compile Include="System\Throw\ThrowIfGreaterThanOrEqualTest.cs" />

@@ -61,6 +61,7 @@
     <Compile Include="System\ThrowHelper+ArgumentOutOfRangeException.cs" />
     <Compile Include="System\ThrowHelper+Array.cs" />
     <Compile Include="System\ThrowHelper+Enum.cs" />
+    <Compile Include="System\ThrowHelper+ObjectDisposedException.cs" />
     <None Include="System\Diagnostics\CodeAnalysis\DoesNotReturnAttribute.cs" />
     <None Include="System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
     <None Include="System\Runtime\Versioning\OSPlatformAttribute.cs" />
