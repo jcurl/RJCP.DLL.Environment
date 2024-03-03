@@ -1,5 +1,6 @@
 namespace System.Throw
 {
+    using System;
     using NUnit.Framework;
 
     [TestFixture]
@@ -79,7 +80,7 @@ namespace System.Throw
         {
             const string message = "ThrowIfNull";
 #if NETFRAMEWORK
-            const string result = "Throw if null or empty\r\nParameter name: myArg";
+            string result = $"Throw if null or empty{Environment.NewLine}Parameter name: myArg";
 #else
             const string result = "Throw if null or empty (Parameter 'myArg')";
 #endif
@@ -162,7 +163,7 @@ namespace System.Throw
         {
             const string message = "ThrowIfNull";
 #if NETFRAMEWORK
-            const string result = "Throw if null or empty\r\nParameter name: myArg";
+            string result = $"Throw if null or empty{Environment.NewLine}Parameter name: myArg";
 #else
             const string result = "Throw if null or empty (Parameter 'myArg')";
 #endif
@@ -182,7 +183,7 @@ namespace System.Throw
         {
             const string message = "ThrowIfNull";
 #if NETFRAMEWORK
-            const string result = "Throw if null or whitespace\r\nParameter name: myArg";
+            string result = $"Throw if null or whitespace{Environment.NewLine}Parameter name: myArg";
 #else
             const string result = "Throw if null or whitespace (Parameter 'myArg')";
 #endif
