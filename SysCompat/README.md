@@ -18,8 +18,9 @@ when using newer C# Language versions.
     - [3.1.2. Enablement](#312-enablement)
   - [3.2. Required Properties](#32-required-properties)
     - [3.2.1. Enablement](#321-enablement)
-- [4. Version History](#4-version-history)
-  - [4.1. Version 0.2.0](#41-version-020)
+- [4. Performance Metrics](#4-performance-metrics)
+- [5. Version History](#5-version-history)
+  - [5.1. Version 0.2.0](#51-version-020)
 
 ## 1. .NET Framework Usage
 
@@ -318,8 +319,46 @@ If compiling with C# 10 or earlier:
   }
   ```
 
-## 4. Version History
+## 4. Performance Metrics
 
-### 4.1. Version 0.2.0
+```text
+Results = net48
+
+BenchmarkDotNet=v0.13.12 OS=Windows 10 (10.0.19045.4046/22H2/2022Update)
+Intel Core i7-6700T CPU 2.80GHz (Skylake), 1 CPU(s), 8 logical and 4 physical core(s)
+  [HOST] : .NET Framework 4.8.1 (4.8.9181.0), X64 RyuJIT
+```
+
+```text
+Results = net6
+
+BenchmarkDotNet=v0.13.12 OS=Windows 10 (10.0.19045.4046/22H2/2022Update)
+Intel Core i7-6700T CPU 2.80GHz (Skylake), 1 CPU(s), 8 logical and 4 physical core(s)
+  [HOST] : .NET 6.0.27 (6.0.2724.6912), X64 RyuJIT
+```
+
+```text
+Results = net8
+
+BenchmarkDotNet=v0.13.12 OS=Windows 10 (10.0.19045.4046/22H2/2022Update)
+Intel Core i7-6700T CPU 2.80GHz (Skylake), 1 CPU(s), 8 logical and 4 physical core(s)
+  [HOST] : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT
+```
+
+| Project 'syscompat' Type | Method                         | mean (net48) | stderr | mean (net6) | stderr | mean (net8) | stderr |
+|:-------------------------|:-------------------------------|-------------:|-------:|------------:|-------:|------------:|-------:|
+| ThrowIfArray             | ThrowIfArrayOutOfBounds        | 3.03         | 0.01   | 3.40        | 0.01   | 3.39        | 0.01   |
+| ThrowIfEnum              | ThrowIfEnumHasFlag             | 23.25        | 0.01   | 1.38        | 0.01   | 1.15        | 0.00   |
+| ThrowIfEnum              | ThrowIfEnumUndefined           | 244.13       | 0.25   | 111.84      | 0.07   | 24.06       | 0.05   |
+| ThrowIfNullBenchmark     | ThrowIfNull                    | 0.30         | 0.00   | 0.00        | 0.00   | 0.00        | 0.00   |
+| ThrowIfNullBenchmark     | ThrowIfNull_System             | -            | -      | 0.00        | 0.00   | 0.00        | 0.00   |
+| ThrowIfNullBenchmark     | ThrowIfNullOrWhiteSpace        | 4.10         | 0.01   | 3.46        | 0.01   | 1.67        | 0.00   |
+| ThrowIfNullBenchmark     | ThrowIfNullOrWhiteSpace_System | -            | -      | -           | -      | 1.58        | 0.00   |
+| ThrowIfNullBenchmark     | ThrowIfZero                    | 0.01         | 0.00   | 0.00        | 0.00   | 0.00        | 0.00   |
+| ThrowIfNullBenchmark     | ThrowIfZero_System             | -            | -      | -           | -      | 0.00        | 0.00   |
+
+## 5. Version History
+
+### 5.1. Version 0.2.0
 
 - Initial Version
