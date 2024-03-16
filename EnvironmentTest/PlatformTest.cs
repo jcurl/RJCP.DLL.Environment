@@ -3,6 +3,7 @@
     using System;
     using System.Runtime.Versioning;
     using NUnit.Framework;
+    using NUnit.Framework.Internal;
 
     [TestFixture]
     public class PlatformTest
@@ -43,8 +44,8 @@
         }
 
         [Test]
-        [Platform(Include = "Unix")]
-        [SupportedOSPlatform("windows")]
+        [Platform(Include = "Linux")]
+        [SupportedOSPlatform("linux")]
         public void SpecialFolderLocalApplicationDirectoryUnix()
         {
             string dir = Xdg.GetFolderPath(Xdg.SpecialFolder.LocalApplicationData);
@@ -61,8 +62,8 @@
         }
 
         [Test]
-        [Platform(Include = "Unix")]
-        [SupportedOSPlatform("windows")]
+        [Platform(Include = "Linux")]
+        [SupportedOSPlatform("linux")]
         public void SpecialFolderCommonApplicationDirectoryUnix()
         {
             string dir = Xdg.GetFolderPath(Xdg.SpecialFolder.CommonApplicationData);
