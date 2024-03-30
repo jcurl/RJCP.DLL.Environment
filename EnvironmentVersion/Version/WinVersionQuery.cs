@@ -389,7 +389,7 @@
         protected override string CalculateWinVersion(WinVersion lastMatch)
         {
             try {
-                string release = WinBrand.BrandingFormatString("%WINDOWS_SHORT%");
+                string release = WinBrand.BrandingFormatString("%WINDOWS_LONG%");
                 if (!string.IsNullOrWhiteSpace(release)) return release;
             } catch (EntryPointNotFoundException) {
                 /* Ignore the exception and use the default implementation */

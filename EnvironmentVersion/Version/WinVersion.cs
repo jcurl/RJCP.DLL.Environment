@@ -334,6 +334,7 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win10_22H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 19045, true);
         private static readonly WinVersion _Win11_21H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22000, true);
         private static readonly WinVersion _Win11_22H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22621, true);
+        private static readonly WinVersion _Win11_23H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22631, true);
         private static readonly WinVersion _Win2016 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
         private static readonly WinVersion _Win2019 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
         private static readonly WinVersion _Win2022 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
@@ -415,6 +416,7 @@ namespace RJCP.Core.Environment.Version
             new(_Win11_21H2, "Windows 11 v21H2"),
             new(_Win2022, "Windows 11 Server 2022"),
             new(_Win11_22H2, "Windows 11 v22H2"),
+            new(_Win11_23H2, "Windows 11 v23H2"),
             new(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
             new(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
@@ -643,6 +645,11 @@ namespace RJCP.Core.Environment.Version
         /// A predefined <see cref="WinVersion"/> object identifying Windows 11 22H2.
         /// </summary>
         public static WinVersion Windows11_22H2 { get { return _Win11_22H2; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 11 23H2.
+        /// </summary>
+        public static WinVersion Windows11_23H2 { get { return _Win11_23H2; } }
 
         /// <summary>
         /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2022.
