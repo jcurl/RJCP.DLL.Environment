@@ -52,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="PlatformTest.cs" />
     <Compile Include="Resources\ResourcesPrintTest.cs" />
     <Compile Include="XdgTest.cs" />

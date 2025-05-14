@@ -162,7 +162,7 @@ namespace System.Throw
             }, Throws.TypeOf<ArgumentException>());
 
             for (int i = 0; i < 2; i++) {
-                for (int l = 0; l < 2 - i; i++) {
+                for (int l = 0; l < 2 - i; l++) {
                     ThrowHelper.ThrowIfArrayOutOfBounds(array, i, l);
                 }
             }
@@ -222,7 +222,7 @@ namespace System.Throw
             }, Throws.TypeOf<ArgumentException>());
 
             for (long i = 0; i < 2; i++) {
-                for (long l = 0; l < 2 - i; i++) {
+                for (long l = 0; l < 2 - i; l++) {
                     ThrowHelper.ThrowIfArrayOutOfBounds(array, i, l);
                 }
             }
