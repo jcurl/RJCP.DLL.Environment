@@ -339,6 +339,7 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win2016 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
         private static readonly WinVersion _Win2019 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
         private static readonly WinVersion _Win2022 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
+        private static readonly WinVersion _Win2025 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 26100, true);
 
         private sealed class WinVersionLookupEntry
         {
@@ -419,6 +420,7 @@ namespace RJCP.Core.Environment.Version
             new(_Win11_22H2, "Windows 11 v22H2"),
             new(_Win11_23H2, "Windows 11 v23H2"),
             new(_Win11_24H2, "Windows 11 v24H2"),
+            new(_Win2025, "Windows 11 Server 2025"),
             new(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
             new(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
@@ -644,6 +646,11 @@ namespace RJCP.Core.Environment.Version
         public static WinVersion Windows11_21H2 { get { return _Win11_21H2; } }
 
         /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2022.
+        /// </summary>
+        public static WinVersion Win2022 { get { return _Win2022; } }
+
+        /// <summary>
         /// A predefined <see cref="WinVersion"/> object identifying Windows 11 22H2.
         /// </summary>
         public static WinVersion Windows11_22H2 { get { return _Win11_22H2; } }
@@ -659,9 +666,9 @@ namespace RJCP.Core.Environment.Version
         public static WinVersion Windows11_24H2 { get { return _Win11_24H2; } }
 
         /// <summary>
-        /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2022.
+        /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2025.
         /// </summary>
-        public static WinVersion Win2022 { get { return _Win2022; } }
+        public static WinVersion Win2025 { get { return _Win2025; } }
         #endregion
 
         #region Properties
