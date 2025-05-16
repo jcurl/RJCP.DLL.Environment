@@ -756,8 +756,11 @@
         Cloud_E = 0x000000B7,
 
         /// <summary>
-        /// Andromeda
+        /// Andromeda.
         /// </summary>
+        /// <remarks>
+        /// This constant is not present in SDK 10.0.26100.
+        /// </remarks>
         Andromeda = 0x000000B8,
 
         /// <summary>
@@ -798,6 +801,9 @@
         /// <summary>
         /// X-Box native OS.
         /// </summary>
+        /// <remarks>
+        /// This constant is not present in SDK 10.0.26100.
+        /// </remarks>
         XBox_Native_OS = 0x000000C1,
 
         /// <summary>
@@ -846,6 +852,41 @@
         CloudEdition = 0x000000CB,
 
         /// <summary>
+        /// Validation OS.
+        /// </summary>
+        Validation_OS = 0x000000CC,
+
+        /// <summary>
+        /// Internet of Things Enterprise S K.
+        /// </summary>
+        IOT_Enterprise_S_K = 0x000000CD,
+
+        /// <summary>
+        /// Internet of Things Enterprise K.
+        /// </summary>
+        IOT_Enterprise_K = 0x000000CE,
+
+        /// <summary>
+        /// Internet of Things Enterpise Evaluation S.
+        /// </summary>
+        IOT_Enterprise_Eval_S = 0x000000CF,
+
+        /// <summary>
+        /// Azure Server Agent Bridge.
+        /// </summary>
+        Azure_Server_Agent_Bridge = 0x000000D0,
+
+        /// <summary>
+        /// Azure Server Nano Host.
+        /// </summary>
+        Azure_Server_Nano_Host = 0x000000D1,
+
+        /// <summary>
+        /// Windows Cloud PC.
+        /// </summary>
+        WNC = 0x000000D2,
+
+        /// <summary>
         /// Azure Stack HCI Server Core.
         /// </summary>
         AzureStackHci_Server_Core = 0x00000196,
@@ -859,6 +900,11 @@
         /// Datacenter Server Azure Edition Core.
         /// </summary>
         Datacenter_Server_Core_Azure_Edition = 0x00000198,
+
+        /// <summary>
+        /// Datacenter WS Server Azure Edition Core.
+        /// </summary>
+        Datacenter_WS_Server_Core_Azure_Edition = 0x00000199,
 
         /// <summary>
         /// Windows XP MediaCenter.

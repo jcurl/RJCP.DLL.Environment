@@ -1,6 +1,7 @@
 namespace RJCP.Core.Environment.Version
 {
     using System;
+    using System.CodeDom;
     using System.Runtime.Versioning;
     using System.Text;
     using Resources;
@@ -1135,6 +1136,7 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.Datacenter_WS_Server_Core: return "DataCenter WS (Core)";
                 case WinProductInfo.Datacenter_Server_Azure_Edition: return "DataCenter Azure";
                 case WinProductInfo.Datacenter_Server_Core_Azure_Edition: return "DataCenter Azure (Core)";
+                case WinProductInfo.Datacenter_WS_Server_Core_Azure_Edition: return "DataCenter WS Azure (Core)";
 
                 case WinProductInfo.Enterprise_Server: return "Enterprise Server";
                 case WinProductInfo.Enterprise_Server_Core: return "Enterprise Server (Core)";
@@ -1185,27 +1187,29 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.Cloud_E_N: return "Cloud E N";
                 case WinProductInfo.CloudEdition: return "Cloud Edition";
                 case WinProductInfo.CloudEdition_N: return "Cloud Edition N";
+                case WinProductInfo.WNC: return "Windows Cloud PC";
 
                 case WinProductInfo.Azure_Server_Core: return "Azure Server (Core)";
                 case WinProductInfo.Azure_Server_CloudHost: return "Azure Server Cloud Host";
                 case WinProductInfo.Azure_Server_CloudMos: return "Azure Server Cloud MOS";
                 case WinProductInfo.AzureStackHci_Server_Core: return "Azure Stack HCI Server (Core)";
+                case WinProductInfo.Azure_Server_Agent_Bridge: return "Azure Server Agent Bridge";
 
                 case WinProductInfo.Embedded: return "Windows Embedded";
                 case WinProductInfo.Embedded_A: return "Windows Embedded A";
                 case WinProductInfo.Embedded_E: return "Windows Embedded E";
-                case WinProductInfo.Embedded_Eval: return "Windows Embedded Evaluation";
-                case WinProductInfo.Embedded_E_Eval: return "Windows Embedded E Evaluation";
+                case WinProductInfo.Embedded_Eval: return "Windows Embedded (Eval)";
+                case WinProductInfo.Embedded_E_Eval: return "Windows Embedded E (Eval)";
                 case WinProductInfo.Embedded_Automotive: return "Windows Embedded Automotive";
                 case WinProductInfo.Embedded_Industry: return "Windows Embedded Industry";
                 case WinProductInfo.Embedded_Industry_A: return "Windows Embedded Industry A";
                 case WinProductInfo.Embedded_Industry_E: return "Windows Embedded Industry E";
                 case WinProductInfo.Embedded_Industry_A_E: return "Windows Embedded Industry A E";
-                case WinProductInfo.Embedded_Industry_Eval: return "Windows Embedded Industry Evaluation";
-                case WinProductInfo.Embedded_E_Industry_Eval: return "Windows Embedded Industry E Evaluation";
+                case WinProductInfo.Embedded_Industry_Eval: return "Windows Embedded Industry (Eval)";
+                case WinProductInfo.Embedded_E_Industry_Eval: return "Windows Embedded Industry E (Eval)";
                 case WinProductInfo.Connected_Car: return "Connected Car";
                 case WinProductInfo.Solution_EmbeddedServer: return "Windows Multipoint Server";
-                case WinProductInfo.Solution_EmbeddedServerCore: return "Windows Multipoint Server Core";
+                case WinProductInfo.Solution_EmbeddedServerCore: return "Windows Multipoint Server (Core)";
                 case WinProductInfo.Multipoint_Standard_Server: return "Windows Multipoint Server Standard";
                 case WinProductInfo.Multipoint_Premium_Server: return "Windows Multipoint Server Premium";
                 case WinProductInfo.Professional_Embedded: return "Windows Professional Embedded";
@@ -1228,11 +1232,15 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.IOT_EDGEOS: return "IoT Edge OS";
                 case WinProductInfo.IOT_Enterprise: return "IoT Enterprise";
                 case WinProductInfo.IOT_Enterprise_S: return "IoT Enterprise S";
+                case WinProductInfo.IOT_Enterprise_S_K: return "IoT Enterprise S K";
+                case WinProductInfo.IOT_Enterprise_K: return "IoT Enterprise K";
+                case WinProductInfo.IOT_Enterprise_Eval_S: return "IoT Enterprise S (Eval)";
 
                 case WinProductInfo.Nano_Server: return "Windows Nano Server";
                 case WinProductInfo.Datacenter_Nano_Server: return "Datacenter Nano Server";
                 case WinProductInfo.Standard_Nano_Server: return "Standard Nano Server";
                 case WinProductInfo.Azure_Nano_Server: return "Azure Nano Server";
+                case WinProductInfo.Azure_Server_Nano_Host: return "Azure Nano Server Host";
 
                 case WinProductInfo.XBox_System_OS: return "X-Box System OS";
                 case WinProductInfo.XBox_Native_OS: return "X-Box Native OS";
@@ -1241,6 +1249,8 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.XBox_Durango_Host_OS: return "X-Box Durango OS";
                 case WinProductInfo.XBox_Scarlett_Host_OS: return "X-Box Scarlett OS";
                 case WinProductInfo.XBox_Keystone: return "X-Box Keystone";
+
+                case WinProductInfo.Validation_OS: return "Validation OS";
 
                 case WinProductInfo.Unlicensed: return "Unlicensed";
                 default: return string.Empty;

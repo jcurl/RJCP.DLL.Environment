@@ -1,9 +1,11 @@
 ﻿namespace RJCP.Core.Environment.Version
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.Versioning;
     using NUnit.Framework;
+#if NET6_0_OR_GREATER
+    using System.Diagnostics.CodeAnalysis;
+#endif
 
     [TestFixture]
     public class WinVersionTest
