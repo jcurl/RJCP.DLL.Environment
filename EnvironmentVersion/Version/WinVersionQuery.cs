@@ -341,7 +341,7 @@
         private static WinArchitecture FromProcessorArchitecture(ushort processorArchitecture)
         {
             switch (processorArchitecture) {
-            case Kernel32.PROCESSOR_ARCHITECTURE.INTEL: return WinArchitecture.x64;
+            case Kernel32.PROCESSOR_ARCHITECTURE.INTEL: return WinArchitecture.x86;
             case Kernel32.PROCESSOR_ARCHITECTURE.MIPS: return WinArchitecture.Mips;
             case Kernel32.PROCESSOR_ARCHITECTURE.ALPHA: return WinArchitecture.Alpha;
             case Kernel32.PROCESSOR_ARCHITECTURE.PPC: return WinArchitecture.PPC;
