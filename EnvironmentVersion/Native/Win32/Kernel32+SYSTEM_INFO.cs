@@ -16,8 +16,8 @@
             public uint dwNumberOfProcessors;
             public uint dwProcessorType;
             public uint dwAllocationGranularity;
-            public ushort dwProcessorLevel;
-            public ushort dwProcessorRevision;
+            public ushort wProcessorLevel;
+            public ushort wProcessorRevision;
         }
     }
 }

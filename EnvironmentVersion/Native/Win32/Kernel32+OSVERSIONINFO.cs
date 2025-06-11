@@ -7,17 +7,17 @@
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public class OSVERSIONINFO
         {
-            public int OSVersionInfoSize;
-            public int MajorVersion;
-            public int MinorVersion;
-            public int BuildNumber;
-            public int PlatformId;
+            public uint OSVersionInfoSize;
+            public uint MajorVersion;
+            public uint MinorVersion;
+            public uint BuildNumber;
+            public uint PlatformId;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x80)]
             public string CSDVersion;
 
             public OSVERSIONINFO()
             {
-                OSVersionInfoSize = Marshal.SizeOf(this);
+                OSVersionInfoSize = unchecked((uint)(Marshal.SizeOf(this)));
             }
         }
     }

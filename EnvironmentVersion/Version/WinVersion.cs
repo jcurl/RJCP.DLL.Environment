@@ -1,9 +1,9 @@
 namespace RJCP.Core.Environment.Version
 {
     using System;
-    using System.CodeDom;
     using System.Runtime.Versioning;
     using System.Text;
+    using System.Xml;
     using Resources;
 
     /// <summary>
@@ -286,6 +286,54 @@ namespace RJCP.Core.Environment.Version
 
                 return s_Current;
             }
+        }
+
+        /// <summary>
+        /// Get the version of the OS specified in an XML file given by <paramref name="fileName"/>.
+        /// </summary>
+        /// <param name="fileName">Name of the file to load.</param>
+        /// <returns>The Windows Version that was obtained remotely.</returns>
+        public static WinVersion Load(string fileName)
+        {
+            ThrowHelper.ThrowIfNullOrWhiteSpace(fileName);
+            return new WinVersionQuery(fileName);
+        }
+
+        /// <summary>
+        /// Get the version of the OS specified in an XML file given by <paramref name="winDoc"/>.
+        /// </summary>
+        /// <param name="winDoc">The loaded document where <c>WinVersionQuery</c> is the root element.</param>
+        /// <returns>The Windows Version that was obtained remotely.</returns>
+        public static WinVersion Load(XmlDocument winDoc)
+        {
+            ThrowHelper.ThrowIfNull(winDoc);
+            return new WinVersionQuery(winDoc);
+        }
+
+        /// <summary>
+        /// Get the version of the OS specified in an XML file given by <paramref name="winDocFragment"/>.
+        /// </summary>
+        /// <param name="winDocFragment">
+        /// The loaded document fragment where <c>WinVersionQuery</c> is the fragment.
+        /// </param>
+        /// <returns>The Windows Version that was obtained remotely.</returns>
+        public static WinVersion Load(XmlDocumentFragment winDocFragment)
+        {
+            ThrowHelper.ThrowIfNull(winDocFragment);
+            return new WinVersionQuery(winDocFragment);
+        }
+
+        /// <summary>
+        /// Get the version of the OS specified in an XML file given by <paramref name="winDocNode"/>.
+        /// </summary>
+        /// <param name="winDocNode">
+        /// The loaded document node where <c>WinVersionQuery</c> is the current node.
+        /// </param>
+        /// <returns>The Windows Version that was obtained remotely.</returns>
+        public static WinVersion Load(XmlNode winDocNode)
+        {
+            ThrowHelper.ThrowIfNull(winDocNode);
+            return new WinVersionQuery(winDocNode);
         }
 
         #region Static properties describing known Operating Systems

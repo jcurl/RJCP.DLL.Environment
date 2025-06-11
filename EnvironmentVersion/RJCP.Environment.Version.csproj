@@ -60,6 +60,14 @@
 
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Native\INativeWinVersion.cs" />
+    <Compile Include="Native\IRegistryKey.cs" />
+    <Compile Include="Native\NativeWinVersion.cs" />
+    <Compile Include="Native\OsVersionInfo.cs" />
+    <Compile Include="Native\OsVersionInfoEx.cs" />
+    <Compile Include="Native\RegistryKeyValue.cs" />
+    <Compile Include="Native\SystemInfo.cs" />
+    <Compile Include="Native\NativeRegistryKey.cs" />
     <Compile Include="Native\Win32\Kernel32+IMAGE_FILE_MACHINE.cs" />
     <Compile Include="Native\Win32\Kernel32+OSVERSIONINFO.cs" />
     <Compile Include="Native\Win32\Kernel32+OSVERSIONINFOEX.cs" />
@@ -70,6 +78,9 @@
     <Compile Include="Native\Win32\Kernel32.cs" />
     <Compile Include="Native\Win32\NtDll.cs" />
     <Compile Include="Native\Win32\WinBrand.cs" />
+    <Compile Include="Native\WinVersionFactory.cs" />
+    <Compile Include="Native\XmlRegistryKey.cs" />
+    <Compile Include="Native\XmlWinVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <DesignTime>True</DesignTime>

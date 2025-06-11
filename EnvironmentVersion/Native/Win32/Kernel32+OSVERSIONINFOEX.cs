@@ -7,22 +7,22 @@
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public class OSVERSIONINFOEX
         {
-            public int OSVersionInfoSize;
-            public int MajorVersion;
-            public int MinorVersion;
-            public int BuildNumber;
-            public int PlatformId;
+            public uint OSVersionInfoSize;
+            public uint MajorVersion;
+            public uint MinorVersion;
+            public uint BuildNumber;
+            public uint PlatformId;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x80)]
             public string CSDVersion;
-            public short ServicePackMajor;
-            public short ServicePackMinor;
+            public ushort ServicePackMajor;
+            public ushort ServicePackMinor;
             public ushort SuiteMask;
             public byte ProductType;
             public byte Reserved;
 
             public OSVERSIONINFOEX()
             {
-                OSVersionInfoSize = Marshal.SizeOf(this);
+                OSVersionInfoSize = unchecked((uint)(Marshal.SizeOf(this)));
             }
         }
     }

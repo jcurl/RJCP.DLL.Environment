@@ -19,7 +19,9 @@ This document covers two assemblies, `RJCP.Core.Environment` and
   - [4.1. Environment](#41-environment)
     - [4.1.1. Version 0.3.0](#411-version-030)
   - [4.2. Environment.Version](#42-environmentversion)
-    - [4.2.1. Version 0.3.0](#421-version-030)
+    - [4.2.1. Version 0.3.2](#421-version-032)
+    - [4.2.2. Version 0.3.1](#422-version-031)
+    - [4.2.3. Version 0.3.0](#423-version-030)
   - [4.3. Version 0.2.0](#43-version-020)
 
 ## 1. Environment Features
@@ -30,8 +32,8 @@ Provides a standard way across .NET Framework and .NET Core. .NET 6.0 and later
 have introduced their own mechanism, so if your projects don't target older
 versions, use the immplementations from .NET Core.
 
-* `IsWinNT()`
-* `IsUnix()` for Linux (support for MacOS is removed as this is not tested).
+- `IsWinNT()`
+- `IsUnix()` for Linux (support for MacOS is removed as this is not tested).
 
 These APIs support the newer `SupportedOSPlatform` attributes in .NET Core 6.0
 and later (the attribute is from .NET 5.0, but .NET 6.0 supports the guards).
@@ -111,7 +113,7 @@ Features:
 
 Quality:
 
-- Add README.md to NuGet package (DOTNET-805)
+- Add `README.md` to NuGet package (DOTNET-805)
 - Move out Version information, so that there are less dependencies and remove
   cyclic dependencies, as most code uses this library for platform information.
   (DOTNET-851)
@@ -120,36 +122,64 @@ Quality:
 
 ### 4.2. Environment.Version
 
-#### 4.2.1. Version 0.3.0
+#### 4.2.1. Version 0.3.2
 
 Features:
 
-- NetVersion: Search for Mono 4.2.1 and later (DOTNET-848)
-- NetVersion: Search for Mono 1.x to 4.0.3 (DOTNET-849)
+- WinVersion: Support for Windows 11 24H2 (DOTNET-1039).
+- WinVersion: Support for Windows Server 2025 (DOTNET-1041).
+- WinVersion: Extend product information for SDK 26100 (DOTNET-1042).
+- WinVersion: Provide `WinVersionQueryApi.exe` to dump output of Windows API for
+  Windows XP up to Windows 11 24H2 (DOTNET-1045).
+- WinVersion: Allow interpreting Windows version from an XML file, provided by
+  `WinVersionQueryApi`. This allows backward compatibility testing without
+  needing to test on the target (DOTNET-1044).
+
+BugFixes:
+
+- WinVersion: For Operating Systems that don't have `IsWow64Process2` and uses
+  `GetSystemInfo`, the native processor architecture of 0 (`INTEL`) was being
+  interpreted as 64-bit. Now it is correctly interpreted to be 32-bit x86
+  (DOTNET-1048).
+
+#### 4.2.2. Version 0.3.1
+
+Features:
+
+- WinVersion: Support Windows 11 23H2 (DOTNET-1015).
+- WinVersion: For unknown Windows Versions, use the Windows Branding string
+  `%WINDOWS_LONG%` which shows Windows 11 properly (DOTNET-1015).
+
+#### 4.2.3. Version 0.3.0
+
+Features:
+
+- NetVersion: Search for Mono 4.2.1 and later (DOTNET-848).
+- NetVersion: Search for Mono 1.x to 4.0.3 (DOTNET-849).
 - NetVersion: Use the current MonoRuntime to also determine the installed
-  location (DOTNET-851)
+  location (DOTNET-851).
 - NetVersion: Search the path on Windows for other installations of Mono
-  (DOTNET-858)
+  (DOTNET-858).
 - NetVersion: Use the current MonoRuntime on Linux to also determine the
-  installed location (DOTNET-863)
-- WinVersion:  Add Windows RT 8.1 ARM to a test case (DOTNET-859)
+  installed location (DOTNET-863).
+- WinVersion:  Add Windows RT 8.1 ARM to a test case (DOTNET-859).
 
 BugFixes:
 
 - NetVersion: Fix and test .NET 1.0 to .NET 4.8.1, fixing especially the
-  detection of .NET 3.0 (DOTNET-843, DOTNET-844, DOTNET-846)
-- NetVersion: Only return one current runtime (DOTNET-850)
+  detection of .NET 3.0 (DOTNET-843, DOTNET-844, DOTNET-846).
+- NetVersion: Only return one current runtime (DOTNET-850).
 
 Quality:
 
-- Add README.md to NuGet package (DOTNET-805)
+- Add `README.md` to NuGet package (DOTNET-805).
 - NetVersion: Provide the Target Version as a `Version` object (DOTNET-842,
-  DOTNET-845)
-- Code cleanup (DOTNET-848)
-- Add references for OS Compatibility (DOTNET-938)
+  DOTNET-845).
+- Code cleanup (DOTNET-848).
+- Add references for OS Compatibility (DOTNET-938).
 - Upgrade to .NET Core 6.0 (DOTNET-936, DOTNET-940, DOTNET-942, DOTNET-959,
-  DOTNET-963)
-- Add .NET 4.8 target, and enable usage of APIs without reflection (DOTNET-976)
+  DOTNET-963).
+- Add .NET 4.8 target, and enable usage of APIs without reflection (DOTNET-976).
 
 ### 4.3. Version 0.2.0
 

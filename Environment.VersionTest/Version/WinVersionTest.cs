@@ -1,8 +1,11 @@
 ﻿namespace RJCP.Core.Environment.Version
 {
     using System;
+    using System.IO;
     using System.Runtime.Versioning;
     using NUnit.Framework;
+    using RJCP.CodeQuality.Config;
+    using RJCP.CodeQuality.NUnitExtensions;
 #if NET6_0_OR_GREATER
     using System.Diagnostics.CodeAnalysis;
 #endif
@@ -16,23 +19,33 @@
         public void OSVersionCheckCurrentOS()
         {
             WinVersion current = WinVersion.LocalMachine;
-            Console.WriteLine($"{current}");
-            Console.WriteLine($"WinVersionString: {current.WinVersionString}");
-            Console.WriteLine($"VersionString: {current.VersionString}");
-            Console.WriteLine($"Major.Minor.Build: {current.MajorVersion}.{current.MinorVersion}.{current.BuildNumber}");
-            Console.WriteLine($"PlatformId: {current.PlatformId}");
-            Console.WriteLine($"PlatformIdString: {current.PlatformIdString}");
-            Console.WriteLine($"ProductInfo: {current.ProductInfo}");
-            Console.WriteLine($"ProductInfoString: {current.ProductInfoString}");
-            Console.WriteLine($"ProductType: {current.ProductType}");
-            Console.WriteLine($"ProductTypeString: {current.ProductTypeString}");
-            Console.WriteLine($"Suite Flags: {current.SuiteFlags:X}");
-            Console.WriteLine($"SuiteString: {current.SuiteString}");
-            Console.WriteLine($"NativeArchitecture: {current.NativeArchitecture}");
-            Console.WriteLine($"Architecture: {current.Architecture}");
-            Console.WriteLine($"CSD Version: {current.CSDVersion}");
-            Console.WriteLine($"Server R2: {current.ServerR2}");
-            Console.WriteLine($"Service Pack: {current.ServicePackMajor}.{current.ServicePackMinor}");
+            Console.WriteLine($"[Current]");
+            Console.WriteLine($"PlatformId={current.PlatformId}");
+            Console.WriteLine($"PlatformIdString={current.PlatformIdString}");
+            Console.WriteLine($"MajorVersion={current.MajorVersion}");
+            Console.WriteLine($"MinorVersion={current.MinorVersion}");
+            Console.WriteLine($"BuildNumber={current.BuildNumber}");
+            Console.WriteLine($"UpdateBuildNumber={current.UpdateBuildNumber}");
+            Console.WriteLine($"CSDVersion={current.CSDVersion}");
+            Console.WriteLine($"ServicePackMajor={current.ServicePackMajor}");
+            Console.WriteLine($"ServicePackMinor={current.ServicePackMinor}");
+            Console.WriteLine($"Version={current.Version}");
+            Console.WriteLine($"VersionString={current.VersionString}");
+            Console.WriteLine($"WinVersionString={current.WinVersionString}");
+            Console.WriteLine($"NativeArchitecture={current.NativeArchitecture}");
+            Console.WriteLine($"WinArchitecture={current.Architecture}");
+            Console.WriteLine($"SuiteFlags={current.SuiteFlags:X}");
+            Console.WriteLine($"SuiteString={current.SuiteString}");
+            Console.WriteLine($"ProductType={current.ProductType}");
+            Console.WriteLine($"ProductTypeString={current.ProductTypeString}");
+            Console.WriteLine($"ProductInfo={current.ProductInfo}");
+            Console.WriteLine($"ProductInfoString={current.ProductInfoString}");
+            Console.WriteLine($"IsServer={current.IsServer}");
+            Console.WriteLine($"ServerR2={current.ServerR2}");
+            Console.WriteLine($"IsExtendedPropsSet={current.IsExtendedPropsSet}");
+            Console.WriteLine($"ToString={current}");
+            Console.WriteLine("");
+
             Assert.Inconclusive("Please check output that it matches your computer");
         }
 
@@ -963,6 +976,132 @@
             };
 
             Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 10 Server 2019 or later"));
+        }
+
+        private readonly static string FilePath = Path.Combine(Deploy.TestDirectory, "TestResources", "WinVersion");
+
+        private readonly static string[] WinVersionFiles = {
+            "ReactOS-0.4.15_x86",
+            "ReactOS-0.4.15_x86_xp",
+            "winxp-sp3-pro_x86",
+            "winvista-sp1-ult_x86",
+            "winvista-sp1-ult_x86_xp",
+            "winvista-sp2-checked-ult_x86",
+            "winvista-sp2-checked-ult_x86_xp",
+            "winvista-sp2-ult_x64",
+            "winvista-sp2-ult_x64_wow",
+            "winvista-sp2-ult_x64_wow_xp",
+            "winvista-sp2-ult_x64_xp",
+            "win7-sp1-ent_x64",
+            "win7-sp1-ent_x64_wow",
+            "win7-sp1-ent_x64_wow_xp",
+            "win7-sp1-ent_x64_xp",
+            "win10.17134-ent_x64",
+            "win10.17134-ent_x64_wow",
+            "win10.17134-ent_x64_wow_xp",
+            "win10.17134-ent_x64_xp",
+            "win10.19045-pro_x64",
+            "win10.19045-pro_x64_wow",
+            "win10.19045-pro_x64_wow_xp",
+            "win10.19045-pro_x64_xp",
+            "win11.22631-ent",
+            "win11.22631-ent_wow",
+            "win11.22631-ent_wow_xp",
+            "win11.22631-ent_xp",
+            "win11.26100-ent",
+            "win11.26100-ent_wow",
+            "win11.26100-ent_wow_xp",
+            "win11.26100-ent_xp",
+            "win2003-sp2_x86",
+            "win2019-ad-std_x64",
+            "win2019-ad-std_x64_wow",
+            "win2019-ad-std_x64_wow_xp",
+            "win2019-ad-std_x64_xp",
+            "win2025-std",
+            "win2025-std_wow",
+            "win2025-std_wow_xp",
+            "win2025-std_xp"
+        };
+
+        [Test]
+        public void GenerateIni()
+        {
+            bool exception = false;
+
+            using (ScratchPad pad = Deploy.ScratchPad(nameof(GenerateIni), ScratchOptions.UseScratchDir | ScratchOptions.CreateScratch))
+            using (FileStream fs = new(Path.Combine(pad.Path, "winversion.ini"), FileMode.Create, FileAccess.Write, FileShare.None))
+            using (StreamWriter w = new(fs)) {
+                foreach (string fileName in WinVersionFiles) {
+                    try {
+                        WinVersion winVersion = WinVersion.Load(Path.Combine(FilePath, $"{fileName}.xml"));
+                        w.WriteLine($"[{fileName}]");
+                        w.WriteLine($"PlatformId={winVersion.PlatformId}");
+                        w.WriteLine($"PlatformIdString={winVersion.PlatformIdString}");
+                        w.WriteLine($"MajorVersion={winVersion.MajorVersion}");
+                        w.WriteLine($"MinorVersion={winVersion.MinorVersion}");
+                        w.WriteLine($"BuildNumber={winVersion.BuildNumber}");
+                        w.WriteLine($"UpdateBuildNumber={winVersion.UpdateBuildNumber}");
+                        w.WriteLine($"CSDVersion={winVersion.CSDVersion}");
+                        w.WriteLine($"ServicePackMajor={winVersion.ServicePackMajor}");
+                        w.WriteLine($"ServicePackMinor={winVersion.ServicePackMinor}");
+                        w.WriteLine($"Version={winVersion.Version}");
+                        w.WriteLine($"VersionString={winVersion.VersionString}");
+                        w.WriteLine($"WinVersionString={winVersion.WinVersionString}");
+                        w.WriteLine($"NativeArchitecture={winVersion.NativeArchitecture}");
+                        w.WriteLine($"WinArchitecture={winVersion.Architecture}");
+                        w.WriteLine($"SuiteFlags={winVersion.SuiteFlags}");
+                        w.WriteLine($"SuiteString={winVersion.SuiteString}");
+                        w.WriteLine($"ProductType={winVersion.ProductType}");
+                        w.WriteLine($"ProductTypeString={winVersion.ProductTypeString}");
+                        w.WriteLine($"ProductInfo={winVersion.ProductInfo}");
+                        w.WriteLine($"ProductInfoString={winVersion.ProductInfoString}");
+                        w.WriteLine($"IsServer={winVersion.IsServer}");
+                        w.WriteLine($"ServerR2={winVersion.ServerR2}");
+                        w.WriteLine($"IsExtendedPropsSet={winVersion.IsExtendedPropsSet}");
+                        w.WriteLine($"ToString={winVersion}");
+                        w.WriteLine("");
+                    } catch (Exception ex) {
+                        Console.WriteLine($"Exception in file {fileName} - {ex.Message}");
+                        exception = true;
+                    }
+                }
+            }
+
+            Assert.That(exception, Is.False);
+        }
+
+        [TestCaseSource(nameof(WinVersionFiles))]
+        public void WindowsVersionQueryXml(string fileName)
+        {
+            IniFile versionResults = new(Path.Combine(FilePath, "winversion.ini"));
+            IniSection versionResult = versionResults[fileName];
+
+            WinVersion winVersion = WinVersion.Load(Path.Combine(FilePath, $"{fileName}.xml"));
+
+            Assert.That(winVersion.PlatformId.ToString(), Is.EqualTo(versionResult["PlatformId"]));
+            Assert.That(winVersion.PlatformIdString, Is.EqualTo(versionResult["PlatformIdString"]));
+            Assert.That(winVersion.MajorVersion.ToString(), Is.EqualTo(versionResult["MajorVersion"]));
+            Assert.That(winVersion.MinorVersion.ToString(), Is.EqualTo(versionResult["MinorVersion"]));
+            Assert.That(winVersion.BuildNumber.ToString(), Is.EqualTo(versionResult["BuildNumber"]));
+            Assert.That(winVersion.UpdateBuildNumber.ToString(), Is.EqualTo(versionResult["UpdateBuildNumber"]));
+            Assert.That(winVersion.CSDVersion, Is.EqualTo(versionResult["CSDVersion"]));
+            Assert.That(winVersion.ServicePackMajor.ToString(), Is.EqualTo(versionResult["ServicePackMajor"]));
+            Assert.That(winVersion.ServicePackMinor.ToString(), Is.EqualTo(versionResult["ServicePackMinor"]));
+            Assert.That(winVersion.Version.ToString(), Is.EqualTo(versionResult["Version"]));
+            Assert.That(winVersion.VersionString, Is.EqualTo(versionResult["VersionString"]));
+            Assert.That(winVersion.WinVersionString, Is.EqualTo(versionResult["WinVersionString"]));
+            Assert.That(winVersion.NativeArchitecture.ToString(), Is.EqualTo(versionResult["NativeArchitecture"]));
+            Assert.That(winVersion.Architecture.ToString(), Is.EqualTo(versionResult["WinArchitecture"]));
+            Assert.That(winVersion.SuiteFlags.ToString(), Is.EqualTo(versionResult["SuiteFlags"]));
+            Assert.That(winVersion.SuiteString, Is.EqualTo(versionResult["SuiteString"]));
+            Assert.That(winVersion.ProductType.ToString(), Is.EqualTo(versionResult["ProductType"]));
+            Assert.That(winVersion.ProductTypeString, Is.EqualTo(versionResult["ProductTypeString"]));
+            Assert.That(winVersion.ProductInfo.ToString(), Is.EqualTo(versionResult["ProductInfo"]));
+            Assert.That(winVersion.ProductInfoString, Is.EqualTo(versionResult["ProductInfoString"]));
+            Assert.That(winVersion.IsServer.ToString(), Is.EqualTo(versionResult["IsServer"]));
+            Assert.That(winVersion.ServerR2.ToString(), Is.EqualTo(versionResult["ServerR2"]));
+            Assert.That(winVersion.IsExtendedPropsSet.ToString(), Is.EqualTo(versionResult["IsExtendedPropsSet"]));
+            Assert.That(winVersion.ToString(), Is.EqualTo(versionResult["ToString"]));
         }
     }
 }

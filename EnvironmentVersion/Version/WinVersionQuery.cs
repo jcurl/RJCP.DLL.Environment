@@ -5,16 +5,18 @@
     using System.Runtime.InteropServices;
     using System.Runtime.Versioning;
     using System.Security;
-    using Microsoft.Win32;
+    using System.Xml;
+    using Native;
     using Native.Win32;
     using Resources;
 
     /// <summary>
     /// Class to get information about the local machine.
     /// </summary>
-    [SupportedOSPlatform("windows")]
     internal class WinVersionQuery : WinVersion
     {
+        private readonly INativeWinVersion m_WinVersion;
+
         /// <summary>
         /// Default constructor, getting information about the local machine. Use the static method <c>LocalMachine</c>
         /// instead for efficiency.
@@ -26,6 +28,36 @@
             if (!Platform.IsWinNT())
                 throw new PlatformNotSupportedException(Messages.PlatformNotSupportedEx);
 
+            m_WinVersion = WinVersionFactory.Create();
+            WinVersionQueryInternal();
+        }
+
+        public WinVersionQuery(string fileName)
+        {
+            m_WinVersion = WinVersionFactory.Create(fileName);
+            WinVersionQueryInternal();
+        }
+
+        public WinVersionQuery(XmlDocument winDoc)
+        {
+            m_WinVersion = WinVersionFactory.Create(winDoc);
+            WinVersionQueryInternal();
+        }
+
+        public WinVersionQuery(XmlDocumentFragment winDocFragment)
+        {
+            m_WinVersion = WinVersionFactory.Create(winDocFragment);
+            WinVersionQueryInternal();
+        }
+
+        public WinVersionQuery(XmlNode winDocNode)
+        {
+            m_WinVersion = WinVersionFactory.Create(winDocNode);
+            WinVersionQueryInternal();
+        }
+
+        private void WinVersionQueryInternal()
+        {
             if (!GetVersionEx())
                 GetVersion();
 
@@ -52,9 +84,9 @@
 
             // Get the basic information. If this shows we've got a newer operating system, we can get more detailed
             // information later.
-            Kernel32.OSVERSIONINFO info = new();
+            OsVersionInfo info;
             try {
-                result = Kernel32.GetVersionEx(info);
+                result = m_WinVersion.GetVersionEx(out info);
                 if (!result) {
                     int error = Marshal.GetLastWin32Error();
                     string message = string.Format(Messages.Win32Ex_GetVersionEx, error);
@@ -66,9 +98,9 @@
             }
 
             PlatformId = (WinPlatform)info.PlatformId;
-            MajorVersion = info.MajorVersion;
-            MinorVersion = info.MinorVersion;
-            BuildNumber = info.BuildNumber;
+            MajorVersion = unchecked((int)(info.MajorVersion));
+            MinorVersion = unchecked((int)(info.MinorVersion));
+            BuildNumber = unchecked((int)(info.BuildNumber));
             CSDVersion = info.CSDVersion;
 
             if (PlatformId == WinPlatform.WinNT) {
@@ -84,12 +116,11 @@
                     }
                 }
             } else if (PlatformId == WinPlatform.Win9x) {
-                BuildNumber = (info.BuildNumber & 0xFFFF);
+                BuildNumber = unchecked((int)(info.BuildNumber & 0xFFFF));
                 return true;
             }
 
-            Kernel32.OSVERSIONINFOEX infoex = new();
-            result = Kernel32.GetVersionEx(infoex);
+            result = m_WinVersion.GetVersionEx(out OsVersionInfoEx infoex);
             if (!result) {
                 int error = Marshal.GetLastWin32Error();
                 string message = string.Format(Messages.Win32Ex_GetVersionEx, error);
@@ -97,10 +128,13 @@
             }
 
             int ntstatus;
-            Kernel32.OSVERSIONINFOEX rtlInfoEx = new();
+            OsVersionInfoEx rtlInfoEx;
             try {
-                ntstatus = NtDll.RtlGetVersion(rtlInfoEx);
+                ntstatus = m_WinVersion.RtlGetVersion(out rtlInfoEx);
             } catch {
+                // Needed because the compiler thinks it might be undefined otherwise.
+                rtlInfoEx = new();
+
                 // The RtlGetVersionEx() call doesn't exist, or it returned an error
                 ntstatus = -1;
             }
@@ -109,8 +143,14 @@
             if (ntstatus == 0) {
                 // The direct call worked, and should overcome the API breakage that depends on a manifest. Just in case
                 // that the real method returns a value that is older than the "real" windows API.
-                Version vInfo = new(infoex.MajorVersion, infoex.MinorVersion, infoex.BuildNumber);
-                Version vRtl = new(rtlInfoEx.MajorVersion, rtlInfoEx.MinorVersion, rtlInfoEx.BuildNumber);
+                Version vInfo = new(
+                    unchecked((int)(info.MajorVersion)),
+                    unchecked((int)(info.MinorVersion)),
+                    unchecked((int)(info.BuildNumber)));
+                Version vRtl = new(
+                    unchecked((int)(rtlInfoEx.MajorVersion)),
+                    unchecked((int)(rtlInfoEx.MinorVersion)),
+                    unchecked((int)(rtlInfoEx.BuildNumber)));
                 newer = vRtl >= vInfo;
             } else {
                 newer = false;
@@ -118,9 +158,9 @@
 
             if (newer) {
                 PlatformId = (WinPlatform)rtlInfoEx.PlatformId;
-                MajorVersion = rtlInfoEx.MajorVersion;
-                MinorVersion = rtlInfoEx.MinorVersion;
-                BuildNumber = rtlInfoEx.BuildNumber;
+                MajorVersion = unchecked((int)(rtlInfoEx.MajorVersion));
+                MinorVersion = unchecked((int)(rtlInfoEx.MinorVersion));
+                BuildNumber = unchecked((int)(rtlInfoEx.BuildNumber));
                 CSDVersion = rtlInfoEx.CSDVersion;
                 SuiteFlags = (WinSuite)rtlInfoEx.SuiteMask;
                 ProductType = (WinProductType)rtlInfoEx.ProductType;
@@ -128,9 +168,9 @@
                 ServicePackMinor = rtlInfoEx.ServicePackMinor;
             } else {
                 PlatformId = (WinPlatform)infoex.PlatformId;
-                MajorVersion = infoex.MajorVersion;
-                MinorVersion = infoex.MinorVersion;
-                BuildNumber = infoex.BuildNumber;
+                MajorVersion = unchecked((int)(infoex.MajorVersion));
+                MinorVersion = unchecked((int)(info.MinorVersion));
+                BuildNumber = unchecked((int)(info.BuildNumber));
                 CSDVersion = infoex.CSDVersion;
                 SuiteFlags = (WinSuite)infoex.SuiteMask;
                 ProductType = (WinProductType)infoex.ProductType;
@@ -152,7 +192,7 @@
         /// </remarks>
         private void GetVersion()
         {
-            uint version = Kernel32.GetVersion();
+            uint version = m_WinVersion.GetVersion();
 
             MajorVersion = (int)(version & 0xFF);
             MinorVersion = (int)((version & 0xFF00) >> 8);
@@ -181,7 +221,7 @@
         private bool DetectArchitectureWithWow2()
         {
             try {
-                bool result = Kernel32.IsWow64Process2(Kernel32.GetCurrentProcess(), out ushort processMachine, out ushort nativeMachine);
+                bool result = m_WinVersion.IsWow64Process2(out ushort processMachine, out ushort nativeMachine);
                 if (!result) return false;
 
                 NativeArchitecture = FromImageFileMachine(nativeMachine);
@@ -199,20 +239,20 @@
 
         private void DetectArchitectureWithSystemInfo()
         {
-            Kernel32.SYSTEM_INFO lpSystemInfo;
+            SystemInfo systemInfo;
 
             // GetNativeSystemInfo is independent if we're 64-bit or not But it needs _WIN32_WINNT 0x0501
             ushort processorNativeArchitecture;
             try {
-                Kernel32.GetNativeSystemInfo(out lpSystemInfo);
-                processorNativeArchitecture = lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
+                m_WinVersion.GetNativeSystemInfo(out systemInfo);
+                processorNativeArchitecture = systemInfo.wProcessorArchitecture;
             } catch (EntryPointNotFoundException) {
                 processorNativeArchitecture = Kernel32.PROCESSOR_ARCHITECTURE.UNKNOWN;
             }
 
             if (processorNativeArchitecture == Kernel32.PROCESSOR_ARCHITECTURE.UNKNOWN) {
-                Kernel32.GetSystemInfo(out lpSystemInfo);
-                processorNativeArchitecture = lpSystemInfo.uProcessorInfo.wProcessorArchitecture;
+                m_WinVersion.GetSystemInfo(out systemInfo);
+                processorNativeArchitecture = systemInfo.wProcessorArchitecture;
             }
 
             NativeArchitecture = FromProcessorArchitecture(processorNativeArchitecture);
@@ -220,7 +260,7 @@
             switch (NativeArchitecture) {
             case WinArchitecture.IA64:
             case WinArchitecture.x64:
-                bool result = Kernel32.IsWow64Process(Kernel32.GetCurrentProcess(), out bool wow64);
+                bool result = m_WinVersion.IsWow64Process(out bool wow64);
                 if (result && wow64) {
                     Architecture = WinArchitecture.x86;
                 }
@@ -246,7 +286,7 @@
             uint productInfo = 0;
             bool result;
             try {
-                result = Kernel32.GetProductInfo(MajorVersion, MinorVersion,
+                result = m_WinVersion.GetProductInfo(MajorVersion, MinorVersion,
                     ServicePackMajor, ServicePackMinor, out productInfo);
             } catch {
                 // The operating system doesn't support this function call
@@ -260,7 +300,7 @@
         private void DetectWin2003R2()
         {
             if (MajorVersion == Win2003.MajorVersion && MinorVersion == Win2003.MinorVersion) {
-                ServerR2 = Kernel32.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_SERVERR2) != 0;
+                ServerR2 = m_WinVersion.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_SERVERR2) != 0;
             }
         }
 
@@ -271,13 +311,13 @@
             if (MajorVersion == WinXP.MajorVersion && MinorVersion == WinXP.MinorVersion) {
                 ProductInfo = WinProductInfo.Undefined;
 
-                result = Kernel32.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_MEDIACENTER);
+                result = m_WinVersion.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_MEDIACENTER);
                 if (result != 0) ProductInfo = WinProductInfo.MediaCenter;
 
-                result = Kernel32.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_TABLETPC);
+                result = m_WinVersion.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_TABLETPC);
                 if (result != 0) ProductInfo = WinProductInfo.TabletPc;
 
-                result = Kernel32.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_STARTER);
+                result = m_WinVersion.GetSystemMetrics(Kernel32.SYSTEM_METRICS.SM_STARTER);
                 if (result != 0) ProductInfo = WinProductInfo.Starter;
 
                 if (ProductInfo == WinProductInfo.Undefined) {
@@ -355,18 +395,18 @@
             }
         }
 
-        [SupportedOSPlatform("windows")]
         private void DetectWin10()
         {
             if (MajorVersion != 10) return;
 
             try {
-                RegistryKey rk =
-                    Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+                IRegistryKey rk = m_WinVersion.OpenSubKey("HKLM", @"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
                 if (rk is not null) {
-                    object ubrobj = rk.GetValue("UBR");
-                    if (ubrobj is int ubr) {
-                        UpdateBuildNumber = ubr;
+                    using (rk) {
+                        object ubrobj = rk.GetValue("UBR");
+                        if (ubrobj is int ubr) {
+                            UpdateBuildNumber = ubr;
+                        }
                     }
                 }
             } catch (SecurityException) {              // Ignore that we can't access the key
@@ -389,7 +429,7 @@
         protected override string CalculateWinVersion(WinVersion lastMatch)
         {
             try {
-                string release = WinBrand.BrandingFormatString("%WINDOWS_LONG%");
+                string release = m_WinVersion.BrandingFormatString("%WINDOWS_LONG%");
                 if (!string.IsNullOrWhiteSpace(release)) return release;
             } catch (EntryPointNotFoundException) {
                 /* Ignore the exception and use the default implementation */
