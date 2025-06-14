@@ -103,9 +103,10 @@ HMODULE win32_kernel32(win32_t *handle)
 
 BOOL win32_GetCurrentProcess(win32_t *handle, HANDLE *result)
 {
+    HANDLE res;
     if (!handle || !handle->GetCurrentProcess) return FALSE;
 
-    HANDLE res = handle->GetCurrentProcess();
+    res = handle->GetCurrentProcess();
     if (result) *result = res;
     return TRUE;
 }
@@ -128,72 +129,80 @@ BOOL win32_GetSystemInfo(win32_t *handle, LPSYSTEM_INFO lpSystemInfo)
 
 BOOL win32_GetVersion(win32_t *handle, DWORD *result)
 {
+    DWORD res;
     if (!handle || !handle->GetVersion) return FALSE;
 
-    DWORD res = handle->GetVersion();
+    res = handle->GetVersion();
     if (result) *result = res;
     return TRUE;
 }
 
 BOOL win32_GetVersionEx(win32_t *handle, BOOL *result, LPOSVERSIONINFO lpVersionInformation)
 {
+    BOOL res;
     if (!handle || !handle->GetVersionEx) return FALSE;
 
-    BOOL res = handle->GetVersionEx(lpVersionInformation);
+    res = handle->GetVersionEx(lpVersionInformation);
     if (result) *result = res;
     return TRUE;
 }
 
 BOOL win32_RtlGetVersion(win32_t *handle, NTSTATUS *result, LPOSVERSIONINFOEX lpVersionInformation)
 {
+    NTSTATUS res;
     if (!handle || !handle->RtlGetVersion) return FALSE;
 
-    NTSTATUS res = handle->RtlGetVersion(lpVersionInformation);
+    res = handle->RtlGetVersion(lpVersionInformation);
     if (result) *result = res;
     return TRUE;
 }
 
 BOOL win32_IsWow64Process(win32_t *handle, BOOL *result, HANDLE hProcess, PBOOL Wow64Process)
 {
+    BOOL res;
     if (!handle || !handle->IsWow64Process) return FALSE;
 
-    BOOL res = handle->IsWow64Process(hProcess, Wow64Process);
+    res = handle->IsWow64Process(hProcess, Wow64Process);
     if (result) *result = res;
     return TRUE;
 }
 
 BOOL win32_IsWow64Process2(win32_t *handle, BOOL *result, HANDLE hProcess, USHORT *pProcessMachine, USHORT *pNativeMachine)
 {
+    BOOL res;
     if (!handle || !handle->IsWow64Process2) return FALSE;
 
-    BOOL res = handle->IsWow64Process2(hProcess, pProcessMachine, pNativeMachine);
+    res = handle->IsWow64Process2(hProcess, pProcessMachine, pNativeMachine);
     if (result) *result = res;
     return TRUE;
 }
 
 BOOL win32_GetProductInfo(win32_t *handle, BOOL *result, DWORD dwOSMajorVersion, DWORD dwOSMinorVersion, DWORD dwSpMajorVersion, DWORD dwSpMinorVersion, PDWORD pdwReturnedProductType)
 {
+    BOOL res;
     if (!handle || !handle->GetProductInfo) return FALSE;
 
-    BOOL res = handle->GetProductInfo(dwOSMajorVersion, dwOSMinorVersion, dwSpMajorVersion, dwSpMinorVersion, pdwReturnedProductType);
+    res = handle->GetProductInfo(dwOSMajorVersion, dwOSMinorVersion, dwSpMajorVersion, dwSpMinorVersion, pdwReturnedProductType);
     if (result) *result = res;
     return TRUE;
 }
 
 BOOL win32_GetSystemMetrics(win32_t *handle, int *result, int nIndex)
 {
+    int res;
     if (!handle || !handle->GetSystemMetrics) return FALSE;
 
-    int res = handle->GetSystemMetrics(nIndex);
+    res = handle->GetSystemMetrics(nIndex);
     if (result) *result = res;
     return TRUE;
 }
 
 BOOL win32_BrandingFormatString(win32_t *handle, LPTSTR *result, LPCTSTR format)
 {
+    LPTSTR res;
     if (!handle || !handle->BrandingFormatString) return FALSE;
 
-    LPTSTR res = handle->BrandingFormatString(format);
+    res = handle->BrandingFormatString(format);
     if (result) *result = res;
     return TRUE;
 }

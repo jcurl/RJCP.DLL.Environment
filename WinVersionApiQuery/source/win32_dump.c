@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <Windows.h>
@@ -243,18 +244,8 @@ static LPTSTR get_type(DWORD type)
     }
 }
 
-void dump_registry_key(writehandle_t *handle, HKEY hKey, LPTSTR subKey)
+static void dump_registry_key_block(writehandle_t *handle, HKEY key)
 {
-    if (!handle) return;
-
-    HKEY key;
-    LSTATUS result = RegOpenKeyEx(hKey, subKey, 0, KEY_READ, &key);
-    if (result != ERROR_SUCCESS) {
-        _ftprintf(handle->out_file, TEXT("    <Registry hive=\"%s\" key=\"%s\" result=\"%d\" />\n"), get_key(hKey), subKey, result);
-        return;
-    }
-
-    _ftprintf(handle->out_file, TEXT("    <Registry hive=\"%s\" key=\"%s\">\n"), get_key(hKey), subKey);
     LSTATUS enumResult;
     DWORD index = 0;
     TCHAR name[256];
@@ -264,11 +255,14 @@ void dump_registry_key(writehandle_t *handle, HKEY hKey, LPTSTR subKey)
     while (TRUE) {
         DWORD nameLen = 256;
         DWORD dataLen = 1024;
+        LPTSTR typeStr;
+
         enumResult = RegEnumValue(key, index, name, &nameLen, NULL, &type, data, &dataLen);
         if (enumResult != ERROR_SUCCESS && enumResult != ERROR_MORE_DATA) {
             break;
         }
-        LPTSTR typeStr = get_type(type);
+
+        typeStr = get_type(type);
         if (typeStr != NULL) {
             _ftprintf(handle->out_file, TEXT("      <Value name=\"%s\" type=\"%s\">"), name, typeStr);
         } else {
@@ -290,59 +284,134 @@ void dump_registry_key(writehandle_t *handle, HKEY hKey, LPTSTR subKey)
         _ftprintf(handle->out_file, TEXT("</Value>\n"));
         index++;
     }
+}
+
+void dump_registry_key(writehandle_t *handle, HKEY hKey, LPTSTR subKey)
+{
+    HKEY key;
+    LSTATUS result;
+
+    if (!handle) return;
+
+    result = RegOpenKeyEx(hKey, subKey, 0, KEY_READ, &key);
+    if (result != ERROR_SUCCESS) {
+        _ftprintf(handle->out_file, TEXT("    <Registry hive=\"%s\" key=\"%s\" result=\"%d\" />\n"), get_key(hKey), subKey, result);
+        return;
+    }
+
+    _ftprintf(handle->out_file, TEXT("    <Registry hive=\"%s\" key=\"%s\">\n"), get_key(hKey), subKey);
+
+    dump_registry_key_block(handle, key);
 
     _ftprintf(handle->out_file, TEXT("    </Registry>\n"));
+
     RegCloseKey(key);
 }
 
-void dump_library_version(writehandle_t *handle, HMODULE hModule)
+static BOOL get_library_file_name(HMODULE hModule, LPTSTR path, LPDWORD pathLen)
 {
-    if (!handle) return;
+    DWORD libPathLen;
 
-    TCHAR path[MAX_PATH];
-    DWORD pathLen = GetModuleFileName(hModule, path, MAX_PATH);
-    if (pathLen == 0 || pathLen == MAX_PATH) return;
+    if (path == NULL || pathLen == NULL) return FALSE;
 
-    DWORD thandle = 0;
-    DWORD infoSize = GetFileVersionInfoSize(path, &thandle);
-    if (infoSize == 0) return;
+    libPathLen = GetModuleFileName(hModule, path, *pathLen);
+    if (libPathLen == 0 || libPathLen == *pathLen) return FALSE;
 
-    BYTE *buffer = (BYTE *)malloc(infoSize);
-    if (buffer == NULL) return;
+    *pathLen = libPathLen;
+    return TRUE;
+}
 
-    if (!GetFileVersionInfo(path, NULL, infoSize, buffer)) {
-        free(buffer);
-        return;
-    }
+struct file_version {
+    WORD major;
+    WORD minor;
+    WORD revision;
+    WORD build;
+};
+typedef struct file_version file_version_t;
 
+static BOOL get_library_version(LPTSTR path, file_version_t *file, file_version_t *product)
+{
+    DWORD tHandle = 0;
+    DWORD infoSize;
     VS_FIXEDFILEINFO *fileInfo = NULL;
     UINT len = 0;
-    if (!VerQueryValue(buffer, TEXT("\\"), (LPVOID *)&fileInfo, &len)) {
+    BYTE *buffer;
+
+    infoSize = GetFileVersionInfoSize(path, &tHandle);
+    if (infoSize == 0) return FALSE;
+
+    buffer = (BYTE *)malloc(infoSize);
+    if (buffer == NULL) return FALSE;
+
+    if (!GetFileVersionInfo(path, 0, infoSize, buffer)) {
         free(buffer);
-        return;
+        return FALSE;
     }
 
-    // Get the file path of the name (ignore the directory path)
+    if (!VerQueryValue(buffer, TEXT("\\"), (LPVOID *)&fileInfo, &len)) {
+        free(buffer);
+        return FALSE;
+    }
+
+    if (file) {
+        file->major = HIWORD(fileInfo->dwFileVersionMS);
+        file->minor = LOWORD(fileInfo->dwFileVersionMS);
+        file->revision = HIWORD(fileInfo->dwFileVersionLS);
+        file->build = LOWORD(fileInfo->dwFileVersionLS);
+    }
+
+    if (product) {
+        product->major = HIWORD(fileInfo->dwProductVersionMS);
+        product->minor = LOWORD(fileInfo->dwProductVersionMS);
+        product->revision = HIWORD(fileInfo->dwProductVersionLS);
+        product->build = LOWORD(fileInfo->dwProductVersionLS);
+    }
+
+    free(buffer);
+    return TRUE;
+}
+
+static LPTSTR get_file_name(LPTSTR path, DWORD pathLen)
+{
     TCHAR *filePath = NULL;
-    for (int i = pathLen - 1; i > 0 && filePath == NULL; --i) {
+    int i;
+
+    if (path == NULL) return NULL;
+    for (i = pathLen - 1; i > 0 && filePath == NULL; --i) {
         if (path[i] == TEXT('\\')) {
             filePath = &path[i + 1];
         }
     }
-    if (filePath && *filePath == 0) filePath = NULL;
+    return filePath;
+}
+
+void dump_library_version(writehandle_t *handle, HMODULE hModule)
+{
+    TCHAR path[MAX_PATH];
+    DWORD pathLen = MAX_PATH;
+    file_version_t file_version;
+    file_version_t prod_version;
+    LPTSTR filePath;
+
+    if (!handle) return;
+
+    if (!get_library_file_name(hModule, path, &pathLen)) return;
+
+    if (!get_library_version(path, &file_version, &prod_version)) return;
+
+    filePath = get_file_name(path, pathLen);
+    if (filePath == NULL) return;
 
     _ftprintf(handle->out_file, TEXT("    <File path=\"%s\">\n"), filePath);
     _ftprintf(handle->out_file, TEXT("      <FileVersion major=\"%d\" minor=\"%d\" rev=\"%d\" build=\"%d\" />\n"),
-        HIWORD(fileInfo->dwFileVersionMS),
-        LOWORD(fileInfo->dwFileVersionMS),
-        HIWORD(fileInfo->dwFileVersionLS),
-        LOWORD(fileInfo->dwFileVersionLS));
+        file_version.major,
+        file_version.minor,
+        file_version.revision,
+        file_version.build);
     _ftprintf(handle->out_file, TEXT("      <ProductVersion major=\"%d\" minor=\"%d\" rev=\"%d\" build=\"%d\" />\n"),
-        HIWORD(fileInfo->dwProductVersionMS),
-        LOWORD(fileInfo->dwProductVersionMS),
-        HIWORD(fileInfo->dwProductVersionLS),
-        LOWORD(fileInfo->dwProductVersionLS));
+        prod_version.major,
+        prod_version.minor,
+        prod_version.revision,
+        prod_version.build);
     _ftprintf(handle->out_file, TEXT("    </File>\n"));
-
-    free(buffer);
 }

@@ -32,6 +32,9 @@
     <ClInclude Include="..\source\win32_dump.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\win32_compat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="..\source\settings.manifest" />

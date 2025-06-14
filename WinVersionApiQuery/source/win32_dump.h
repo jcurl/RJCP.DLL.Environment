@@ -3,6 +3,8 @@
 
 #include <Windows.h>
 
+#include "win32_compat.h"
+
 struct writehandle;
 typedef struct writehandle writehandle_t;
 

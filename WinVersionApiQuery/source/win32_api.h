@@ -1,6 +1,10 @@
 #ifndef WIN32_API_H
 #define WIN32_API_H
 
+#include <Windows.h>
+
+#include "win32_compat.h"
+
 struct win32;
 typedef struct win32 win32_t;
 
