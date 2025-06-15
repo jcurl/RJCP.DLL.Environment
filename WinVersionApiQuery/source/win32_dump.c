@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <Windows.h>
+#include "stdafx.h"
 #include <tchar.h>
 #include <stdio.h>
 

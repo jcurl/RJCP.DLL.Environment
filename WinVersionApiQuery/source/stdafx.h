@@ -1,7 +1,9 @@
-#ifndef WIN32_COMPAT_H
-#define WIN32_COMPAT_H
+//#define WINVER 0x0400
 
 #include <Windows.h>
+
+#ifndef WIN32_COMPAT_H
+#define WIN32_COMPAT_H
 
 #if WINVER <= 0x0501
 

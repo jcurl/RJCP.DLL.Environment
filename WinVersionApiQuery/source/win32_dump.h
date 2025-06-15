@@ -1,9 +1,7 @@
 #ifndef WIN32_DUMP_H
 #define WIN32_DUMP_H
 
-#include <Windows.h>
-
-#include "win32_compat.h"
+#include "stdafx.h"
 
 struct writehandle;
 typedef struct writehandle writehandle_t;
