@@ -981,6 +981,8 @@
         private readonly static string FilePath = Path.Combine(Deploy.TestDirectory, "TestResources", "WinVersion");
 
         private readonly static string[] WinVersionFiles = {
+            "winnt4-sp6_x86",
+            "win2000-sp4-pro_x86",
             "ReactOS-0.4.15_x86",
             "ReactOS-0.4.15_x86_xp",
             "winxp-sp3-pro_x86",

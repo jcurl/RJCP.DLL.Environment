@@ -107,13 +107,6 @@
                 if (MajorVersion < 4) {
                     // Windows 3.51 or earlier
                     return true;
-                } else if (MajorVersion == 4) {
-                    if (MinorVersion == 0) {
-                        if (CSDVersion != "Service Pack 6") {
-                            // Earlier than WinNT 4.0 SP6
-                            return true;
-                        }
-                    }
                 }
             } else if (PlatformId == WinPlatform.Win9x) {
                 BuildNumber = unchecked((int)(info.BuildNumber & 0xFFFF));
@@ -161,7 +154,11 @@
                 MajorVersion = unchecked((int)(rtlInfoEx.MajorVersion));
                 MinorVersion = unchecked((int)(rtlInfoEx.MinorVersion));
                 BuildNumber = unchecked((int)(rtlInfoEx.BuildNumber));
-                CSDVersion = rtlInfoEx.CSDVersion;
+                if (string.IsNullOrEmpty(rtlInfoEx.CSDVersion)) {
+                    CSDVersion = infoex.CSDVersion;
+                } else {
+                    CSDVersion = rtlInfoEx.CSDVersion;
+                }
                 SuiteFlags = (WinSuite)rtlInfoEx.SuiteMask;
                 ProductType = (WinProductType)rtlInfoEx.ProductType;
                 ServicePackMajor = rtlInfoEx.ServicePackMajor;

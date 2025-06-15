@@ -33,6 +33,8 @@ runtime, e.g. 14.27.29914.0. Windows Vista SP1 needs stub DLLs also copied over.
 
 | API                       | `GetNativeSystemInfo` | `GetSystemInfo` | `GetVersion` | `GetVersionEx` | `RtlGetVersion` | `IsWow64Process` | `IsWow64Process2` | `GetProductInfo` | `GetSystemMetrics` | `BrandingFormatString` | ntdll.dll      |
 | ------------------------- | :-------------------: | :-------------: | :----------: | :------------: | :-------------: | :--------------: | :---------------: | :--------------: | :----------------: | :--------------------: | :------------- |
+| WinNT 4.0 SP6a (4.0.1386) |                       |        X        |      X       |       X        |                 |                  |                   |                  |         X          |                        | 4.0.1381.298   |
+| Win 2000 SP4 (5.0.2195)   |                       |        X        |      X       |       X        |        ⁴        |                  |                   |                  |         X          |                        | 5.0.2195.6899  |
 | WinXP SP3 (5.1.2600)      |           X           |        X        |      X       |       X        |        X        |        X         |                   |                  |         X          |                        | 5.1.2600.6055  |
 | Win 2003 (5.2.3790)       |           X           |        X        |      X       |       X        |        X        |        X         |                   |                  |         X          |                        | 5.2.3790.3959  |
 | Vista SP1 (6.0.6001)      |           X           |        X        |      X       |       X        |        X        |        X         |                   |        X         |         X          |           X            | 6.0.6001.18000 |
@@ -52,3 +54,4 @@ runtime, e.g. 14.27.29914.0. Windows Vista SP1 needs stub DLLs also copied over.
   - When missing the manifest file. E.g. on Windows 10.0.19045 with no manifest,
     the file version would be `6.2.19041`.
 - ³ The short branding string on Windows 11, still shows Windows 10.
+- ⁴ Present, but CSD string is empty.
