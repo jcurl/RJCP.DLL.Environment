@@ -175,7 +175,6 @@
                 ServicePackMinor = infoex.ServicePackMinor;
             }
 
-            IsExtendedPropsSet = true;
             return true;
         }
 
@@ -278,8 +277,6 @@
                 throw new InvalidOperationException(Messages.InvalidOperationEx_InternalGetOsVersion);
             }
 
-            if (!IsExtendedPropsSet) return;
-
             uint productInfo = 0;
             bool result;
             try {
@@ -289,7 +286,7 @@
                 // The operating system doesn't support this function call
                 result = false;
             }
-            if (!result) productInfo = 0;
+            if (!result) return;
 
             ProductInfo = (WinProductInfo)productInfo;
         }

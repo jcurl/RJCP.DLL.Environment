@@ -54,7 +54,6 @@ namespace RJCP.Core.Environment.Version
             m_MajorVersion = majorVersion;
             m_MinorVersion = minorVersion;
             if (platformId == WinPlatform.WinNT && Version52(majorVersion, minorVersion)) {
-                m_IsExtendedPropsSet = true;
                 m_ProductType = WinProductType.Workstation;
             }
         }
@@ -126,7 +125,6 @@ namespace RJCP.Core.Environment.Version
             m_PlatformId = platformId;
             m_MajorVersion = majorVersion;
             m_MinorVersion = minorVersion;
-            m_IsExtendedPropsSet = true;
             m_ProductType = productType;
         }
 
@@ -881,7 +879,6 @@ namespace RJCP.Core.Environment.Version
             {
                 CheckLock(nameof(ProductType));
                 m_ProductType = value;
-                m_IsExtendedPropsSet = true;
                 m_WinVersionInfo = null;
             }
         }
@@ -910,7 +907,6 @@ namespace RJCP.Core.Environment.Version
             {
                 CheckLock(nameof(ServicePackMajor));
                 m_ServicePackMajor = value;
-                m_IsExtendedPropsSet = true;
                 m_WinVersionInfo = null;
             }
         }
@@ -927,7 +923,6 @@ namespace RJCP.Core.Environment.Version
             {
                 CheckLock(nameof(ServicePackMinor));
                 m_ServicePackMinor = value;
-                m_IsExtendedPropsSet = true;
                 m_WinVersionInfo = null;
             }
         }
@@ -1422,21 +1417,6 @@ namespace RJCP.Core.Environment.Version
             }
         }
 
-        private bool m_IsExtendedPropsSet = false;
-
-        /// <summary>
-        /// Check if this OSVersion object has extended properties set.
-        /// </summary>
-        public bool IsExtendedPropsSet
-        {
-            get { return m_IsExtendedPropsSet; }
-            set
-            {
-                CheckLock(nameof(IsExtendedPropsSet));
-                m_IsExtendedPropsSet = value;
-            }
-        }
-
         /// <summary>
         /// Check if this object is read only.
         /// </summary>
@@ -1518,7 +1498,6 @@ namespace RJCP.Core.Environment.Version
             m_NativeArchitecture = o.m_NativeArchitecture;
 
             IsReadOnly = false;
-            m_IsExtendedPropsSet = o.m_IsExtendedPropsSet;
         }
         #endregion
 
@@ -1545,9 +1524,7 @@ namespace RJCP.Core.Environment.Version
         {
             StringBuilder sb = new(WinVersionString);
 
-            if (m_IsExtendedPropsSet) {
-                ToStringBuild(sb, ProductTypeString);
-            }
+            ToStringBuild(sb, ProductTypeString);
 
             // Check if we add x86 or x64
             if (m_NativeArchitecture != WinArchitecture.Unknown) {
@@ -1653,17 +1630,15 @@ namespace RJCP.Core.Environment.Version
             if (!o.m_ServerR2 && p.m_ServerR2) return -1;
             if (o.m_ServerR2 && !p.m_ServerR2) return 1;
 
-            if (o.m_BuildNumber > 0 && p.m_BuildNumber > 0) {
-                if (o.m_IsExtendedPropsSet && p.m_IsExtendedPropsSet) {
-                    if (o.m_ServicePackMajor > 0 || p.m_ServicePackMajor > 0) {
-                        if (o.m_ServicePackMajor < p.m_ServicePackMajor) return -1;
-                        if (o.m_ServicePackMajor > p.m_ServicePackMajor) return 1;
-                    }
+            // Only compare if both are defined, else we assume they're equal
+            if (o.m_ServicePackMajor >= 0 && p.m_ServicePackMajor >= 0) {
+                if (o.m_ServicePackMajor < p.m_ServicePackMajor) return -1;
+                if (o.m_ServicePackMajor > p.m_ServicePackMajor) return 1;
 
-                    if (o.m_ServicePackMinor > 0 || p.m_ServicePackMinor > 0) {
-                        if (o.m_ServicePackMinor < p.m_ServicePackMinor) return -1;
-                        if (o.m_ServicePackMinor > p.m_ServicePackMinor) return 1;
-                    }
+                // Only compare if both are defined, else we assume they're equal
+                if (o.m_ServicePackMinor >= 0 && p.m_ServicePackMinor >= 0) {
+                    if (o.m_ServicePackMinor < p.m_ServicePackMinor) return -1;
+                    if (o.m_ServicePackMinor > p.m_ServicePackMinor) return 1;
                 }
             }
 

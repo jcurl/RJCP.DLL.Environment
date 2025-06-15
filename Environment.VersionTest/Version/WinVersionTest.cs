@@ -42,7 +42,6 @@
             Console.WriteLine($"ProductInfoString={current.ProductInfoString}");
             Console.WriteLine($"IsServer={current.IsServer}");
             Console.WriteLine($"ServerR2={current.ServerR2}");
-            Console.WriteLine($"IsExtendedPropsSet={current.IsExtendedPropsSet}");
             Console.WriteLine($"ToString={current}");
             Console.WriteLine("");
 
@@ -372,7 +371,6 @@
                 ProductInfo = 0,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = false,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -393,7 +391,6 @@
                 ProductInfo = 0,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = false,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -414,7 +411,6 @@
                 ProductInfo = 0,
                 ServicePackMajor = 6,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -435,7 +431,6 @@
                 ProductInfo = 0,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -461,7 +456,6 @@
                 ProductInfo = 0,
                 ServicePackMajor = 3,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -482,7 +476,6 @@
                 ProductInfo = WinProductInfo.Home_Premium,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -503,7 +496,6 @@
                 ProductInfo = WinProductInfo.Home_Premium,
                 ServicePackMajor = 2,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -527,7 +519,6 @@
                 ProductInfo = WinProductInfo.Professional,
                 ServicePackMajor = 3,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -550,7 +541,6 @@
                 ProductInfo = WinProductInfo.Professional,
                 ServicePackMajor = 1,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
@@ -571,7 +561,6 @@
                 ProductInfo = 0,
                 ServicePackMajor = 2,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -592,7 +581,6 @@
                 ProductInfo = WinProductInfo.Ultimate,
                 ServicePackMajor = 2,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -613,7 +601,6 @@
                 ProductInfo = WinProductInfo.Enterprise_Server,
                 ServicePackMajor = 2,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -634,7 +621,6 @@
                 ProductInfo = WinProductInfo.Ultimate,
                 ServicePackMajor = 1,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x86
             };
             Console.WriteLine($"{winver}");
@@ -658,7 +644,6 @@
                 ProductInfo = WinProductInfo.Ultimate,
                 ServicePackMajor = 1,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
@@ -679,7 +664,6 @@
                 ProductInfo = WinProductInfo.Enterprise_Server,
                 ServicePackMajor = 1,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
@@ -700,7 +684,6 @@
                 ProductInfo = WinProductInfo.Enterprise_Server,
                 ServicePackMajor = 1,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
@@ -721,7 +704,6 @@
                 ProductInfo = WinProductInfo.Professional,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
@@ -742,7 +724,6 @@
                 ProductInfo = WinProductInfo.Professional,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
@@ -763,7 +744,6 @@
                 ProductInfo = WinProductInfo.Core_Arm,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.ARM
             };
             Console.WriteLine($"{winver}");
@@ -785,7 +765,6 @@
                 ProductInfo = WinProductInfo.Professional,
                 ServicePackMajor = 0,
                 ServicePackMinor = 0,
-                IsExtendedPropsSet = true,
                 NativeArchitecture = WinArchitecture.x64
             };
             Console.WriteLine($"{winver}");
@@ -1059,7 +1038,6 @@
                         w.WriteLine($"ProductInfoString={winVersion.ProductInfoString}");
                         w.WriteLine($"IsServer={winVersion.IsServer}");
                         w.WriteLine($"ServerR2={winVersion.ServerR2}");
-                        w.WriteLine($"IsExtendedPropsSet={winVersion.IsExtendedPropsSet}");
                         w.WriteLine($"ToString={winVersion}");
                         w.WriteLine("");
                     } catch (Exception ex) {
@@ -1102,7 +1080,6 @@
             Assert.That(winVersion.ProductInfoString, Is.EqualTo(versionResult["ProductInfoString"]));
             Assert.That(winVersion.IsServer.ToString(), Is.EqualTo(versionResult["IsServer"]));
             Assert.That(winVersion.ServerR2.ToString(), Is.EqualTo(versionResult["ServerR2"]));
-            Assert.That(winVersion.IsExtendedPropsSet.ToString(), Is.EqualTo(versionResult["IsExtendedPropsSet"]));
             Assert.That(winVersion.ToString(), Is.EqualTo(versionResult["ToString"]));
         }
     }
