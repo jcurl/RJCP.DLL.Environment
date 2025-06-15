@@ -103,21 +103,23 @@
             BuildNumber = unchecked((int)(info.BuildNumber));
             CSDVersion = info.CSDVersion;
 
-            if (PlatformId == WinPlatform.WinNT) {
-                if (MajorVersion < 4) {
-                    // Windows 3.51 or earlier
-                    return true;
-                }
-            } else if (PlatformId == WinPlatform.Win9x) {
+            if (PlatformId == WinPlatform.Win9x) {
                 BuildNumber = unchecked((int)(info.BuildNumber & 0xFFFF));
                 return true;
             }
 
+            // Extended information isn't available.
             result = m_WinVersion.GetVersionEx(out OsVersionInfoEx infoex);
             if (!result) {
-                int error = Marshal.GetLastWin32Error();
-                string message = string.Format(Messages.Win32Ex_GetVersionEx, error);
-                throw new Win32Exception(error, message);
+                if (MajorVersion == 4 && MinorVersion == 0) {
+                    if (CSDVersion.StartsWith("Service Pack ", StringComparison.InvariantCultureIgnoreCase)) {
+                        if (uint.TryParse(CSDVersion.Substring(13), out uint spmajor) && spmajor < 6) {
+                            ServicePackMajor = unchecked((int)spmajor);
+                            ServicePackMinor = 0;
+                        }
+                    }
+                }
+                return true;
             }
 
             int ntstatus;

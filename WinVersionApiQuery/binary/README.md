@@ -9,8 +9,8 @@ Windows Operating Systems, to get version information.
 
 Precompiled binaries for Windows XP, compiled with Visual Studio 2005 SP1.
 
-These will work on Windows NT4 SP6a, Windows 2000 SP4 up to Windows 11. These
-images have no manifest present (so we can see the effect this has on
+These will work on Windows NT4 SP1, Windows 2000 SP4, etc. up to Windows 11.
+These images have no manifest present (so we can see the effect this has on
 `GetVersionEx` reporting 6.2.9200 instead of 10.0.x).
 
 You will need to have the Microsoft Visual C++ 2005 Redistributable Packages

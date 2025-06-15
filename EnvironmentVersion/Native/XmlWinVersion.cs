@@ -363,7 +363,10 @@
 
         public bool GetVersionEx(out OsVersionInfoEx osVersionInfoEx)
         {
-            if (!m_HasGetVersionEx) throw new EntryPointNotFoundException();
+            if (!m_HasGetVersionEx) {
+                osVersionInfoEx = default;
+                return false;
+            }
             osVersionInfoEx = m_GetVersionEx;
             return true;
         }

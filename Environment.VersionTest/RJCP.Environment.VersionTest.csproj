@@ -156,6 +156,12 @@
     <Content Include="TestResources\WinVersion\win7-sp1-ent_x64_xp.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestResources\WinVersion\winnt4-sp1-server_x86.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestResources\WinVersion\winnt4-sp1_x86.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestResources\WinVersion\winnt4-sp6_x86.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

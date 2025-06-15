@@ -960,6 +960,8 @@
         private readonly static string FilePath = Path.Combine(Deploy.TestDirectory, "TestResources", "WinVersion");
 
         private readonly static string[] WinVersionFiles = {
+            "winnt4-sp1_x86",
+            "winnt4-sp1-server_x86",
             "winnt4-sp6_x86",
             "win2000-sp4-pro_x86",
             "ReactOS-0.4.15_x86",
@@ -1040,8 +1042,11 @@
                         w.WriteLine($"ServerR2={winVersion.ServerR2}");
                         w.WriteLine($"ToString={winVersion}");
                         w.WriteLine("");
-                    } catch (Exception ex) {
+                    } catch (System.Xml.XmlException ex) {
                         Console.WriteLine($"Exception in file {fileName} - {ex.Message}");
+                        exception = true;
+                    } catch (Exception ex) {
+                        Console.WriteLine($"Exception in file {fileName} - {ex}");
                         exception = true;
                     }
                 }
