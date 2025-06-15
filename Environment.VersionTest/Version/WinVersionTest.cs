@@ -960,6 +960,7 @@
         private readonly static string FilePath = Path.Combine(Deploy.TestDirectory, "TestResources", "WinVersion");
 
         private readonly static string[] WinVersionFiles = {
+            "winnt351-server_x86",
             "winnt4-sp1_x86",
             "winnt4-sp1-server_x86",
             "winnt4-sp6_x86",

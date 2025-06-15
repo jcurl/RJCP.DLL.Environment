@@ -31,8 +31,9 @@ runtime, e.g. 14.27.29914.0. Windows Vista SP1 needs stub DLLs also copied over.
 
 ## Notes on Different Operating Systems
 
-| API                       | `GetNativeSystemInfo` | `GetSystemInfo` | `GetVersion` | `GetVersionEx` | `RtlGetVersion` | `IsWow64Process` | `IsWow64Process2` | `GetProductInfo` | `GetSystemMetrics` | `BrandingFormatString` | ntdll.dll      |
+| API Support               | `GetNativeSystemInfo` | `GetSystemInfo` | `GetVersion` | `GetVersionEx` | `RtlGetVersion` | `IsWow64Process` | `IsWow64Process2` | `GetProductInfo` | `GetSystemMetrics` | `BrandingFormatString` | ntdll.dll      |
 | ------------------------- | :-------------------: | :-------------: | :----------: | :------------: | :-------------: | :--------------: | :---------------: | :--------------: | :----------------: | :--------------------: | :------------- |
+| WomMT 3.51                |                       |        X        |      X       |       ⁵        |                 |                  |                   |                  |         X          |                        | 3.51.1025.1    |
 | WinNT 4.0 SP1 (4.0.1381)  |                       |        X        |      X       |       ⁵        |                 |                  |                   |                  |                    |                        | 4.0.1376.1     |
 | WinNT 4.0 SP6a (4.0.1381) |                       |        X        |      X       |       X        |                 |                  |                   |                  |         X          |                        | 4.0.1381.298   |
 | Win 2000 SP4 (5.0.2195)   |                       |        X        |      X       |       X        |        ⁴        |                  |                   |                  |         X          |                        | 5.0.2195.6899  |

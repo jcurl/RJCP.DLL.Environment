@@ -23,7 +23,7 @@ Studio 2005 SP1 (with 32-bit and 64-bit compilers).
 The project is configured for Unicode, and is tested to compile on Windows XP
 SP3. It runs on Windows NT 4.0 and later.
 
-### 2.1. Windows NT 4.0
+### 2.1. Windows NT 4.0 SP6
 
 Even though Microsoft documentation claimed that binaries could be built for
 Windows NT 4.0, running it would provide generate an error for the missing
@@ -38,5 +38,17 @@ To compile and test the binary on Windows NT 4.0, I installed both NT 4.0 SP6a
 and XP SP3 on a virtual machine. The Windows NT 4.0 has a drive with file
 sharing, which Windows XP SP3 can access via SMB1.
 
-VMWare Tools didn't allow file sharing from Windows NT 4.0, but does from
-Windows XP SP3.
+### 2.2. Windows NT 4.0 SP1
+
+It is possible to install the VMWare Drivers from SP6 onto SP1 without having to
+update the service pack, and without needing the MSI installer technology.
+
+Once done, local network sharing over TCP/IP is used to share the binaries and
+run on this target.
+
+### 2.3. Windows NT 3.51 (3.51.1057.1)
+
+I was able to install and run the same binary (`WinXP.v80`) and capture the
+output on Windows NT 3.51 for x86. Network sharing is needed, in particular a
+Windows NT 3.51 share should be made, and copied to that share from Windows NT
+4.0 SP6.

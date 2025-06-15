@@ -79,6 +79,18 @@ version information, useful for informational reports. Use the existing
 functionality in the .NET framework to test against features, and do not use the
 Windows version.
 
+For development details see:
+
+- [WinVersionApiQuery](./WinVersionApiQuery/README.md) for a tool that runs
+  natively on Windows to capture the output of the Win32 API used for getting
+  version information. This is used later as part of testing to emulate the
+  APIs, without having to run tests on every version of Windows.
+  - [binaries](./WinVersionApiQuery/binary) in the `./WinVersionApiQuery/binary`
+    folder. Documentation describes what's compiled and tested.
+- [API Versions](./Environment.VersionTest/TestResources/WinVersion/README.md)
+  contain captured files, as well as a table showing what APIs are present,
+  dependent on the Operating System and the Service Pack.
+
 ### 2.2. .NET Framework Version
 
 Use `NetVersions` to enumerate a list of installed versions of .NET Framework,
@@ -124,16 +136,25 @@ Quality:
 
 #### 4.2.1. Version 0.3.2
 
+API Changes:
+
+- WinVersion: `IsExtendedPropSet` is removed, as it provides no information and
+
 Features:
 
 - WinVersion: Support for Windows 11 24H2 (DOTNET-1039).
 - WinVersion: Support for Windows Server 2025 (DOTNET-1041).
 - WinVersion: Extend product information for SDK 26100 (DOTNET-1042).
 - WinVersion: Provide `WinVersionQueryApi.exe` to dump output of Windows API for
-  Windows XP up to Windows 11 24H2 (DOTNET-1045).
+  Windows nt 3.51 up to Windows 11 24H2 (DOTNET-1045, DOTNET-1051).
 - WinVersion: Allow interpreting Windows version from an XML file, provided by
   `WinVersionQueryApi`. This allows backward compatibility testing without
   needing to test on the target (DOTNET-1044).
+- WinVersion: Tested on WinNT 3.51 (DOTNET-1051).
+- WinVersion: Tested on WinNT 4.0 SP1 and SP6. Service Pack is inferred on older
+  versions (DOTNET-1051).
+- WinVersion: Tested on Windows 2000 SP4. Fixed Service Pack string (CSDVersion)
+  on Windows 2000 (DOTNET-1051).
 
 BugFixes:
 
