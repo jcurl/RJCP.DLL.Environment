@@ -80,7 +80,7 @@ BOOL win32_GetVersionEx(win32_t *handle, BOOL *result, LPOSVERSIONINFO lpVersion
 /// <param name="result">The result of RtlGetVersion.</param>
 /// <param name="lpVersionInformation">Receives the result</param>
 /// <returns>On success returns 0, returns 1 if function is unavailable.</returns>
-BOOL win32_RtlGetVersion(win32_t *handle, NTSTATUS *result, LPOSVERSIONINFOEX lpVersionInformation);
+BOOL win32_RtlGetVersion(win32_t *handle, NTSTATUS *result, LPOSVERSIONINFOEXW lpVersionInformation);
 
 /// <summary>
 /// IsWow64Process.

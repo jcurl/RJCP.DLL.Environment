@@ -25,13 +25,14 @@ static void system_info(win32_t *handle, writehandle_t *whandle)
     }
 }
 
-static void win_version(win32_t *handle, writehandle_t *whandle)
+static DWORD win_version(win32_t *handle, writehandle_t *whandle)
 {
     DWORD win_version;
 
     if (win32_GetVersion(handle, &win_version)) {
         print_version(whandle, win_version);
     }
+    return win_version;
 }
 
 static BOOL win_version_osver(win32_t *handle, writehandle_t *whandle)
@@ -59,12 +60,12 @@ static BOOL win_version_osverex(win32_t *handle, writehandle_t *whandle, LPOSVER
     return version_information_ex_result;
 }
 
-static BOOL win_version_rtl(win32_t *handle, writehandle_t *whandle, LPOSVERSIONINFOEX ver)
+static BOOL win_version_rtl(win32_t *handle, writehandle_t *whandle, LPOSVERSIONINFOEXW ver)
 {
     NTSTATUS rtl_version_information_result;
 
-    memset(ver, 0, sizeof(OSVERSIONINFOEX));
-    ver->dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+    memset(ver, 0, sizeof(OSVERSIONINFOEXW));
+    ver->dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
     if (win32_RtlGetVersion(handle, &rtl_version_information_result, ver) && rtl_version_information_result == STATUS_SUCCESS) {
         print_version_info_nt(whandle, rtl_version_information_result, ver);
     }
@@ -111,6 +112,16 @@ static void product_info(win32_t *handle, writehandle_t *whandle, LPOSVERSIONINF
     }
 }
 
+static void product_infow(win32_t *handle, writehandle_t *whandle, LPOSVERSIONINFOEXW ver)
+{
+    BOOL product_info_result;
+    DWORD product_type;
+
+    if (win32_GetProductInfo(handle, &product_info_result, ver->dwMajorVersion, ver->dwMinorVersion, ver->wServicePackMajor, ver->wServicePackMinor, &product_type)) {
+        print_product_info(whandle, product_info_result, ver->dwMajorVersion, ver->dwMinorVersion, ver->wServicePackMajor, ver->wServicePackMinor, product_type);
+    }
+}
+
 static void system_metrics(win32_t *handle, writehandle_t *whandle, int metric)
 {
     int metric_result;
@@ -132,10 +143,11 @@ static void brand(win32_t *handle, writehandle_t *whandle, LPTSTR format)
 
 int _tmain(int argc, TCHAR **argv)
 {
+    DWORD winversion;
     BOOL version_information_ex_result;
     OSVERSIONINFOEX version_information_ex;
     BOOL rtl_version_information_result;
-    OSVERSIONINFOEX rtl_version_information;
+    OSVERSIONINFOEXW rtl_version_information;
 
     win32_t *handle;
     writehandle_t *whandle;
@@ -152,7 +164,7 @@ int _tmain(int argc, TCHAR **argv)
 
     native_system_info(handle, whandle);
     system_info(handle, whandle);
-    win_version(handle, whandle);
+    winversion = win_version(handle, whandle);
     win_version_osver(handle, whandle);
     version_information_ex_result = win_version_osverex(handle, whandle, &version_information_ex);
     rtl_version_information_result = win_version_rtl(handle, whandle, &rtl_version_information);
@@ -161,7 +173,7 @@ int _tmain(int argc, TCHAR **argv)
     is_wow64_process2(handle, whandle);
 
     if (version_information_ex_result) product_info(handle, whandle, &version_information_ex);
-    if (rtl_version_information_result) product_info(handle, whandle, &rtl_version_information);
+    if (rtl_version_information_result) product_infow(handle, whandle, &rtl_version_information);
 
     system_metrics(handle, whandle, SM_DEBUG);
     system_metrics(handle, whandle, SM_MEDIACENTER);
@@ -177,6 +189,7 @@ int _tmain(int argc, TCHAR **argv)
     brand(handle, whandle, TEXT("%MICROSOFT_COMPANYNAME%"));
 
     dump_registry_key(whandle, HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"));
+    dump_registry_key(whandle, HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion"));
 
     dump_library_version(whandle, win32_kernel32(handle));
     dump_library_version(whandle, win32_ntdll(handle));

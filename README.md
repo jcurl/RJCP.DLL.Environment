@@ -146,7 +146,8 @@ Features:
 - WinVersion: Support for Windows Server 2025 (DOTNET-1041).
 - WinVersion: Extend product information for SDK 26100 (DOTNET-1042).
 - WinVersion: Provide `WinVersionQueryApi.exe` to dump output of Windows API for
-  Windows nt 3.51 up to Windows 11 24H2 (DOTNET-1045, DOTNET-1051).
+  Windows 95, Windows NT 3.51 up to Windows 11 24H2 (DOTNET-1045, DOTNET-1051,
+  DOTNET-1052).
 - WinVersion: Allow interpreting Windows version from an XML file, provided by
   `WinVersionQueryApi`. This allows backward compatibility testing without
   needing to test on the target (DOTNET-1044).

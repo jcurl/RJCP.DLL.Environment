@@ -147,7 +147,7 @@ BOOL win32_GetVersionEx(win32_t *handle, BOOL *result, LPOSVERSIONINFO lpVersion
     return TRUE;
 }
 
-BOOL win32_RtlGetVersion(win32_t *handle, NTSTATUS *result, LPOSVERSIONINFOEX lpVersionInformation)
+BOOL win32_RtlGetVersion(win32_t *handle, NTSTATUS *result, LPOSVERSIONINFOEXW lpVersionInformation)
 {
     NTSTATUS res;
     if (!handle || !handle->RtlGetVersion) return FALSE;

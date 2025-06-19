@@ -88,8 +88,10 @@ static void print_field_void_ptr(writehandle_t *handle, TCHAR *name, LPVOID valu
 static void print_field_dword_ptr(writehandle_t *handle, TCHAR *name, DWORD_PTR value)
 {
 #pragma warning(push)
+#if WINVER >= 0x0501
 #pragma warning(disable: 6328)
 #pragma warning(disable: 4477)
+#endif
     if (sizeof(value) == 8) {
         _ftprintf(handle->out_file, TEXT("      <Field name=\"%s\">%llu</Field>\n"), name, value);
     } else {
@@ -103,6 +105,28 @@ static void print_field_tchar(writehandle_t *handle, TCHAR *name, TCHAR *value)
     if (!handle) return;
 
     _ftprintf(handle->out_file, TEXT("      <Field name=\"%s\">%s</Field>\n"), name, value);
+}
+
+static void print_field_wchar(writehandle_t *handle, TCHAR *name, LPWSTR value)
+{
+#if _UNICODE
+    print_field_tchar(handle, name, value);
+#else
+    LPSTR buffer;
+    size_t value_len;
+
+    if (!handle) return;
+
+    value_len = wcslen(value) + 1;
+    buffer = (LPSTR)malloc(sizeof(TCHAR) * value_len);
+    if (buffer == NULL) return;
+
+    wcstombs(buffer, value, value_len - 1);
+    buffer[value_len - 1] = 0;
+    _ftprintf(handle->out_file, TEXT("      <Field name=\"%s\">%s</Field>\n"), name, buffer);
+
+    free(buffer);
+#endif
 }
 
 void print_system_info(writehandle_t *handle, TCHAR *api, LPSYSTEM_INFO lpSystemInfo)
@@ -158,12 +182,14 @@ void print_version_info_ex(writehandle_t *handle, BOOL result, LPOSVERSIONINFOEX
     print_field_tchar(handle, TEXT("szCSDVersion"), lpVersionInformation->szCSDVersion);
     print_field_word(handle, TEXT("wServicePackMajor"), lpVersionInformation->wServicePackMajor);
     print_field_word(handle, TEXT("wServicePackMinor"), lpVersionInformation->wServicePackMinor);
+#if WINVER > 0x0400
     print_field_word(handle, TEXT("wSuiteMask"), lpVersionInformation->wSuiteMask);
     print_field_byte(handle, TEXT("wProductType"), lpVersionInformation->wProductType);
+#endif
     _ftprintf(handle->out_file, TEXT("    </GetVersionEx>\n"));
 }
 
-void print_version_info_nt(writehandle_t *handle, NTSTATUS result, LPOSVERSIONINFOEX lpVersionInformation)
+void print_version_info_nt(writehandle_t *handle, NTSTATUS result, LPOSVERSIONINFOEXW lpVersionInformation)
 {
     if (!handle) return;
 
@@ -173,11 +199,13 @@ void print_version_info_nt(writehandle_t *handle, NTSTATUS result, LPOSVERSIONIN
     print_field_dword(handle, TEXT("dwMinorVersion"), lpVersionInformation->dwMinorVersion);
     print_field_dword(handle, TEXT("dwBuildNumber"), lpVersionInformation->dwBuildNumber);
     print_field_dword(handle, TEXT("dwPlatformId"), lpVersionInformation->dwPlatformId);
-    print_field_tchar(handle, TEXT("szCSDVersion"), lpVersionInformation->szCSDVersion);
+    print_field_wchar(handle, TEXT("szCSDVersion"), lpVersionInformation->szCSDVersion);
     print_field_word(handle, TEXT("wServicePackMajor"), lpVersionInformation->wServicePackMajor);
     print_field_word(handle, TEXT("wServicePackMinor"), lpVersionInformation->wServicePackMinor);
+#if WINVER > 0x0400
     print_field_word(handle, TEXT("wSuiteMask"), lpVersionInformation->wSuiteMask);
     print_field_byte(handle, TEXT("wProductType"), lpVersionInformation->wProductType);
+#endif
     _ftprintf(handle->out_file, TEXT("    </RtlGetVersion>\n"));
 }
 
@@ -235,7 +263,9 @@ static LPTSTR get_key(HKEY hKey)
 static LPTSTR get_type(DWORD type)
 {
     switch (type) {
+    case REG_NONE: return TEXT("REG_NONE");
     case REG_SZ: return TEXT("REG_SZ");
+    case REG_EXPAND_SZ: return TEXT("REG_EXPAND_SZ");
     case REG_DWORD: return TEXT("REG_DWORD");
     case REG_QWORD: return TEXT("REG_QWORD");
     case REG_BINARY: return TEXT("REG_BINARY");
@@ -270,6 +300,7 @@ static void dump_registry_key_block(writehandle_t *handle, HKEY key)
         }
         switch (type) {
         case REG_SZ:
+        case REG_EXPAND_SZ:
             _ftprintf(handle->out_file, TEXT("%s"), (TCHAR *)data);
             break;
         case REG_DWORD:

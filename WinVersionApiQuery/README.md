@@ -15,7 +15,7 @@ This version compiles with it a manifest file that claims compatibility with
 Windows Vista, 7, 8, 8.1, 10/11. This has an effect on how the version library
 routines report the Operating System version.
 
-## 2. Windows NT4, 2000, XP and later (Visual Studio 2005 SP1 x86, x64)
+## 2. Windows NT 3.51, 4, 2000, XP and later (Visual Studio 2005 SP1 x86, x64)
 
 The file `WinVersionApiQuery2005.sln` can be opened and copmiled with Visual
 Studio 2005 SP1 (with 32-bit and 64-bit compilers).
@@ -23,7 +23,7 @@ Studio 2005 SP1 (with 32-bit and 64-bit compilers).
 The project is configured for Unicode, and is tested to compile on Windows XP
 SP3. It runs on Windows NT 4.0 and later.
 
-### 2.1. Windows NT 4.0 SP6
+### 2.1. Windows NT 4.0 and NT 3.51
 
 Even though Microsoft documentation claimed that binaries could be built for
 Windows NT 4.0, running it would provide generate an error for the missing
@@ -52,3 +52,13 @@ I was able to install and run the same binary (`WinXP.v80`) and capture the
 output on Windows NT 3.51 for x86. Network sharing is needed, in particular a
 Windows NT 3.51 share should be made, and copied to that share from Windows NT
 4.0 SP6.
+
+## 3. Windows 9x
+
+The file `WinVersionApiQuery98\WinVersionApiQuery98.dsw` contains the workspace
+for Microsoft Visual Studio 98 (6.0), and will compile on Windows XP SP3. The
+output runs on all Operating Systems, tested from Windows 98 SE, until Windows
+11.
+
+It runs using MBCS instead of Unicode. Some information is missing on Windows NT
+4.0 SP6 and later, due to the very old header files.
