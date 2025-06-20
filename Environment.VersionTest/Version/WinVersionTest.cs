@@ -960,6 +960,10 @@
         private readonly static string FilePath = Path.Combine(Deploy.TestDirectory, "TestResources", "WinVersion");
 
         private readonly static string[] WinVersionFiles = {
+            "win95a",
+            "win95-osr2",
+            "win98-se",
+            "win-me",
             "winnt351-server_x86",
             "winnt4-sp1_x86",
             "winnt4-sp1-server_x86",
@@ -1070,7 +1074,7 @@
             Assert.That(winVersion.MinorVersion.ToString(), Is.EqualTo(versionResult["MinorVersion"]));
             Assert.That(winVersion.BuildNumber.ToString(), Is.EqualTo(versionResult["BuildNumber"]));
             Assert.That(winVersion.UpdateBuildNumber.ToString(), Is.EqualTo(versionResult["UpdateBuildNumber"]));
-            Assert.That(winVersion.CSDVersion, Is.EqualTo(versionResult["CSDVersion"]));
+            Assert.That(winVersion.CSDVersion.Trim(), Is.EqualTo(versionResult["CSDVersion"]));
             Assert.That(winVersion.ServicePackMajor.ToString(), Is.EqualTo(versionResult["ServicePackMajor"]));
             Assert.That(winVersion.ServicePackMinor.ToString(), Is.EqualTo(versionResult["ServicePackMinor"]));
             Assert.That(winVersion.Version.ToString(), Is.EqualTo(versionResult["Version"]));

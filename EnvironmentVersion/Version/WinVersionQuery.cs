@@ -103,8 +103,11 @@
             BuildNumber = unchecked((int)(info.BuildNumber));
             CSDVersion = info.CSDVersion;
 
-            if (PlatformId == WinPlatform.Win9x) {
+            if (PlatformId != WinPlatform.WinNT) {
                 BuildNumber = unchecked((int)(info.BuildNumber & 0xFFFF));
+
+                // Even though there might be a version of OSVERSIONINFOEX, we don't use it, as it only contains service
+                // pack information, which isn't used (the CSDVersion is used on Win9x).
                 return true;
             }
 

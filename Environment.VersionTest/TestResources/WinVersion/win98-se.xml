@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WinVersionQuery>
+  <API>
+    <GetSystemInfo>
+      <Field name="dwOemId">0</Field>
+      <Field name="wProcessorArchitecture">0</Field>
+      <Field name="dwPageSize">4096</Field>
+      <Field name="lpMinimumApplicationAddress">00400000</Field>
+      <Field name="lpMaximumApplicationAddress">7FFFFFFF</Field>
+      <Field name="dwActiveProcessorMask">1</Field>
+      <Field name="dwNumberOfProcessors">1</Field>
+      <Field name="dwProcessorType">586</Field>
+      <Field name="dwAllocationGranularity">65536</Field>
+      <Field name="wProcessorLevel">6</Field>
+      <Field name="wProcessorRevision">3587</Field>
+    </GetSystemInfo>
+    <GetVersion return="3221228036" />
+    <GetVersionEx result="1">
+      <Field name="dwOSVersionInfoSize">148</Field>
+      <Field name="dwMajorVersion">4</Field>
+      <Field name="dwMinorVersion">10</Field>
+      <Field name="dwBuildNumber">67766446</Field>
+      <Field name="dwPlatformId">1</Field>
+      <Field name="szCSDVersion"> A </Field>
+    </GetVersionEx>
+    <GetVersionEx result="1">
+      <Field name="dwOSVersionInfoSize">156</Field>
+      <Field name="dwMajorVersion">4</Field>
+      <Field name="dwMinorVersion">10</Field>
+      <Field name="dwBuildNumber">67766446</Field>
+      <Field name="dwPlatformId">1</Field>
+      <Field name="szCSDVersion"> A </Field>
+      <Field name="wServicePackMajor">0</Field>
+      <Field name="wServicePackMinor">0</Field>
+    </GetVersionEx>
+    <GetSystemMetrics result="0" nIndex="22" />
+    <GetSystemMetrics result="0" nIndex="87" />
+    <GetSystemMetrics result="0" nIndex="86" />
+    <GetSystemMetrics result="0" nIndex="88" />
+    <GetSystemMetrics result="0" nIndex="89" />
+    <Registry hive="HKLM" key="SOFTWARE\Microsoft\Windows NT\CurrentVersion">
+    </Registry>
+    <Registry hive="HKLM" key="SOFTWARE\Microsoft\Windows\CurrentVersion">
+      <Value name="InstallType" type="REG_BINARY"></Value>
+      <Value name="SetupFlags" type="REG_BINARY"></Value>
+      <Value name="DevicePath" type="REG_SZ">C:\WINDOWS\INF</Value>
+      <Value name="ProductType" type="REG_SZ">115</Value>
+      <Value name="RegisteredOwner" type="REG_SZ">Windows User</Value>
+      <Value name="RegisteredOrganization" type="REG_SZ"></Value>
+      <Value name="ProductId" type="REG_SZ">00000-OEM-0000000-00000</Value>
+      <Value name="LicensingInfo" type="REG_SZ"></Value>
+      <Value name="DVD_Region" type="REG_SZ">1</Value>
+      <Value name="BPC_Region" type="REG_SZ">1</Value>
+      <Value name="OldWinVer" type="REG_BINARY"></Value>
+      <Value name="SubVersionNumber" type="REG_SZ"> A </Value>
+      <Value name="ProgramFilesDir" type="REG_SZ">C:\Program Files</Value>
+      <Value name="CommonFilesDir" type="REG_SZ">C:\Program Files\Common Files</Value>
+      <Value name="Plus! VersionNumber" type="REG_SZ">IE 5 5.00.2614.3500</Value>
+      <Value name="WallPaperDir" type="REG_SZ">C:\WINDOWS\Web\Wallpaper</Value>
+      <Value name="MediaPath" type="REG_SZ">C:\WINDOWS\media</Value>
+      <Value name="ConfigPath" type="REG_SZ">C:\WINDOWS\config</Value>
+      <Value name="SystemRoot" type="REG_SZ">C:\WINDOWS</Value>
+      <Value name="OldWinDir" type="REG_SZ"></Value>
+      <Value name="ProductName" type="REG_SZ">Microsoft Windows 98</Value>
+      <Value name="HWID" type="REG_SZ">0</Value>
+      <Value name="MSID" type="REG_SZ">0</Value>
+      <Value name="RegistrationExtDLL" type="REG_SZ">OEMREG.DLL</Value>
+      <Value name="RegDone" type="REG_SZ"></Value>
+      <Value name="FirstInstallDateTime" type="REG_BINARY"></Value>
+      <Value name="Version" type="REG_SZ">Windows 98</Value>
+      <Value name="VersionNumber" type="REG_SZ">4.10.2222</Value>
+      <Value name="BootCount" type="REG_SZ">3</Value>
+      <Value name="PiFirstTimeOnly" type="REG_SZ">1</Value>
+      <Value name="ProductKey" type="REG_SZ">XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</Value>
+      <Value name="DigitalProductId" type="REG_BINARY"></Value>
+      <Value name="AuditMode" type="REG_BINARY"></Value>
+      <Value name="ProgramFilesPath" type="REG_SZ">C:\Program Files</Value>
+      <Value name="SM_AccessoriesName" type="REG_SZ">Accessories</Value>
+      <Value name="PF_AccessoriesName" type="REG_SZ">Accessories</Value>
+      <Value name="OtherDevicePath" type="REG_SZ">C:\WINDOWS\INF\OTHER</Value>
+    </Registry>
+    <File path="KERNEL32.DLL">
+      <FileVersion major="4" minor="10" rev="0" build="2222" />
+      <ProductVersion major="4" minor="10" rev="0" build="2222" />
+    </File>
+    <File path="NTDLL.DLL">
+      <FileVersion major="4" minor="10" rev="0" build="1998" />
+      <ProductVersion major="4" minor="10" rev="0" build="1998" />
+    </File>
+  </API>
+</WinVersionQuery>

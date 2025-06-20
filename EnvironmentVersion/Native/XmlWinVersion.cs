@@ -150,9 +150,16 @@
                 CSDVersion = ChildNode(node, "szCSDVersion"),
                 ServicePackMajor = ushort.Parse(ChildNode(node, "wServicePackMajor")),
                 ServicePackMinor = ushort.Parse(ChildNode(node, "wServicePackMinor")),
-                SuiteMask = ushort.Parse(ChildNode(node, "wSuiteMask")),
-                ProductType = byte.Parse(ChildNode(node, "wProductType"))
             };
+
+            // WINVER 0x0400 doesn't have this field defined in the header files. So it may not be in the XML capture.
+            if (ushort.TryParse(ChildNode(node, "wSuiteMask"), out ushort wSuiteMask)) {
+                osInfo.SuiteMask = wSuiteMask;
+            }
+            if (byte.TryParse(ChildNode(node, "wProductType"), out byte wProductType)) {
+                osInfo.ProductType = wProductType;
+            }
+
             return osInfo;
         }
 
@@ -189,6 +196,7 @@
             }
 
             XmlNode xmlGetVersionExSmall = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '276']/parent::*");
+            if (xmlGetVersionExSmall is null) xmlGetVersionExSmall = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '148']/parent::*");
             if (xmlGetVersionExSmall is not null) {
                 try {
                     m_GetVersionExSmall = GetOsVersionInfoExSmall(xmlGetVersionExSmall);
@@ -199,6 +207,7 @@
             }
 
             XmlNode xmlGetVersionEx = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '284']/parent::*");
+            if ((xmlGetVersionEx is null)) xmlGetVersionEx = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '156']/parent::*");
             if (xmlGetVersionEx is not null) {
                 try {
                     m_GetVersionEx = GetOsVersionInfoEx(xmlGetVersionEx);
