@@ -196,7 +196,7 @@
             }
 
             XmlNode xmlGetVersionExSmall = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '276']/parent::*");
-            if (xmlGetVersionExSmall is null) xmlGetVersionExSmall = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '148']/parent::*");
+            xmlGetVersionExSmall ??= winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '148']/parent::*");
             if (xmlGetVersionExSmall is not null) {
                 try {
                     m_GetVersionExSmall = GetOsVersionInfoExSmall(xmlGetVersionExSmall);
@@ -207,7 +207,7 @@
             }
 
             XmlNode xmlGetVersionEx = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '284']/parent::*");
-            if ((xmlGetVersionEx is null)) xmlGetVersionEx = winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '156']/parent::*");
+            xmlGetVersionEx ??= winDocNode.SelectSingleNode("/WinVersionQuery/API/GetVersionEx/Field[@name='dwOSVersionInfoSize'][text() = '156']/parent::*");
             if (xmlGetVersionEx is not null) {
                 try {
                     m_GetVersionEx = GetOsVersionInfoEx(xmlGetVersionEx);

@@ -116,10 +116,17 @@
             if (!result) {
                 if (MajorVersion == 4 && MinorVersion == 0) {
                     if (CSDVersion.StartsWith("Service Pack ", StringComparison.InvariantCultureIgnoreCase)) {
+#if NET6_0_OR_GREATER
+                        if (uint.TryParse(CSDVersion[13..], out uint spmajor) && spmajor < 6) {
+                            ServicePackMajor = unchecked((int)spmajor);
+                            ServicePackMinor = 0;
+                        }
+#else
                         if (uint.TryParse(CSDVersion.Substring(13), out uint spmajor) && spmajor < 6) {
                             ServicePackMajor = unchecked((int)spmajor);
                             ServicePackMinor = 0;
                         }
+#endif
                     }
                 }
                 return true;
