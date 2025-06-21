@@ -135,7 +135,7 @@
             Assert.That(WinVersion.Win2012R2, Is.EqualTo(WinVersion.Win8_1));
             Assert.That(WinVersion.Win2016, Is.EqualTo(WinVersion.Windows10_1607));
             Assert.That(WinVersion.Win2019, Is.EqualTo(WinVersion.Windows10_1809));
-            Assert.That(WinVersion.Win2022, Is.EqualTo(WinVersion.Windows11_21H2));
+            Assert.That(WinVersion.Win2022, Is.LessThan(WinVersion.Windows11_21H2));
             Assert.That(WinVersion.Win2025, Is.EqualTo(WinVersion.Windows11_24H2));
         }
 
@@ -335,10 +335,10 @@
             Assert.That(WinVersion.Windows11_22H2.WinVersionString, Is.EqualTo("Windows 11 v22H2"));
             Assert.That(WinVersion.Windows11_23H2.WinVersionString, Is.EqualTo("Windows 11 v23H2"));
             Assert.That(WinVersion.Windows11_24H2.WinVersionString, Is.EqualTo("Windows 11 v24H2"));
-            Assert.That(WinVersion.Win2016.WinVersionString, Is.EqualTo("Windows 10 Server 2016"));
-            Assert.That(WinVersion.Win2019.WinVersionString, Is.EqualTo("Windows 10 Server 2019"));
-            Assert.That(WinVersion.Win2022.WinVersionString, Is.EqualTo("Windows 11 Server 2022"));
-            Assert.That(WinVersion.Win2025.WinVersionString, Is.EqualTo("Windows 11 Server 2025"));
+            Assert.That(WinVersion.Win2016.WinVersionString, Is.EqualTo("Windows 2016"));
+            Assert.That(WinVersion.Win2019.WinVersionString, Is.EqualTo("Windows 2019"));
+            Assert.That(WinVersion.Win2022.WinVersionString, Is.EqualTo("Windows 2022"));
+            Assert.That(WinVersion.Win2025.WinVersionString, Is.EqualTo("Windows 2025"));
         }
 
         [Test]
@@ -932,11 +932,11 @@
                 NativeArchitecture = WinArchitecture.x64
             };
 
-            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 11 Server 2022 or later"));
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 2022 or later"));
         }
 
         [TestCase(17764)]
-        [TestCase(21999)]
+        [TestCase(20000)]
         [TestCase(19042)]
         public void UnknownWindows2019(int build)
         {
@@ -954,7 +954,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
 
-            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 10 Server 2019 or later"));
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 2019 or later"));
         }
 
         private readonly static string FilePath = Path.Combine(Deploy.TestDirectory, "TestResources", "WinVersion");

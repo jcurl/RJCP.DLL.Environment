@@ -385,7 +385,7 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win11_24H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 26100, true);
         private static readonly WinVersion _Win2016 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
         private static readonly WinVersion _Win2019 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
-        private static readonly WinVersion _Win2022 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 22000, true);
+        private static readonly WinVersion _Win2022 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 20348, true);
         private static readonly WinVersion _Win2025 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 26100, true);
 
         private sealed class WinVersionLookupEntry
@@ -449,12 +449,12 @@ namespace RJCP.Core.Environment.Version
             new(_Win10_1507, "Windows 10 v1507 - Threshold 1"),
             new(_Win10_1511, "Windows 10 v1511 - Threshold 2"),
             new(_Win10_1607, "Windows 10 v1607 - Redstone 1"),
-            new(_Win2016, "Windows 10 Server 2016"),
+            new(_Win2016, "Windows 2016"),
             new(_Win10_1703, "Windows 10 v1703 - Redstone 2"),
             new(_Win10_1709, "Windows 10 v1709 - Redstone 3"),
             new(_Win10_1803, "Windows 10 v1803 - Redstone 4"),
             new(_Win10_1809, "Windows 10 v1809 - Redstone 5"),
-            new(_Win2019, "Windows 10 Server 2019"),
+            new(_Win2019, "Windows 2019"),
             new(_Win10_1903, "Windows 10 v1903"),
             new(_Win10_1909, "Windows 10 v1909"),
             new(_Win10_2004, "Windows 10 v2004"),
@@ -463,11 +463,11 @@ namespace RJCP.Core.Environment.Version
             new(_Win10_21H2, "Windows 10 v21H2"),
             new(_Win10_22H2, "Windows 10 v22H2"),
             new(_Win11_21H2, "Windows 11 v21H2"),
-            new(_Win2022, "Windows 11 Server 2022"),
+            new(_Win2022, "Windows 2022"),
             new(_Win11_22H2, "Windows 11 v22H2"),
             new(_Win11_23H2, "Windows 11 v23H2"),
             new(_Win11_24H2, "Windows 11 v24H2"),
-            new(_Win2025, "Windows 11 Server 2025"),
+            new(_Win2025, "Windows 2025"),
             new(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
             new(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
