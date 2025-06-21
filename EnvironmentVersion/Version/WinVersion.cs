@@ -1210,7 +1210,9 @@ namespace RJCP.Core.Environment.Version
                 case WinProductInfo.SmallBusiness_Server_Premium_Core: return "Small Business Server Premium (Core)";
                 case WinProductInfo.Server_For_SmallBusiness: return "Windows Server 2008 for Windows Essential Server Solutions";
                 case WinProductInfo.Server_For_SmallBusiness_V: return "Windows Server 2008 for Windows Essential Server Solutions (no Hyper-V)";
-                case WinProductInfo.Sb_Solution_Server: return "Windows Small Business Server 2011 Essentials";
+                case WinProductInfo.Sb_Solution_Server:
+                    if (MajorVersion < 10) return "Windows Small Business Server 2011 Essentials";
+                    return "Windows Small Business Server Essentials";
                 case WinProductInfo.Server_For_Sb_Solutions: return "Server for SB Solutions";
                 case WinProductInfo.Sb_Solution_Server_Em: return "Server for SB Solutions EM";
                 case WinProductInfo.Server_For_Sb_Solutions_Em: return "Server for SB Solutions EM";
