@@ -71,12 +71,12 @@
         Starter = 0x0000000B,
 
         /// <summary>
-        /// Server Datacenter (core installation).
+        /// Server Datacenter (core installation, 2008R2 and earlier).
         /// </summary>
         DataCenter_Server_Core = 0x0000000C,
 
         /// <summary>
-        /// Server Standard (core installation).
+        /// Server Standard (core installation,, 2008R2 and earlier).
         /// </summary>
         Standard_Server_Core = 0x0000000D,
 
@@ -361,7 +361,7 @@
         Professional_E = 0x00000045,
 
         /// <summary>
-        /// Enterprise E (Not supported).
+        /// Enterprise E.
         /// </summary>
         Enterprise_E = 0x00000046,
 
@@ -461,17 +461,17 @@
         Core_N = 0x00000062,
 
         /// <summary>
-        /// Windows 8 China.
+        /// China.
         /// </summary>
         Core_CountrySpecific = 0x00000063,
 
         /// <summary>
-        /// Windows 8 Single Language.
+        /// Single Language.
         /// </summary>
         Core_SingleLanguage = 0x00000064,
 
         /// <summary>
-        /// Windows 8.
+        /// Home.
         /// </summary>
         Core = 0x00000065,
 
@@ -479,6 +479,11 @@
         /// Professional with Media Center.
         /// </summary>
         Professional_Wmc = 0x00000067,
+
+        /// <summary>
+        /// Windows 10 Mobile.
+        /// </summary>
+        Mobile_Core = 0x00000068,
 
         /// <summary>
         /// Embedded industry eval.
@@ -551,7 +556,7 @@
         Industry_Handheld = 0x00000076,
 
         /// <summary>
-        /// PPI pro.
+        /// Team.
         /// </summary>
         PPI_Pro = 0x00000077,
 
@@ -571,7 +576,7 @@
         Education_N = 0x0000007A,
 
         /// <summary>
-        /// IOTUAP.
+        /// IoT Core.
         /// </summary>
         IOTUAP = 0x0000007B,
 
@@ -581,12 +586,12 @@
         Cloud_Host_Infrastructure_Server = 0x0000007C,
 
         /// <summary>
-        /// Enterprise S.
+        /// Enterprise LTSC.
         /// </summary>
         Enterprise_S = 0x0000007D,
 
         /// <summary>
-        /// Enterprise S N.
+        /// Enterprise LTSC N.
         /// </summary>
         Enterprise_S_N = 0x0000007E,
 
@@ -609,6 +614,16 @@
         /// Enterprise S N eval.
         /// </summary>
         Enterprise_S_N_Eval = 0x00000082,
+
+        /// <summary>
+        /// IoT Commercial (Core).
+        /// </summary>
+        IOTUAP_Commercial = 0x00000083,
+
+        /// <summary>
+        /// Windows 10 Mobile Enterprise.
+        /// </summary>
+        Mobile_Enterprise = 0x00000085,
 
         /// <summary>
         /// Holographic.
@@ -651,12 +666,12 @@
         Standard_Nano_Server = 0x00000090,
 
         /// <summary>
-        /// Datacenter a server core.
+        /// Datacenter Semi-Annual server core.
         /// </summary>
         Datacenter_A_Server_Core = 0x00000091,
 
         /// <summary>
-        /// Standard A server core.
+        /// Standard Semi-Annual server core.
         /// </summary>
         Standard_A_Server_Core = 0x00000092,
 
@@ -726,7 +741,7 @@
         Enterprise_G_N = 0x000000AC,
 
         /// <summary>
-        /// Server RDSH.
+        /// Enterprise for Virtual Desktops.
         /// </summary>
         Server_RDSH = 0x000000AF,
 

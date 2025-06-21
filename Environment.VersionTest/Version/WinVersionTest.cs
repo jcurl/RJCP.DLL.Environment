@@ -748,7 +748,7 @@
             };
             Console.WriteLine($"{winver}");
             Assert.That(winver, Is.EqualTo(WinVersion.Win8_1));
-            Assert.That(winver.ToString(), Is.EqualTo("Windows 8.1 RT ARM (Windows Core ARM), v6.3.9600.0"));
+            Assert.That(winver.ToString(), Is.EqualTo("Windows 8.1 RT ARM (Home ARM), v6.3.9600.0"));
         }
 
         [Test]
