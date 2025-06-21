@@ -118,7 +118,8 @@
             Assert.That(WinVersion.Win2012R2, Is.LessThan(WinVersion.Win2016));
             Assert.That(WinVersion.Win2016, Is.LessThan(WinVersion.Win2019));
             Assert.That(WinVersion.Win2019, Is.LessThan(WinVersion.Win2022));
-            Assert.That(WinVersion.Win2022, Is.LessThan(WinVersion.Win2025));
+            Assert.That(WinVersion.Win2022, Is.LessThan(WinVersion.Win23H2));
+            Assert.That(WinVersion.Win23H2, Is.LessThan(WinVersion.Win2025));
 
             // Desktop and Server build comparisons. Only the version number
             // is compared. if you need to have a server version, then explicitly
@@ -138,6 +139,7 @@
             Assert.That(WinVersion.Win2016, Is.EqualTo(WinVersion.Windows10_1607));
             Assert.That(WinVersion.Win2019, Is.EqualTo(WinVersion.Windows10_1809));
             Assert.That(WinVersion.Win2022, Is.LessThan(WinVersion.Windows11_21H2));
+            Assert.That(WinVersion.Win23H2, Is.LessThan(WinVersion.Windows11_24H2));
             Assert.That(WinVersion.Win2025, Is.EqualTo(WinVersion.Windows11_24H2));
         }
 
@@ -186,6 +188,7 @@
             Assert.That(WinVersion.Win2016.IsServer, Is.True);
             Assert.That(WinVersion.Win2019.IsServer, Is.True);
             Assert.That(WinVersion.Win2022.IsServer, Is.True);
+            Assert.That(WinVersion.Win23H2.IsServer, Is.True);
             Assert.That(WinVersion.Win2025.IsServer, Is.True);
         }
 
@@ -340,6 +343,7 @@
             Assert.That(WinVersion.Win2016.WinVersionString, Is.EqualTo("Windows 2016"));
             Assert.That(WinVersion.Win2019.WinVersionString, Is.EqualTo("Windows 2019"));
             Assert.That(WinVersion.Win2022.WinVersionString, Is.EqualTo("Windows 2022"));
+            Assert.That(WinVersion.Win23H2.WinVersionString, Is.EqualTo("Windows 23H2"));
             Assert.That(WinVersion.Win2025.WinVersionString, Is.EqualTo("Windows 2025"));
         }
 
