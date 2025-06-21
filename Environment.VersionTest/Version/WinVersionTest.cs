@@ -1,6 +1,8 @@
 ﻿namespace RJCP.Core.Environment.Version
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Versioning;
     using NUnit.Framework;
@@ -1093,42 +1095,32 @@
             "wine-6.0.3_x64_xp"
         };
 
+        private readonly static string[] WinVersionBetaFiles = {
+            "win8-6.1.7850_x64_xp",
+            "win8-6.1.7850_x64_wow_xp",
+            "win8-6.2.8140_x64_xp",
+            "win8-6.2.8140_x64_wow_xp",
+        };
+
         [Test]
         public void GenerateIni()
         {
+            using (ScratchPad pad = Deploy.ScratchPad(nameof(GenerateIni), ScratchOptions.UseScratchDir | ScratchOptions.CreateScratch)) {
+                GenerateIni(pad, string.Empty,  "winversion.ini", WinVersionFiles);
+                GenerateIni(pad, "beta", "winversion_beta.ini", WinVersionBetaFiles);
+            }
+        }
+
+        private static void GenerateIni(ScratchPad pad, string path, string iniFileName, IEnumerable<string> input)
+        {
             bool exception = false;
 
-            using (ScratchPad pad = Deploy.ScratchPad(nameof(GenerateIni), ScratchOptions.UseScratchDir | ScratchOptions.CreateScratch))
-            using (FileStream fs = new(Path.Combine(pad.Path, "winversion.ini"), FileMode.Create, FileAccess.Write, FileShare.None))
+            using (FileStream fs = new(Path.Combine(pad.Path, iniFileName), FileMode.Create, FileAccess.Write, FileShare.None))
             using (StreamWriter w = new(fs)) {
-                foreach (string fileName in WinVersionFiles) {
+                foreach (string fileName in input) {
                     try {
-                        WinVersion winVersion = WinVersion.Load(Path.Combine(FilePath, $"{fileName}.xml"));
-                        w.WriteLine($"[{fileName}]");
-                        w.WriteLine($"PlatformId={winVersion.PlatformId}");
-                        w.WriteLine($"PlatformIdString={winVersion.PlatformIdString}");
-                        w.WriteLine($"MajorVersion={winVersion.MajorVersion}");
-                        w.WriteLine($"MinorVersion={winVersion.MinorVersion}");
-                        w.WriteLine($"BuildNumber={winVersion.BuildNumber}");
-                        w.WriteLine($"UpdateBuildNumber={winVersion.UpdateBuildNumber}");
-                        w.WriteLine($"CSDVersion={winVersion.CSDVersion}");
-                        w.WriteLine($"ServicePackMajor={winVersion.ServicePackMajor}");
-                        w.WriteLine($"ServicePackMinor={winVersion.ServicePackMinor}");
-                        w.WriteLine($"Version={winVersion.Version}");
-                        w.WriteLine($"VersionString={winVersion.VersionString}");
-                        w.WriteLine($"WinVersionString={winVersion.WinVersionString}");
-                        w.WriteLine($"NativeArchitecture={winVersion.NativeArchitecture}");
-                        w.WriteLine($"WinArchitecture={winVersion.Architecture}");
-                        w.WriteLine($"SuiteFlags={winVersion.SuiteFlags}");
-                        w.WriteLine($"SuiteString={winVersion.SuiteString}");
-                        w.WriteLine($"ProductType={winVersion.ProductType}");
-                        w.WriteLine($"ProductTypeString={winVersion.ProductTypeString}");
-                        w.WriteLine($"ProductInfo={winVersion.ProductInfo}");
-                        w.WriteLine($"ProductInfoString={winVersion.ProductInfoString}");
-                        w.WriteLine($"IsServer={winVersion.IsServer}");
-                        w.WriteLine($"ServerR2={winVersion.ServerR2}");
-                        w.WriteLine($"ToString={winVersion}");
-                        w.WriteLine("");
+                        WinVersion winVersion = WinVersion.Load(Path.Combine(FilePath, path, $"{fileName}.xml"));
+                        WriteIni(w, fileName, winVersion);
                     } catch (System.Xml.XmlException ex) {
                         Console.WriteLine($"Exception in file {fileName} - {ex.Message}");
                         exception = true;
@@ -1142,13 +1134,56 @@
             Assert.That(exception, Is.False);
         }
 
+        private static void WriteIni(StreamWriter w, string header, WinVersion winVersion)
+        {
+            w.WriteLine($"[{header}]");
+            w.WriteLine($"PlatformId={winVersion.PlatformId}");
+            w.WriteLine($"PlatformIdString={winVersion.PlatformIdString}");
+            w.WriteLine($"MajorVersion={winVersion.MajorVersion}");
+            w.WriteLine($"MinorVersion={winVersion.MinorVersion}");
+            w.WriteLine($"BuildNumber={winVersion.BuildNumber}");
+            w.WriteLine($"UpdateBuildNumber={winVersion.UpdateBuildNumber}");
+            w.WriteLine($"CSDVersion={winVersion.CSDVersion}");
+            w.WriteLine($"ServicePackMajor={winVersion.ServicePackMajor}");
+            w.WriteLine($"ServicePackMinor={winVersion.ServicePackMinor}");
+            w.WriteLine($"Version={winVersion.Version}");
+            w.WriteLine($"VersionString={winVersion.VersionString}");
+            w.WriteLine($"WinVersionString={winVersion.WinVersionString}");
+            w.WriteLine($"NativeArchitecture={winVersion.NativeArchitecture}");
+            w.WriteLine($"WinArchitecture={winVersion.Architecture}");
+            w.WriteLine($"SuiteFlags={winVersion.SuiteFlags}");
+            w.WriteLine($"SuiteString={winVersion.SuiteString}");
+            w.WriteLine($"ProductType={winVersion.ProductType}");
+            w.WriteLine($"ProductTypeString={winVersion.ProductTypeString}");
+            w.WriteLine($"ProductInfo={winVersion.ProductInfo}");
+            w.WriteLine($"ProductInfoString={winVersion.ProductInfoString}");
+            w.WriteLine($"IsServer={winVersion.IsServer}");
+            w.WriteLine($"ServerR2={winVersion.ServerR2}");
+            w.WriteLine($"ToString={winVersion}");
+            w.WriteLine("");
+        }
+
         [TestCaseSource(nameof(WinVersionFiles))]
         public void WindowsVersionQueryXml(string fileName)
         {
             IniFile versionResults = new(Path.Combine(FilePath, "winversion.ini"));
             IniSection versionResult = versionResults[fileName];
 
-            WinVersion winVersion = WinVersion.Load(Path.Combine(FilePath, $"{fileName}.xml"));
+            CheckQueryXml(Path.Combine(FilePath, $"{fileName}.xml"), versionResult);
+        }
+
+        [TestCaseSource(nameof(WinVersionBetaFiles))]
+        public void WindowsVersionQueryBetaXml(string fileName)
+        {
+            IniFile versionResults = new(Path.Combine(FilePath, "beta", "winversion_beta.ini"));
+            IniSection versionResult = versionResults[fileName];
+
+            CheckQueryXml(Path.Combine(FilePath, "beta", $"{fileName}.xml"), versionResult);
+        }
+
+        private static void CheckQueryXml(string fileName, IniSection versionResult)
+        {
+            WinVersion winVersion = WinVersion.Load(fileName);
 
             Assert.That(winVersion.PlatformId.ToString(), Is.EqualTo(versionResult["PlatformId"]));
             Assert.That(winVersion.PlatformIdString, Is.EqualTo(versionResult["PlatformIdString"]));

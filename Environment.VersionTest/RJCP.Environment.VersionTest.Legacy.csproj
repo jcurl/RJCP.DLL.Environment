@@ -74,6 +74,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="TestResources\WinVersion\beta\win8-6.1.7850_x64_wow_xp.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestResources\WinVersion\beta\win8-6.1.7850_x64_xp.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestResources\WinVersion\beta\win8-6.2.8140_x64_wow_xp.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestResources\WinVersion\beta\win8-6.2.8140_x64_xp.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestResources\WinVersion\ReactOS-0.4.15_x86.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -467,6 +479,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="TestResources\WinVersion\beta\winversion_beta.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestResources\WinVersion\winversion.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
