@@ -31,7 +31,21 @@ installed, else you might get the error:
 > The application has failed to start because its side-by-side configuration is
 > incorrect. Please see the application event log for more detail.
 
-### 1.3. Win10 (Visual Studio 2022 17.14.2 x86, x64)
+### 1.3. Windows 8.1 (Visual Studio 2012 Update 5)
+
+Using the Windows 10 binaries from Visual Studio 2022 works fine when older
+Operating Systems are fully patched with the latest service pack, but this makes
+it difficult with Windows Vista RTM and Windows 7 RTM.
+
+These are built using Visual Studio 2012 on Windows 7 64-bit. The toolchain
+chosen is the "v110_xp" to allow the binaries to also run on Windows XP SP3.
+Note, it will not run on earlier versions due to a missing `DecodePointer`
+kernel32.dll function which is missing.
+
+Make sure you have the Microsoft Visual C++ 2012 Redistributable Packages
+installed. These will also install on Windows XP SP3.
+
+### 1.4. Win10 (Visual Studio 2022 17.14.2 x86, x64)
 
 Precompiled binaries for Windows 10, 11, compiled with Visual Studio 2022
 (17.14.2). They contain a manifest declaring compatibility with Windows Vista,

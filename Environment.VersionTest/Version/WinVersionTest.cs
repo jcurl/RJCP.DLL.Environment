@@ -977,6 +977,7 @@
             "win2000-sp4-pro_x86",
             "ReactOS-0.4.15_x86",
             "ReactOS-0.4.15_x86_xp",
+            "winxp-pro_x86",
             "winxp-sp3-pro_x86",
             "winvista-sp1-ult_x86",
             "winvista-sp1-ult_x86_xp",
