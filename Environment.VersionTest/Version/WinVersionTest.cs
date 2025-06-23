@@ -1,9 +1,9 @@
 ﻿namespace RJCP.Core.Environment.Version
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Runtime.Versioning;
     using NUnit.Framework;
     using RJCP.CodeQuality.Config;
@@ -364,111 +364,6 @@
         }
 
         [Test]
-        public void WinVersionCheckWindows98SE()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.Win9x,
-                MajorVersion = 4,
-                MinorVersion = 10,
-                BuildNumber = 2222,
-                CSDVersion = " A ",
-                SuiteFlags = 0,
-                ProductType = 0,
-                ProductInfo = 0,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win98SE));
-        }
-
-        [Test]
-        public void WinVersionCheckWindowsME()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.Win9x,
-                MajorVersion = 4,
-                MinorVersion = 90,
-                BuildNumber = 3000,
-                CSDVersion = "",
-                SuiteFlags = 0,
-                ProductType = 0,
-                ProductInfo = 0,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.WinME));
-        }
-
-        [Test]
-        public void WinVersionCheckWindowsNT4SP6()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 4,
-                MinorVersion = 0,
-                BuildNumber = 1381,
-                CSDVersion = "Service Pack 6",
-                SuiteFlags = 0,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = 0,
-                ServicePackMajor = 6,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.WinNT4));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows2000()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 5,
-                MinorVersion = 0,
-                BuildNumber = 2195,
-                CSDVersion = "",
-                SuiteFlags = 0,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = 0,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win2000));
-            Assert.That(winver.ProductTypeString, Is.EqualTo("Professional"));
-            Assert.That(winver.SuiteString, Is.EqualTo(""));
-
-            winver.SuiteFlags = WinSuite.Enterprise;
-            Assert.That(winver.SuiteString, Is.EqualTo("Advanced"));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows2000SP3()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 5,
-                MinorVersion = 0,
-                BuildNumber = 2195,
-                CSDVersion = "Service Pack 3",
-                SuiteFlags = 0,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = 0,
-                ServicePackMajor = 3,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win2000));
-        }
-
-        [Test]
         public void WinVersionCheckWindowsXPHome()
         {
             WinVersion winver = new() {
@@ -512,28 +407,6 @@
         }
 
         [Test]
-        public void WinVersionCheckWindowsXPSP3()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 5,
-                MinorVersion = 1,
-                BuildNumber = 2600,
-                CSDVersion = "Service Pack 3",
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = WinProductInfo.Professional,
-                ServicePackMajor = 3,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.WinXP));
-            Assert.That(winver, Is.GreaterThan(WinVersion.WinXPSP2));
-            Assert.That(winver, Is.LessThanOrEqualTo(WinVersion.WinXPSP3));
-        }
-
-        [Test]
         public void WinVersionCheckWindowsXPx64()
         {
             WinVersion winver = new() {
@@ -554,109 +427,6 @@
         }
 
         [Test]
-        public void WinVersionCheckWindows2003()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 5,
-                MinorVersion = 2,
-                BuildNumber = 3790,
-                CSDVersion = "Service Pack 2",
-                SuiteFlags = (WinSuite)0x8131,
-                ProductType = WinProductType.Server,
-                ProductInfo = 0,
-                ServicePackMajor = 2,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win2003));
-        }
-
-        [Test]
-        public void WinVersionCheckWindowsVista()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 0,
-                BuildNumber = 6002,
-                CSDVersion = "Service Pack 2",
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = WinProductInfo.Ultimate,
-                ServicePackMajor = 2,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Vista));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows2008()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 0,
-                BuildNumber = 6002,
-                CSDVersion = "Service Pack 2",
-                SuiteFlags = (WinSuite)0x112,
-                ProductType = WinProductType.Server,
-                ProductInfo = WinProductInfo.Enterprise_Server,
-                ServicePackMajor = 2,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win2008));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows7()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 1,
-                BuildNumber = 7601,
-                CSDVersion = "Service Pack 1",
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = WinProductInfo.Ultimate,
-                ServicePackMajor = 1,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x86
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win7));
-
-            winver.SuiteFlags |= WinSuite.Enterprise;
-            Assert.That(winver.SuiteString, Is.EqualTo("Enterprise"));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows7x64()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 1,
-                BuildNumber = 7601,
-                CSDVersion = "Service Pack 1",
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = WinProductInfo.Ultimate,
-                ServicePackMajor = 1,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x64
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win7));
-        }
-
-        [Test]
         public void WinVersionCheckWindows2008R2DC()
         {
             WinVersion winver = new() {
@@ -674,66 +444,6 @@
             };
             Console.WriteLine($"{winver}");
             Assert.That(winver, Is.EqualTo(WinVersion.Win2008R2));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows2008R2()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 1,
-                BuildNumber = 7601,
-                CSDVersion = "Service Pack 1",
-                SuiteFlags = (WinSuite)0x112,
-                ProductType = WinProductType.Server,
-                ProductInfo = WinProductInfo.Enterprise_Server,
-                ServicePackMajor = 1,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x64
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win2008R2));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows8x64()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 2,
-                BuildNumber = 9200,
-                CSDVersion = "",
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = WinProductInfo.Professional,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x64
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win8));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows8_1x64()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 3,
-                BuildNumber = 9431,
-                CSDVersion = "",
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = WinProductInfo.Professional,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x64
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win8_1));
         }
 
         [Test]
@@ -758,26 +468,6 @@
         }
 
         [Test]
-        public void WinVersionCheckWindows2012R2()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 6,
-                MinorVersion = 3,
-                BuildNumber = 9431,
-                CSDVersion = "",
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Server,
-                ProductInfo = WinProductInfo.Professional,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x64
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win2012R2));
-        }
-
-        [Test]
         public void WinVersionCheckWindows10_20H2()
         {
             WinVersion winver = new() {
@@ -795,48 +485,6 @@
             };
             Console.WriteLine($"{winver}");
             Assert.That(winver, Is.EqualTo(WinVersion.Windows10_20H2));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows11_21H2()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 10,
-                MinorVersion = 0,
-                BuildNumber = 22000,
-                CSDVersion = string.Empty,
-                SuiteFlags = (WinSuite)0x100,
-                ProductType = WinProductType.Workstation,
-                ProductInfo = WinProductInfo.Enterprise,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x64
-            };
-
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Windows11_21H2));
-        }
-
-        [Test]
-        public void WinVersionCheckWindows10Server2019DC()
-        {
-            WinVersion winver = new() {
-                PlatformId = WinPlatform.WinNT,
-                MajorVersion = 10,
-                MinorVersion = 0,
-                BuildNumber = 17763,
-                CSDVersion = string.Empty,
-                SuiteFlags = (WinSuite)0x110,
-                ProductType = WinProductType.DomainController,
-                ProductInfo = WinProductInfo.Standard_Server,
-                ServicePackMajor = 0,
-                ServicePackMinor = 0,
-                NativeArchitecture = WinArchitecture.x64
-            };
-            Console.WriteLine($"{winver}");
-            Assert.That(winver, Is.EqualTo(WinVersion.Win2019));
-            Assert.That(winver.IsServer, Is.True);
         }
 
         [Test]
@@ -965,139 +613,161 @@
 
         private readonly static string FilePath = Path.Combine(Deploy.TestDirectory, "TestResources", "WinVersion");
 
-        private readonly static string[] WinVersionFiles = {
-            "win95a",
-            "win95-osr2",
-            "win98-se",
-            "win-me",
-            "winnt351-server_x86",
-            "winnt4-sp1_x86",
-            "winnt4-sp1-server_x86",
-            "winnt4-sp6_x86",
-            "win2000-sp4-pro_x86",
-            "ReactOS-0.4.15_x86",
-            "ReactOS-0.4.15_x86_xp",
-            "winxp-pro_x86",
-            "winxp-sp3-pro_x86",
-            "winvista-sp1-ult_x86",
-            "winvista-sp1-ult_x86_xp",
-            "winvista-sp2-checked-ult_x86",
-            "winvista-sp2-checked-ult_x86_xp",
-            "winvista-sp2-ult_x64",
-            "winvista-sp2-ult_x64_wow",
-            "winvista-sp2-ult_x64_wow_xp",
-            "winvista-sp2-ult_x64_xp",
-            "win7-sp1-ent_x64",
-            "win7-sp1-ent_x64_wow",
-            "win7-sp1-ent_x64_wow_xp",
-            "win7-sp1-ent_x64_xp",
-            "win8-pro_x64",
-            "win8-pro_x64_wow",
-            "win8-pro_x64_wow_xp",
-            "win8-pro_x64_xp",
-            "win81-sp3-pro_x64",
-            "win81-sp3-pro_x64_wow",
-            "win81-sp3-pro_x64_wow_xp",
-            "win81-sp3-pro_x64_xp",
-            "win10.10240-pro_x64",
-            "win10.10240-pro_x64_wow",
-            "win10.10240-pro_x64_wow_xp",
-            "win10.10240-pro_x64_xp",
-            "win10.10586-home_x64",
-            "win10.10586-home_x64_wow",
-            "win10.10586-home_x64_wow_xp",
-            "win10.10586-home_x64_xp",
-            "win10.14393-pro_x64",
-            "win10.14393-pro_x64_wow",
-            "win10.14393-pro_x64_wow_xp",
-            "win10.14393-pro_x64_xp",
-            "win10.16299-edu_x64",
-            "win10.16299-edu_x64_wow",
-            "win10.16299-edu_x64_wow_xp",
-            "win10.16299-edu_x64_xp",
-            "win10.17134-ent_x64",
-            "win10.17134-ent_x64_wow",
-            "win10.17134-ent_x64_wow_xp",
-            "win10.17134-ent_x64_xp",
-            "win10.17763-ent_x64",
-            "win10.17763-ent_x64_wow",
-            "win10.17763-ent_x64_wow_xp",
-            "win10.17763-ent_x64_xp",
-            "win10.17763-ent_x86",
-            "win10.17763-ent_x86_xp",
-            "win10.18362-ent_x64",
-            "win10.18362-ent_x64_wow",
-            "win10.18362-ent_x64_wow_xp",
-            "win10.18362-ent_x64_xp",
-            "win10.19044-ent-iot_x64",
-            "win10.19044-ent-iot_x64_wow",
-            "win10.19044-ent-iot_x64_wow_xp",
-            "win10.19044-ent-iot_x64_xp",
-            "win10.19044-ent-ltsc_x64",
-            "win10.19044-ent-ltsc_x64_wow",
-            "win10.19044-ent-ltsc_x64_wow_xp",
-            "win10.19044-ent-ltsc_x64_xp",
-            "win10.19045-pro_x64",
-            "win10.19045-pro_x64_wow",
-            "win10.19045-pro_x64_wow_xp",
-            "win10.19045-pro_x64_xp",
-            "win11.22000-ent",
-            "win11.22000-ent_wow",
-            "win11.22000-ent_wow_xp",
-            "win11.22000-ent_xp",
-            "win11.22631-ent",
-            "win11.22631-ent_wow",
-            "win11.22631-ent_wow_xp",
-            "win11.22631-ent_xp",
-            "win11.26100-ent",
-            "win11.26100-ent_wow",
-            "win11.26100-ent_wow_xp",
-            "win11.26100-ent_xp",
-            "win2003-sp2_x86",
-            "win2003r2-std_x86",
-            "win2008-sp1-datacenter_x64",
-            "win2008-sp1-datacenter_x64_wow",
-            "win2008-sp1-datacenter_x64_wow_xp",
-            "win2008-sp1-datacenter_x64_xp",
-            "win2008r2-sp1-web_x64",
-            "win2008r2-sp1-web_x64_wow",
-            "win2008r2-sp1-web_x64_wow_xp",
-            "win2008r2-sp1-web_x64_xp",
-            "sbs2011_x64_wow_xp",
-            "sbs2011_x64_xp",
-            "sbs2011-sp1_x64",
-            "sbs2011-sp1_x64_wow",
-            "sbs2011-sp1_x64_wow_xp",
-            "sbs2011-sp1_x64_xp",
-            "win2012-datacenter_x64",
-            "win2012-datacenter_x64_wow",
-            "win2012-datacenter_x64_wow_xp",
-            "win2012-datacenter_x64_xp",
-            "win2012r2-std_x64",
-            "win2012r2-std_x64_wow",
-            "win2012r2-std_x64_wow_xp",
-            "win2012r2-std_x64_xp",
-            "win2016-essential_x64",
-            "win2016-essential_x64_wow",
-            "win2016-essential_x64_wow_xp",
-            "win2016-essential_x64_xp",
-            "win2016-essential_x64",
-            "win2019-ad-std_x64",
-            "win2019-ad-std_x64_wow",
-            "win2019-ad-std_x64_wow_xp",
-            "win2019-ad-std_x64_xp",
-            "win2022-std_x64",
-            "win2022-std_x64_wow",
-            "win2022-std_x64_wow_xp",
-            "win2022-std_x64_xp",
-            "win2025-std",
-            "win2025-std_wow",
-            "win2025-std_wow_xp",
-            "win2025-std_xp",
-            "wine-6.0.3_x64",
-            "wine-6.0.3_x64_wow",
-            "wine-6.0.3_x64_wow_xp",
-            "wine-6.0.3_x64_xp"
+        public readonly struct WinVersionFile : IEquatable<WinVersion>
+        {
+            public readonly string File;
+            public readonly WinVersion WinVer;
+
+            public WinVersionFile(string file, WinVersion winVer)
+            {
+                File = file;
+                WinVer = winVer;
+            }
+
+            public bool Equals(WinVersion other)
+            {
+                return WinVer == other;
+            }
+
+            public override string ToString()
+            {
+                return File;
+            }
+        }
+
+        private readonly static WinVersionFile[] WinVersionFiles = {
+            new("win95a", WinVersion.Win95),
+            new("win95-osr2", WinVersion.Win95OSR2),
+            new("win98-se", WinVersion.Win98SE),
+            new("win-me", WinVersion.WinME),
+            new("winnt351-server_x86", WinVersion.WinNT351),
+            new("winnt4-sp1_x86", WinVersion.WinNT4),
+            new("winnt4-sp1-server_x86", WinVersion.WinNT4),
+            new("winnt4-sp6_x86", WinVersion.WinNT4),
+            new("win2000-sp4-pro_x86", WinVersion.Win2000),
+            new("ReactOS-0.4.15_x86", WinVersion.Win2003),
+            new("ReactOS-0.4.15_x86_xp", WinVersion.Win2003),
+            new("winxp-pro_x86", WinVersion.WinXPSP0),
+            new("winxp-sp3-pro_x86", WinVersion.WinXPSP3),
+            new("winvista-sp1-ult_x86", WinVersion.Vista),
+            new("winvista-sp1-ult_x86_xp", WinVersion.Vista),
+            new("winvista-sp2-checked-ult_x86", WinVersion.Vista),
+            new("winvista-sp2-checked-ult_x86_xp", WinVersion.Vista),
+            new("winvista-sp2-ult_x64", WinVersion.Vista),
+            new("winvista-sp2-ult_x64_wow", WinVersion.Vista),
+            new("winvista-sp2-ult_x64_wow_xp", WinVersion.Vista),
+            new("winvista-sp2-ult_x64_xp", WinVersion.Vista),
+            new("win7-sp1-ent_x64", WinVersion.Win7),
+            new("win7-sp1-ent_x64_wow", WinVersion.Win7),
+            new("win7-sp1-ent_x64_wow_xp", WinVersion.Win7),
+            new("win7-sp1-ent_x64_xp", WinVersion.Win7),
+            new("win8-pro_x64", WinVersion.Win8),
+            new("win8-pro_x64_wow", WinVersion.Win8),
+            new("win8-pro_x64_wow_xp", WinVersion.Win8),
+            new("win8-pro_x64_xp", WinVersion.Win8),
+            new("win81-sp3-pro_x64", WinVersion.Win8_1),
+            new("win81-sp3-pro_x64_wow", WinVersion.Win8_1),
+            new("win81-sp3-pro_x64_wow_xp", WinVersion.Win8_1),
+            new("win81-sp3-pro_x64_xp", WinVersion.Win8_1),
+            new("win10.10240-pro_x64", WinVersion.Windows10_1507),
+            new("win10.10240-pro_x64_wow", WinVersion.Windows10_1507),
+            new("win10.10240-pro_x64_wow_xp", WinVersion.Windows10_1507),
+            new("win10.10240-pro_x64_xp", WinVersion.Windows10_1507),
+            new("win10.10586-home_x64", WinVersion.Windows10_1511),
+            new("win10.10586-home_x64_wow", WinVersion.Windows10_1511),
+            new("win10.10586-home_x64_wow_xp", WinVersion.Windows10_1511),
+            new("win10.10586-home_x64_xp", WinVersion.Windows10_1511),
+            new("win10.14393-pro_x64", WinVersion.Windows10_1607),
+            new("win10.14393-pro_x64_wow", WinVersion.Windows10_1607),
+            new("win10.14393-pro_x64_wow_xp", WinVersion.Windows10_1607),
+            new("win10.14393-pro_x64_xp", WinVersion.Windows10_1607),
+            new("win10.16299-edu_x64", WinVersion.Windows10_1709),
+            new("win10.16299-edu_x64_wow", WinVersion.Windows10_1709),
+            new("win10.16299-edu_x64_wow_xp", WinVersion.Windows10_1709),
+            new("win10.16299-edu_x64_xp", WinVersion.Windows10_1709),
+            new("win10.17134-ent_x64", WinVersion.Windows10_1803),
+            new("win10.17134-ent_x64_wow", WinVersion.Windows10_1803),
+            new("win10.17134-ent_x64_wow_xp", WinVersion.Windows10_1803),
+            new("win10.17134-ent_x64_xp", WinVersion.Windows10_1803),
+            new("win10.17763-ent_x64", WinVersion.Windows10_1809),
+            new("win10.17763-ent_x64_wow", WinVersion.Windows10_1809),
+            new("win10.17763-ent_x64_wow_xp", WinVersion.Windows10_1809),
+            new("win10.17763-ent_x64_xp", WinVersion.Windows10_1809),
+            new("win10.17763-ent_x86", WinVersion.Windows10_1809),
+            new("win10.17763-ent_x86_xp", WinVersion.Windows10_1809),
+            new("win10.18362-ent_x64", WinVersion.Windows10_1903),
+            new("win10.18362-ent_x64_wow", WinVersion.Windows10_1903),
+            new("win10.18362-ent_x64_wow_xp", WinVersion.Windows10_1903),
+            new("win10.18362-ent_x64_xp", WinVersion.Windows10_1903),
+            new("win10.19044-ent-iot_x64", WinVersion.Windows10_21H2),
+            new("win10.19044-ent-iot_x64_wow", WinVersion.Windows10_21H2),
+            new("win10.19044-ent-iot_x64_wow_xp", WinVersion.Windows10_21H2),
+            new("win10.19044-ent-iot_x64_xp", WinVersion.Windows10_21H2),
+            new("win10.19044-ent-ltsc_x64", WinVersion.Windows10_21H2),
+            new("win10.19044-ent-ltsc_x64_wow", WinVersion.Windows10_21H2),
+            new("win10.19044-ent-ltsc_x64_wow_xp", WinVersion.Windows10_21H2),
+            new("win10.19044-ent-ltsc_x64_xp", WinVersion.Windows10_21H2),
+            new("win10.19045-pro_x64", WinVersion.Windows10_22H2),
+            new("win10.19045-pro_x64_wow", WinVersion.Windows10_22H2),
+            new("win10.19045-pro_x64_wow_xp", WinVersion.Windows10_22H2),
+            new("win10.19045-pro_x64_xp", WinVersion.Windows10_22H2),
+            new("win11.22000-ent", WinVersion.Windows11_21H2),
+            new("win11.22000-ent_wow", WinVersion.Windows11_21H2),
+            new("win11.22000-ent_wow_xp", WinVersion.Windows11_21H2),
+            new("win11.22000-ent_xp", WinVersion.Windows11_21H2),
+            new("win11.22631-ent", WinVersion.Windows11_23H2),
+            new("win11.22631-ent_wow", WinVersion.Windows11_23H2),
+            new("win11.22631-ent_wow_xp", WinVersion.Windows11_23H2),
+            new("win11.22631-ent_xp", WinVersion.Windows11_23H2),
+            new("win11.26100-ent", WinVersion.Windows11_24H2),
+            new("win11.26100-ent_wow", WinVersion.Windows11_24H2),
+            new("win11.26100-ent_wow_xp", WinVersion.Windows11_24H2),
+            new("win11.26100-ent_xp", WinVersion.Windows11_24H2),
+            new("win2003-sp2_x86", WinVersion.Win2003),
+            new("win2003r2-std_x86", WinVersion.Win2003R2),
+            new("win2008-sp1-datacenter_x64", WinVersion.Win2008),
+            new("win2008-sp1-datacenter_x64_wow", WinVersion.Win2008),
+            new("win2008-sp1-datacenter_x64_wow_xp", WinVersion.Win2008),
+            new("win2008-sp1-datacenter_x64_xp", WinVersion.Win2008),
+            new("win2008r2-sp1-web_x64", WinVersion.Win2008R2),
+            new("win2008r2-sp1-web_x64_wow", WinVersion.Win2008R2),
+            new("win2008r2-sp1-web_x64_wow_xp", WinVersion.Win2008R2),
+            new("win2008r2-sp1-web_x64_xp", WinVersion.Win2008R2),
+            new("sbs2011_x64_wow_xp", WinVersion.Win2008R2),
+            new("sbs2011_x64_xp", WinVersion.Win2008R2),
+            new("sbs2011-sp1_x64", WinVersion.Win2008R2),
+            new("sbs2011-sp1_x64_wow", WinVersion.Win2008R2),
+            new("sbs2011-sp1_x64_wow_xp", WinVersion.Win2008R2),
+            new("sbs2011-sp1_x64_xp", WinVersion.Win2008R2),
+            new("win2012-datacenter_x64", WinVersion.Win2012),
+            new("win2012-datacenter_x64_wow", WinVersion.Win2012),
+            new("win2012-datacenter_x64_wow_xp", WinVersion.Win2012),
+            new("win2012-datacenter_x64_xp", WinVersion.Win2012),
+            new("win2012r2-std_x64", WinVersion.Win2012R2),
+            new("win2012r2-std_x64_wow", WinVersion.Win2012R2),
+            new("win2012r2-std_x64_wow_xp", WinVersion.Win2012R2),
+            new("win2012r2-std_x64_xp", WinVersion.Win2012R2),
+            new("win2016-essential_x64", WinVersion.Win2016),
+            new("win2016-essential_x64_wow", WinVersion.Win2016),
+            new("win2016-essential_x64_wow_xp", WinVersion.Win2016),
+            new("win2016-essential_x64_xp", WinVersion.Win2016),
+            new("win2016-essential_x64", WinVersion.Win2016),
+            new("win2019-ad-std_x64", WinVersion.Win2019),
+            new("win2019-ad-std_x64_wow", WinVersion.Win2019),
+            new("win2019-ad-std_x64_wow_xp", WinVersion.Win2019),
+            new("win2019-ad-std_x64_xp", WinVersion.Win2019),
+            new("win2022-std_x64", WinVersion.Win2022),
+            new("win2022-std_x64_wow", WinVersion.Win2022),
+            new("win2022-std_x64_wow_xp", WinVersion.Win2022),
+            new("win2022-std_x64_xp", WinVersion.Win2022),
+            new("win2025-std", WinVersion.Win2025),
+            new("win2025-std_wow", WinVersion.Win2025),
+            new("win2025-std_wow_xp", WinVersion.Win2025),
+            new("win2025-std_xp", WinVersion.Win2025),
+            new("wine-6.0.3_x64", WinVersion.Win7),
+            new("wine-6.0.3_x64_wow",  WinVersion.Win7),
+            new("wine-6.0.3_x64_wow_xp",  WinVersion.Win7),
+            new("wine-6.0.3_x64_xp",  WinVersion.Win7)
         };
 
         private readonly static string[] WinVersionBetaFiles = {
@@ -1111,7 +781,7 @@
         public void GenerateIni()
         {
             using (ScratchPad pad = Deploy.ScratchPad(nameof(GenerateIni), ScratchOptions.UseScratchDir | ScratchOptions.CreateScratch)) {
-                GenerateIni(pad, string.Empty,  "winversion.ini", WinVersionFiles);
+                GenerateIni(pad, string.Empty, "winversion.ini", WinVersionFiles.Select(winver => winver.File));
                 GenerateIni(pad, "beta", "winversion_beta.ini", WinVersionBetaFiles);
             }
         }
@@ -1169,12 +839,17 @@
         }
 
         [TestCaseSource(nameof(WinVersionFiles))]
-        public void WindowsVersionQueryXml(string fileName)
+        public void WindowsVersionQueryXml(WinVersionFile winVer)
         {
             IniFile versionResults = new(Path.Combine(FilePath, "winversion.ini"));
-            IniSection versionResult = versionResults[fileName];
+            IniSection versionResult = versionResults[winVer.File];
 
-            CheckQueryXml(Path.Combine(FilePath, $"{fileName}.xml"), versionResult);
+            WinVersion winVersion = WinVersion.Load(Path.Combine(FilePath, $"{winVer.File}.xml"));
+            CheckQueryXml(winVersion, versionResult);
+
+            if (winVer.WinVer is not null) {
+                Assert.That(winVer, Is.EqualTo(winVersion));
+            }
         }
 
         [TestCaseSource(nameof(WinVersionBetaFiles))]
@@ -1183,13 +858,12 @@
             IniFile versionResults = new(Path.Combine(FilePath, "beta", "winversion_beta.ini"));
             IniSection versionResult = versionResults[fileName];
 
-            CheckQueryXml(Path.Combine(FilePath, "beta", $"{fileName}.xml"), versionResult);
+            WinVersion winVersion = WinVersion.Load(Path.Combine(FilePath, "beta", $"{fileName}.xml"));
+            CheckQueryXml(winVersion, versionResult);
         }
 
-        private static void CheckQueryXml(string fileName, IniSection versionResult)
+        private static void CheckQueryXml(WinVersion winVersion, IniSection versionResult)
         {
-            WinVersion winVersion = WinVersion.Load(fileName);
-
             Assert.That(winVersion.PlatformId.ToString(), Is.EqualTo(versionResult["PlatformId"]));
             Assert.That(winVersion.PlatformIdString, Is.EqualTo(versionResult["PlatformIdString"]));
             Assert.That(winVersion.MajorVersion.ToString(), Is.EqualTo(versionResult["MajorVersion"]));

@@ -386,7 +386,7 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _WinSrv2016 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
         private static readonly WinVersion _WinSrv2019 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
         private static readonly WinVersion _WinSrv2022 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 20348, true);
-        private static readonly WinVersion _WinSrv23h2 = new WinVersion(WinPlatform.WinNT, 10, 0, WinProductType.Server, 25398, true);
+        private static readonly WinVersion _WinSrv23h2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 25398, true);
         private static readonly WinVersion _WinSrv2025 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 26100, true);
 
         private sealed class WinVersionLookupEntry
