@@ -85,14 +85,16 @@ namespace RJCP.Core.Environment.Version
         /// <param name="platformId">The Platform ID to define.</param>
         /// <param name="majorVersion">The minor version of the OS.</param>
         /// <param name="minorVersion">The major version of the OS.</param>
+        /// <param name="build">The build number.</param>
         /// <param name="csd">
         /// A null-terminated string, such as "Service Pack 3", that indicates the latest Service Pack installed on the
         /// system. If no Service Pack has been installed, the string is empty.
         /// </param>
-        public WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, string csd)
+        public WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, int build, string csd)
             : this(platformId, majorVersion, minorVersion)
         {
             m_CSDVersion = csd;
+            m_BuildNumber = build;
         }
 
         /// <summary>
@@ -102,13 +104,14 @@ namespace RJCP.Core.Environment.Version
         /// <param name="platformId">The Platform ID to define.</param>
         /// <param name="majorVersion">The minor version of the OS.</param>
         /// <param name="minorVersion">The major version of the OS.</param>
+        /// <param name="build">The build number.</param>
         /// <param name="csd">
         /// A null-terminated string, such as "Service Pack 3", that indicates the latest Service Pack installed on the
         /// system. If no Service Pack has been installed, the string is empty.
         /// </param>
         /// <param name="readOnly"><see langword="true"/> if this object is read only after instantiation.</param>
-        private WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, string csd, bool readOnly)
-            : this(platformId, majorVersion, minorVersion, csd)
+        private WinVersion(WinPlatform platformId, int majorVersion, int minorVersion, int build, string csd, bool readOnly)
+            : this(platformId, majorVersion, minorVersion, build, csd)
         {
             IsReadOnly = readOnly;
         }
@@ -337,12 +340,13 @@ namespace RJCP.Core.Environment.Version
         #region Static properties describing known Operating Systems
         private static readonly WinVersion _Win32s = new(WinPlatform.Win32s, 3, -1, true);
         private static readonly WinVersion _WinCE = new(WinPlatform.WinCE, 3, -1, true);
-        private static readonly WinVersion _Win95 = new(WinPlatform.Win9x, 4, 0, "", true);
-        private static readonly WinVersion _Win95OSR2 = new(WinPlatform.Win9x, 4, 0, "B", true);
-        private static readonly WinVersion _Win95OSR2C = new(WinPlatform.Win9x, 4, 0, "C", true);
-        private static readonly WinVersion _Win98 = new(WinPlatform.Win9x, 4, 10, "", true);
-        private static readonly WinVersion _Win98SE = new(WinPlatform.Win9x, 4, 10, "A", true);
-        private static readonly WinVersion _WinME = new(WinPlatform.Win9x, 4, 90, true);
+        private static readonly WinVersion _Win95 = new(WinPlatform.Win9x, 4, 0, 950, string.Empty, true);
+        private static readonly WinVersion _Win95a = new(WinPlatform.Win9x, 4, 0, 950, "a", true);
+        private static readonly WinVersion _Win95OSR2 = new(WinPlatform.Win9x, 4, 0, 1111, " B", true);
+        private static readonly WinVersion _Win95OSR25 = new(WinPlatform.Win9x, 4, 0, 1111, " C", true);
+        private static readonly WinVersion _Win98 = new(WinPlatform.Win9x, 4, 10, 1998, string.Empty, true);
+        private static readonly WinVersion _Win98SE = new(WinPlatform.Win9x, 4, 10, 2222, " A ", true);
+        private static readonly WinVersion _WinME = new(WinPlatform.Win9x, 4, 90, 3000, string.Empty, true);
         private static readonly WinVersion _WinNT351 = new(WinPlatform.WinNT, 3, 51, true);
         private static readonly WinVersion _WinNT4 = new(WinPlatform.WinNT, 4, 0, true);
         private static readonly WinVersion _Win2000 = new(WinPlatform.WinNT, 5, 0, true);
@@ -414,8 +418,9 @@ namespace RJCP.Core.Environment.Version
             new(new WinVersion(WinPlatform.Win32s, true), "Windows 32s"),
             new(new WinVersion(WinPlatform.WinCE, true), "Windows 32s"),
             new(_Win95, "Windows 95"),
+            new(_Win95a, "Windows 95OSR1"),
             new(_Win95OSR2, "Windows 95OSR2"),
-            new(_Win95OSR2C, "Windows 95OSR2"),
+            new(_Win95OSR25, "Windows 95OSR2.5"),
             new(_Win98, "Windows 98"),
             new(_Win98SE, "Windows 98SE"),
             new(_WinME, "Windows ME"),
@@ -490,9 +495,19 @@ namespace RJCP.Core.Environment.Version
         public static WinVersion Win95 { get { return _Win95; } }
 
         /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 95 OSR1.
+        /// </summary>
+        public static WinVersion Win95a { get { return _Win95a; } }
+
+        /// <summary>
         /// A predefined <see cref="WinVersion"/> object identifying Windows 95 OSR2.
         /// </summary>
         public static WinVersion Win95OSR2 { get { return _Win95OSR2; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 95 OSR2.5.
+        /// </summary>
+        public static WinVersion Win95OSR25 { get { return _Win95OSR25; } }
 
         /// <summary>
         /// A predefined <see cref="WinVersion"/> object identifying Windows 98.
@@ -1316,7 +1331,6 @@ namespace RJCP.Core.Environment.Version
         private bool IsSameOSKernelType(WinVersion compare)
         {
             if (compare.PlatformId == WinPlatform.Unknown) return false;
-            if (compare.ProductType == WinProductType.Unknown) return false;
             if (compare.MajorVersion == -1 || m_MajorVersion == -1) return false;
             if (compare.MinorVersion == -1 || m_MinorVersion == -1) return false;
             if (compare.BuildNumber == -1 && m_BuildNumber != -1) return false;
@@ -1332,6 +1346,9 @@ namespace RJCP.Core.Environment.Version
                 break;
             case WinProductType.Workstation:
                 if (m_ProductType != WinProductType.Workstation) return false;
+                break;
+            case WinProductType.Unknown:
+                if (compare.PlatformId == WinPlatform.WinNT) return false;
                 break;
             default:
                 return false;
@@ -1372,7 +1389,7 @@ namespace RJCP.Core.Environment.Version
                 if (entry.OSVersion.BuildNumber != -1 && entry.OSVersion.BuildNumber != m_BuildNumber) continue;
                 if (entry.OSVersion.CSDVersion is not null) {
                     if (m_CSDVersion is null) continue;
-                    if (!entry.OSVersion.CSDVersion.Equals(m_CSDVersion.Trim())) continue;
+                    if (!entry.OSVersion.CSDVersion.Trim().Equals(m_CSDVersion.Trim(), StringComparison.InvariantCulture)) continue;
                 }
                 if (entry.OSVersion.ProductType != WinProductType.Unknown) {
                     if ((entry.OSVersion.ProductType == WinProductType.Server || entry.OSVersion.ProductType == WinProductType.DomainController) &&

@@ -63,10 +63,14 @@
 
             DetectArchitecture();
             GetProductInfo();
-            DetectWin2003R2();
-            DetectWinXP();
-            DetectWinXPx64();
-            DetectWin10();
+            if (PlatformId == WinPlatform.WinNT) {
+                DetectWin2003R2();
+                DetectWinXP();
+                DetectWinXPx64();
+                DetectWin10();
+            } else {
+                DetectWin9x();
+            }
             Lock();
         }
 
@@ -301,6 +305,28 @@
             if (!result) return;
 
             ProductInfo = (WinProductInfo)productInfo;
+        }
+
+        private void DetectWin9x()
+        {
+            if (string.IsNullOrEmpty(CSDVersion)) {
+                try {
+                    IRegistryKey rk = m_WinVersion.OpenSubKey("HKLM", @"SOFTWARE\Microsoft\Windows\CurrentVersion");
+                    if (rk is not null) {
+                        using (rk) {
+                            object svnobj = rk.GetValue("SubVersionNumber");
+                            if (svnobj is string svn) {
+                                CSDVersion = svn;
+                            }
+                        }
+                    }
+                } catch (SecurityException) {              // Ignore that we can't access the key
+                } catch (UnauthorizedAccessException) {    // Ignore that we can't access the key
+                } catch (System.IO.IOException) {          // Should never occur
+                } catch (FormatException) {                // Ignore invalid registry value
+                } catch (OverflowException) {              // Ignore invalid registry value
+                }
+            }
         }
 
         private void DetectWin2003R2()

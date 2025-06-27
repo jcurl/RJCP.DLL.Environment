@@ -68,7 +68,8 @@
             // Desktop build comparisons
             Assert.That(WinVersion.Win32s, Is.LessThan(WinVersion.Win95));
             Assert.That(WinVersion.Win95, Is.LessThan(WinVersion.Win95OSR2));
-            Assert.That(WinVersion.Win95OSR2, Is.LessThan(WinVersion.Win98));
+            Assert.That(WinVersion.Win95OSR2, Is.LessThan(WinVersion.Win95OSR25));
+            Assert.That(WinVersion.Win95OSR25, Is.LessThan(WinVersion.Win98));
             Assert.That(WinVersion.Win98, Is.LessThan(WinVersion.Win98SE));
             Assert.That(WinVersion.Win98SE, Is.LessThan(WinVersion.WinME));
             Assert.That(WinVersion.WinME, Is.LessThan(WinVersion.WinNT351));
@@ -303,7 +304,9 @@
         public void WinVersionString()
         {
             Assert.That(WinVersion.Win95.WinVersionString, Is.EqualTo("Windows 95"));
+            Assert.That(WinVersion.Win95a.WinVersionString, Is.EqualTo("Windows 95OSR1"));
             Assert.That(WinVersion.Win95OSR2.WinVersionString, Is.EqualTo("Windows 95OSR2"));
+            Assert.That(WinVersion.Win95OSR25.WinVersionString, Is.EqualTo("Windows 95OSR2.5"));
             Assert.That(WinVersion.Win98.WinVersionString, Is.EqualTo("Windows 98"));
             Assert.That(WinVersion.Win98SE.WinVersionString, Is.EqualTo("Windows 98SE"));
             Assert.That(WinVersion.WinME.WinVersionString, Is.EqualTo("Windows ME"));
@@ -636,8 +639,12 @@
         }
 
         private readonly static WinVersionFile[] WinVersionFiles = {
-            new("win95a", WinVersion.Win95),
+            new("win95", WinVersion.Win95),
+            new("win95a", WinVersion.Win95a),
             new("win95-osr2", WinVersion.Win95OSR2),
+            new("win95-osr21", WinVersion.Win95OSR2),
+            new("win95-osr25", WinVersion.Win95OSR25),
+            new("win98", WinVersion.Win98),
             new("win98-se", WinVersion.Win98SE),
             new("win-me", WinVersion.WinME),
             new("winnt351-server_x86", WinVersion.WinNT351),
@@ -771,6 +778,7 @@
         };
 
         private readonly static string[] WinVersionBetaFiles = {
+            "win95b",
             "win8-6.1.7850_x64_xp",
             "win8-6.1.7850_x64_wow_xp",
             "win8-6.2.8140_x64_xp",

@@ -11,26 +11,18 @@
         Unknown = -1,
 
         /// <summary>
-        /// Windows 9x, 32-bit, referring to Windows 95, 95OSR2, 98, 98SE, or ME.
-        /// </summary>
-        Win9x = 0,
-
-        /// <summary>
-        /// The operating system is Windows 8, Windows 7, Windows Vista, Windows XP Professional, Windows XP Home
-        /// Edition, or Windows 2000 Professional.
+        /// The operating system is Windows NT based, and is Windows 2000 or newer.
         /// </summary>
         Workstation = 1,
 
         /// <summary>
-        /// The system is a domain controller and the operating system is Windows Server 2012 , Windows Server 2008 R2,
-        /// Windows Server 2008, Windows Server 2003, or Windows 2000 Server.
+        /// The operating system is Windows NT based, Windows 2000 or newer, is a server and acting as a Domain
+        /// Controller.
         /// </summary>
         DomainController = 2,
 
         /// <summary>
-        /// The operating system is Windows Server 2012, Windows Server 2008 R2, Windows Server 2008, Windows Server
-        /// 2003, or Windows 2000 Server. Note that a server that is also a domain controller is reported as
-        /// VER_NT_DOMAIN_CONTROLLER, not VER_NT_SERVER.
+        /// The operating system is Windows NT based, Windows 2000 or newer, is a server.
         /// </summary>
         Server = 3,
     }
