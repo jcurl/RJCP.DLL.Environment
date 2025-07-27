@@ -408,6 +408,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is equal to
         /// <paramref name="other"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="EqualityComparer{T}"/>.</typeparam>
         /// <param name="value">The argument to validate as not equal to <paramref name="other"/>.</param>
         /// <param name="other">The value to compare with <paramref name="value"/>.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
@@ -627,6 +628,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is not equal to
         /// <paramref name="other"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="EqualityComparer{T}"/>.</typeparam>
         /// <param name="value">The argument to validate as equal to <paramref name="other"/>.</param>
         /// <param name="other">The value to compare with <paramref name="value"/>.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
@@ -846,6 +848,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than
         /// <paramref name="other"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="Comparer{T}"/>.</typeparam>
         /// <param name="value">The argument to validate as less or equal to <paramref name="other"/>.</param>
         /// <param name="other">The value to compare with <paramref name="value"/>.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
@@ -1066,6 +1069,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than or equal
         /// <paramref name="other"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="Comparer{T}"/>.</typeparam>
         /// <param name="value">The argument to validate as less than <paramref name="other"/>.</param>
         /// <param name="other">The value to compare with <paramref name="value"/>.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
@@ -1286,6 +1290,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than
         /// <paramref name="other"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="Comparer{T}"/>.</typeparam>
         /// <param name="value">The argument to validate as greater than or equal to <paramref name="other"/>.</param>
         /// <param name="other">The value to compare with <paramref name="value"/>.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
@@ -1506,6 +1511,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than or equal
         /// <paramref name="other"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="Comparer{T}"/>.</typeparam>
         /// <param name="value">The argument to validate as greater than <paramref name="other"/>.</param>
         /// <param name="other">The value to compare with <paramref name="value"/>.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
@@ -1726,6 +1732,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is between
         /// <paramref name="lower"/> and <paramref name="upper"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="Comparer{T}"/>.</typeparam>
         /// <param name="value">
         /// The argument to validate as note between <paramref name="lower"/> and <paramref name="upper"/>.
         /// </param>
@@ -1911,6 +1918,7 @@
         /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is between
         /// <paramref name="lower"/> and <paramref name="upper"/>.
         /// </summary>
+        /// <typeparam name="T">The type to compare. Must implement <see cref="Comparer{T}"/>.</typeparam>
         /// <param name="value">
         /// The argument to validate as note between <paramref name="lower"/> and <paramref name="upper"/>.
         /// </param>

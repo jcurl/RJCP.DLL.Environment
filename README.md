@@ -184,7 +184,7 @@ Features:
   (DOTNET-858).
 - NetVersion: Use the current MonoRuntime on Linux to also determine the
   installed location (DOTNET-863).
-- WinVersion:  Add Windows RT 8.1 ARM to a test case (DOTNET-859).
+- WinVersion: Add Windows RT 8.1 ARM to a test case (DOTNET-859).
 
 BugFixes:
 
