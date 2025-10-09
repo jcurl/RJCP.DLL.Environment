@@ -322,6 +322,15 @@ namespace RJCP.Core.Environment.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .NET Framework 4.8.1 on Windows 11 25H2.
+        /// </summary>
+        internal static string Net481_Win11_25H2 {
+            get {
+                return ResourceManager.GetString("Net481_Win11_25H2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .NET {0} or later, release {1}.
         /// </summary>
         internal static string NetFx {

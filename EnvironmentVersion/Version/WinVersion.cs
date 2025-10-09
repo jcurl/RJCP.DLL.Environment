@@ -387,6 +387,7 @@ namespace RJCP.Core.Environment.Version
         private static readonly WinVersion _Win11_22H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22621, true);
         private static readonly WinVersion _Win11_23H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 22631, true);
         private static readonly WinVersion _Win11_24H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 26100, true);
+        private static readonly WinVersion _Win11_25H2 = new(WinPlatform.WinNT, 10, 0, WinProductType.Workstation, 26200, true);
         private static readonly WinVersion _WinSrv2016 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 14393, true);
         private static readonly WinVersion _WinSrv2019 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 17763, true);
         private static readonly WinVersion _WinSrv2022 = new(WinPlatform.WinNT, 10, 0, WinProductType.Server, 20348, true);
@@ -475,6 +476,7 @@ namespace RJCP.Core.Environment.Version
             new(_WinSrv23h2, "Windows 23H2"),
             new(_Win11_24H2, "Windows 11 v24H2"),
             new(_WinSrv2025, "Windows 2025"),
+            new(_Win11_25H2, "Windows 11 v25H2"),
             new(new WinVersion(WinPlatform.WinNT, 10, -1, true), "Windows NT 10.x"),
             new(new WinVersion(WinPlatform.WinNT, true), "Windows NT"),
         };
@@ -738,6 +740,11 @@ namespace RJCP.Core.Environment.Version
         /// A predefined <see cref="WinVersion"/> object identifying Windows Server 2025.
         /// </summary>
         public static WinVersion Win2025 { get { return _WinSrv2025; } }
+
+        /// <summary>
+        /// A predefined <see cref="WinVersion"/> object identifying Windows 11 25H2.
+        /// </summary>
+        public static WinVersion Windows11_25H2 { get { return _Win11_25H2; } }
         #endregion
 
         #region Properties

@@ -31,7 +31,8 @@
             { 528372, new NetFxVersion(new Version(4, 8), Messages.Net48_Win10_20H2) },
             { 528449, new NetFxVersion(new Version(4, 8), Messages.Net48_Win11) },
             { 533320, new NetFxVersion(new Version(4, 8, 1), Messages.Net481_Win11_22H2) },
-            { 533325, new NetFxVersion(new Version(4, 8, 1), Messages.Net481) }
+            { 533325, new NetFxVersion(new Version(4, 8, 1), Messages.Net481) },
+            { 533509, new NetFxVersion(new Version(4, 8, 1), Messages.Net481_Win11_25H2) }
         };
 
         public static NetFxVersion GetNetFxVersion(int release)

@@ -108,6 +108,7 @@
             Assert.That(WinVersion.Windows11_21H2, Is.LessThan(WinVersion.Windows11_22H2));
             Assert.That(WinVersion.Windows11_22H2, Is.LessThan(WinVersion.Windows11_23H2));
             Assert.That(WinVersion.Windows11_23H2, Is.LessThan(WinVersion.Windows11_24H2));
+            Assert.That(WinVersion.Windows11_24H2, Is.LessThan(WinVersion.Windows11_25H2));
 
             // Server build comparisons
             Assert.That(WinVersion.Win2000, Is.LessThan(WinVersion.Win2003));
@@ -180,6 +181,7 @@
             Assert.That(WinVersion.Windows11_22H2.IsServer, Is.False);
             Assert.That(WinVersion.Windows11_23H2.IsServer, Is.False);
             Assert.That(WinVersion.Windows11_24H2.IsServer, Is.False);
+            Assert.That(WinVersion.Windows11_25H2.IsServer, Is.False);
 
             Assert.That(WinVersion.Win2003.IsServer, Is.True);
             Assert.That(WinVersion.Win2008.IsServer, Is.True);
@@ -343,6 +345,7 @@
             Assert.That(WinVersion.Windows11_22H2.WinVersionString, Is.EqualTo("Windows 11 v22H2"));
             Assert.That(WinVersion.Windows11_23H2.WinVersionString, Is.EqualTo("Windows 11 v23H2"));
             Assert.That(WinVersion.Windows11_24H2.WinVersionString, Is.EqualTo("Windows 11 v24H2"));
+            Assert.That(WinVersion.Windows11_25H2.WinVersionString, Is.EqualTo("Windows 11 v25H2"));
             Assert.That(WinVersion.Win2016.WinVersionString, Is.EqualTo("Windows 2016"));
             Assert.That(WinVersion.Win2019.WinVersionString, Is.EqualTo("Windows 2019"));
             Assert.That(WinVersion.Win2022.WinVersionString, Is.EqualTo("Windows 2022"));
@@ -557,7 +560,7 @@
                 PlatformId = WinPlatform.WinNT,
                 MajorVersion = 10,
                 MinorVersion = 0,
-                BuildNumber = 27000,
+                BuildNumber = 28000,
                 CSDVersion = string.Empty,
                 SuiteFlags = (WinSuite)0x100,
                 ProductType = WinProductType.Workstation,
@@ -567,7 +570,7 @@
                 NativeArchitecture = WinArchitecture.x64
             };
 
-            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 11 v24H2 or later"));
+            Assert.That(winVersion.WinVersionString, Is.EqualTo("Windows 11 v25H2 or later"));
         }
 
         [TestCase(22650)]
@@ -730,6 +733,10 @@
             new("win11.26100-ent_wow", WinVersion.Windows11_24H2),
             new("win11.26100-ent_wow_xp", WinVersion.Windows11_24H2),
             new("win11.26100-ent_xp", WinVersion.Windows11_24H2),
+            new("win11.26200-ent", WinVersion.Windows11_25H2),
+            new("win11.26200-ent_wow", WinVersion.Windows11_25H2),
+            new("win11.26200-ent_wow_xp", WinVersion.Windows11_25H2),
+            new("win11.26200-ent_xp", WinVersion.Windows11_25H2),
             new("win2003-sp2_x86", WinVersion.Win2003),
             new("win2003r2-std_x86", WinVersion.Win2003R2),
             new("win2008-sp1-datacenter_x64", WinVersion.Win2008),
