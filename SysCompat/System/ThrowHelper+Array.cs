@@ -7,7 +7,7 @@
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> if the <paramref name="array"/> is of length zero.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The data type of the array.</typeparam>
         /// <param name="array">The array to validate against.</param>
         /// <param name="arrayName">The name of the <paramref name="array"/> parameter.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="array"/> is <see langword="null"/>.</exception>
@@ -28,7 +28,7 @@
         /// <param name="index">The index to validate as being in <paramref name="array"/>.</param>
         /// <param name="arrayName">The name of the <paramref name="array"/> parameter.</param>
         /// <param name="indexName">The name of the <paramref name="index"/> parameter.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>..</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// The <paramref name="index"/> is less than zero, or exceeds the boundary of <paramref name="array"/>.
         /// </exception>
@@ -48,7 +48,7 @@
         /// <param name="index">The index to validate as being in <paramref name="array"/>.</param>
         /// <param name="arrayName">The name of the <paramref name="array"/> parameter.</param>
         /// <param name="indexName">The name of the <paramref name="index"/> parameter.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>..</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="array"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// The <paramref name="index"/> is less than zero, or exceeds the boundary of <paramref name="array"/>.
         /// </exception>

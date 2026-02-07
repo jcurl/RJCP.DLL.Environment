@@ -20,7 +20,8 @@ when using newer C# Language versions.
     - [3.2.1. Enablement](#321-enablement)
 - [4. Performance Metrics](#4-performance-metrics)
 - [5. Version History](#5-version-history)
-  - [5.1. Version 0.2.0](#51-version-020)
+  - [5.1. Version 0.2.1](#51-version-021)
+  - [5.2. Version 0.2.0](#52-version-020)
 
 ## 1. .NET Framework Usage
 
@@ -107,6 +108,8 @@ frameworks.
 | `ThrowIfDisposed`              | [CA1513](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1513) | [`ObjectDisposedException.ThrowIf`](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif)                                             | 7.0 +        |
 | `ThrowIfArrayEmpty`            | -                                                                                                  | -                                                                                                                                                                    | -            |
 | `ThrowIfArrayOutOfBounds`      | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfListEmpty`             | -                                                                                                  | -                                                                                                                                                                    | -            |
+| `ThrowIfListOutOfBounds`       | -                                                                                                  | -                                                                                                                                                                    | -            |
 | `ThrowIfEnumUndefined`         | -                                                                                                  | -                                                                                                                                                                    | -            |
 | `ThrowIfEnumHasNoFlag`         | -                                                                                                  | -                                                                                                                                                                    | -            |
 
@@ -359,6 +362,12 @@ Intel Core i7-6700T CPU 2.80GHz (Skylake), 1 CPU(s), 8 logical and 4 physical co
 
 ## 5. Version History
 
-### 5.1. Version 0.2.0
+### 5.1. Version 0.2.1
+
+Features:
+
+- Added `ThrowHelper` `IList` functions.
+
+### 5.2. Version 0.2.0
 
 - Initial Version

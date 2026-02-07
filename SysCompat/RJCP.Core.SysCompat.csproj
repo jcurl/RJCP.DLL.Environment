@@ -12,7 +12,7 @@
     <RootNamespace></RootNamespace>
 
     <Authors>Jason Curl</Authors>
-    <Copyright>(C) 2024, Jason Curl</Copyright>
+    <Copyright>(C) 2024-2026, Jason Curl</Copyright>
     <Company></Company>
     <PackageId>RJCP.Core.SysCompat</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -20,7 +20,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/jcurl/RJCP.DLL.Environment</PackageProjectUrl>
     <Description>Provide classes for multitargetting .NET Framework and .NET Core.</Description>
-    <Version>0.2.0</Version>
+    <Version>0.2.1</Version>
 
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -61,6 +61,7 @@
     <Compile Include="System\ThrowHelper+ArgumentOutOfRangeException.cs" />
     <Compile Include="System\ThrowHelper+Array.cs" />
     <Compile Include="System\ThrowHelper+Enum.cs" />
+    <Compile Include="System\ThrowHelper+List.cs" />
     <Compile Include="System\ThrowHelper+ObjectDisposedException.cs" />
     <None Include="System\Diagnostics\CodeAnalysis\DoesNotReturnAttribute.cs" />
     <None Include="System\Runtime\CompilerServices\CallerArgumentExpressionAttribute.cs" />
