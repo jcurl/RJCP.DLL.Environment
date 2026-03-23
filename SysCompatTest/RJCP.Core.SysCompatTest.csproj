@@ -51,6 +51,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="RJCP\Core\ElfHeader.cs" />
+    <Compile Include="RJCP\Core\EnumExtTest.cs" />
+    <Compile Include="RJCP\Core\EnumExtUsingTest.cs" />
+    <Compile Include="RJCP\Core\MarshalExtText.cs" />
     <Compile Include="System\Throw\ArgumentNullExceptionTest.cs" />
     <Compile Include="System\Throw\EventLine.cs" />
     <Compile Include="System\Throw\ThrowIfArrayTest.cs" />
