@@ -6,6 +6,12 @@ namespace RJCP.Core.Environment.Version
     using System.Xml;
     using Resources;
 
+#if NET10_0_OR_GREATER
+    using Lock = System.Threading.Lock;
+#else
+    using Lock = System.Object;
+#endif
+
     /// <summary>
     /// Base class for containing Operating System Version Information for Windows based Systems.
     /// </summary>
@@ -268,7 +274,7 @@ namespace RJCP.Core.Environment.Version
             IsReadOnly = readOnly;
         }
 
-        private static readonly object s_Lock = new();
+        private static readonly Lock s_Lock = new();
         private static WinVersionQuery s_Current = null;
 
         /// <summary>

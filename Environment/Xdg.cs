@@ -5,6 +5,12 @@
     using System.IO;
     using Resources;
 
+#if NET10_0_OR_GREATER
+    using Lock = System.Threading.Lock;
+#else
+    using Lock = System.Object;
+#endif
+
     /// <summary>
     /// A class to implement portions of the XDG Base Directory Specification.
     /// </summary>
@@ -14,7 +20,7 @@
     /// </remarks>
     public static partial class Xdg
     {
-        private static readonly object s_XdgResolverSyncRoot = new();
+        private static readonly Lock s_XdgResolverSyncRoot = new();
         private static IXdgResolver s_XdgResolver;
 
         private static IXdgResolver XdgResolver

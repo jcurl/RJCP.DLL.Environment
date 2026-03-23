@@ -7,6 +7,12 @@
     using Microsoft.Win32;
     using NetFx.Runtime;
 
+#if NET10_0_OR_GREATER
+    using Lock = System.Threading.Lock;
+#else
+    using Lock = System.Object;
+#endif
+
     /// <summary>
     /// A class to get the versions of .NET installed on the local computer. Only relevant for Windows.
     /// </summary>
@@ -48,7 +54,7 @@
             return GetEnumerator();
         }
 
-        private static readonly object RunTimeLock = new();
+        private static readonly Lock RunTimeLock = new();
         private static INetVersion s_RunTime;
 
         /// <summary>

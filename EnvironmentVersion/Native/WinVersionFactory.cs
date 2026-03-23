@@ -5,9 +5,15 @@
     using System.Runtime.Versioning;
     using System.Xml;
 
+#if NET10_0_OR_GREATER
+    using Lock = System.Threading.Lock;
+#else
+    using Lock = System.Object;
+#endif
+
     internal static class WinVersionFactory
     {
-        private static readonly object s_Lock = new();
+        private static readonly Lock s_Lock = new();
         private static NativeWinVersion s_Native;
 
         [SupportedOSPlatform("windows")]
